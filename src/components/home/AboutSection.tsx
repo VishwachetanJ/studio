@@ -46,7 +46,9 @@ const focusAreas: FocusArea[] = [
     imageAlt: "Group of empowered women",
     imageHint: "women meeting",
     title: "Women's Rights & Empowerment",
-    description: "Advocating for women's rights and empowering them to lead fulfilling lives.",
+    description: "Advocating for women's rights and providing resources on schemes and career restart options. Visit our hub.",
+    link: "/womens-empowerment",
+    linkText: "Explore Hub",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
@@ -110,3 +112,5 @@ export function AboutSection() {
     </section>
   );
 }
+
+    
