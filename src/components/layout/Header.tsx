@@ -13,7 +13,7 @@ const mainNavLinks = [
   { href: "/education-hub", label: "Education Hub", icon: BookOpenCheck },
   { href: "/rural-youth-empowerment", label: "Youth Hub", icon: Users },
   { href: "/womens-empowerment", label: "Women's Hub", icon: HelpingHand },
-  // { href: "/environmental-sustainability", label: "Eco Hub", icon: Leaf }, // Example for future
+  { href: "/environmental-sustainability", label: "Eco Hub", icon: Leaf },
   { href: "/shop", label: "Shop", icon: ShoppingCart },
   { href: "/volunteer", label: "Volunteer", icon: Users },
   { href: "/donate", label: "Donate", icon: Gift },
@@ -115,5 +115,3 @@ export function Header() {
     </header>
   );
 }
-
-    

@@ -39,7 +39,9 @@ const focusAreas: FocusArea[] = [
     imageAlt: "Lush green environment",
     imageHint: "green plant",
     title: "Environmental Sustainability",
-    description: "Promoting eco-friendly practices and conservation efforts for a healthier planet.",
+    description: "Promoting eco-friendly practices and conservation efforts for a healthier planet. Discover our initiatives.",
+    link: "/environmental-sustainability",
+    linkText: "Explore Eco Hub",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
@@ -112,5 +114,3 @@ export function AboutSection() {
     </section>
   );
 }
-
-    
