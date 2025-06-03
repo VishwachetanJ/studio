@@ -26,12 +26,16 @@ const signUpFormSchema = z.object({
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords do not match.",
-  path: ["confirmPassword"], // Error will be shown on confirmPassword field
+  path: ["confirmPassword"],
 });
 
 type SignUpFormValues = z.infer<typeof signUpFormSchema>;
 
-export function SignUpForm() {
+interface SignUpFormProps {
+  onSwitchToSignIn?: () => void;
+}
+
+export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -50,17 +54,15 @@ export function SignUpForm() {
   });
 
   function onSubmit(data: SignUpFormValues) {
-    console.log(data); // In a real app, don't log passwords
+    console.log(data); 
     toast({
       title: "Sign Up Successful!",
       description: "Your account has been created. You can now sign in. (This is a demo)",
     });
-    // In a real app, you would handle user registration here
-    // form.reset(); // Optionally reset form
   }
 
   if (!isMounted) {
-    return null; // Or a loading skeleton
+    return null;
   }
 
   return (
@@ -130,12 +132,18 @@ export function SignUpForm() {
             </Button>
           </form>
         </Form>
-        <p className="text-center text-sm text-muted-foreground mt-6">
-          Already have an account?{" "}
-          <a href="/signin" className="font-medium text-primary hover:underline">
-            Sign In
-          </a>
-        </p>
+        {onSwitchToSignIn && (
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToSignIn}
+              className="font-medium text-primary hover:underline"
+            >
+              Sign In
+            </button>
+          </p>
+        )}
       </CardContent>
     </Card>
   );

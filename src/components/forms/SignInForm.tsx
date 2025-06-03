@@ -22,12 +22,16 @@ import Link from "next/link";
 
 const signInFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(1, { message: "Password cannot be empty." }), // Basic validation for now
+  password: z.string().min(1, { message: "Password cannot be empty." }),
 });
 
 type SignInFormValues = z.infer<typeof signInFormSchema>;
 
-export function SignInForm() {
+interface SignInFormProps {
+  onSwitchToSignUp?: () => void;
+}
+
+export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -49,12 +53,10 @@ export function SignInForm() {
       title: "Sign In Attempted",
       description: "If your credentials are valid, you'll be redirected shortly. (This is a demo)",
     });
-    // In a real app, you would handle authentication here
-    // form.reset(); // Optionally reset form
   }
 
   if (!isMounted) {
-    return null; // Or a loading skeleton
+    return null; 
   }
 
   return (
@@ -105,14 +107,18 @@ export function SignInForm() {
             </Button>
           </form>
         </Form>
-        <p className="text-center text-sm text-muted-foreground mt-6">
-          Don't have an account?{" "}
-          <Link href="/signup" legacyBehavior>
-            <a className="font-medium text-primary hover:underline">
+        {onSwitchToSignUp && (
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Don&apos;t have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToSignUp}
+              className="font-medium text-primary hover:underline"
+            >
               Sign Up
-            </a>
-          </Link>
-        </p>
+            </button>
+          </p>
+        )}
       </CardContent>
     </Card>
   );
