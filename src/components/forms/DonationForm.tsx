@@ -20,7 +20,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const donationAmounts = [25, 50, 100, 250, 500];
 
@@ -46,6 +46,11 @@ export function DonationForm() {
   const { toast } = useToast();
   const [selectedAmount, setSelectedAmount] = React.useState<number | null>(null);
   const [showCustomAmount, setShowCustomAmount] = React.useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const form = useForm<DonationFormValues>({
     resolver: zodResolver(donationFormSchema),
@@ -101,6 +106,12 @@ export function DonationForm() {
     form.reset();
     setSelectedAmount(null);
     setShowCustomAmount(false);
+  }
+
+  if (!isMounted) {
+    // Render null or a placeholder to prevent layout shifts.
+    // A placeholder could be e.g., <div className="h-[APPROPRIATE_HEIGHT_HERE]">Loading form...</div>
+    return null;
   }
 
   return (
@@ -299,4 +310,3 @@ export function DonationForm() {
     </Card>
   );
 }
-
