@@ -1,14 +1,15 @@
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search } from 'lucide-react'; // Added Search icon
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart } from 'lucide-react'; // Added Search and ShoppingCart icons
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { Input } from "@/components/ui/input"; // Added Input component
+import { Input } from "@/components/ui/input"; 
 
 const navLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/#about", label: "About" },
   { href: "/#mission", label: "Mission" },
+  { href: "/shop", label: "Shop", icon: ShoppingCart },
   { href: "/volunteer", label: "Volunteer", icon: Users },
   { href: "/donate", label: "Donate", icon: Gift },
   { href: "/partner", label: "Partner", icon: Handshake },
