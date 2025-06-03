@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart } from 'lucide-react'; // Added Search and ShoppingCart icons
 import { Button } from "@/components/ui/button";
@@ -24,9 +25,14 @@ export function Header() {
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2 group">
             <HandHeart className="h-12 w-12 text-primary group-hover:text-accent transition-colors duration-300" />
-            <h1 className="text-3xl font-headline text-primary group-hover:text-accent transition-colors duration-300">
-              JAGRUTHI
-            </h1>
+            <div>
+              <h1 className="text-3xl font-headline text-primary group-hover:text-accent transition-colors duration-300">
+                JAGRUTHI
+              </h1>
+              <p className="text-xs text-foreground/70 group-hover:text-accent/90 transition-colors duration-300 -mt-1">
+                Voluntary Organization
+              </p>
+            </div>
           </Link>
 
           {/* Desktop Navigation & Search */}
@@ -63,11 +69,16 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[280px] sm:w-[320px]">
                 <div className="p-4">
-                  <Link href="/" className="flex items-center space-x-2 mb-6">
-                    <HandHeart className="h-10 w-10 text-primary" />
-                    <h1 className="text-2xl font-headline text-primary">
-                      JAGRUTHI
-                    </h1>
+                  <Link href="/" className="flex items-center space-x-2 mb-6 group">
+                    <HandHeart className="h-10 w-10 text-primary group-hover:text-accent transition-colors duration-300" />
+                     <div>
+                        <h1 className="text-2xl font-headline text-primary group-hover:text-accent transition-colors duration-300">
+                        JAGRUTHI
+                        </h1>
+                        <p className="text-xs text-foreground/70 group-hover:text-accent/90 transition-colors duration-300 -mt-1">
+                            Voluntary Organization
+                        </p>
+                    </div>
                   </Link>
                   <div className="flex items-center space-x-2 mb-4">
                     <Input type="search" placeholder="Search..." className="h-9 flex-grow" />
