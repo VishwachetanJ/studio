@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -36,6 +37,20 @@ const availablePositions = [
   "Accountant",
 ] as const;
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_FILE_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "text/plain",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+];
+const ACCEPTED_FILE_EXTENSIONS_STRING = ".pdf, .doc, .docx, .txt, .jpg, .jpeg, .png, .webp, .gif";
+
+
 const careerFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -51,7 +66,26 @@ const careerFormSchema = z.object({
       return { message: ctx.defaultError };
     },
   }),
-  resumeLink: z.string().url({ message: "Please enter a valid URL for your resume/CV (e.g., Google Drive, LinkedIn)." }),
+  resumeFile: z
+    .custom<FileList>((val) => val instanceof FileList, "Please upload your resume.")
+    .refine((files) => files.length > 0, "Please upload your resume.")
+    .refine((files) => files.length <= 1, "Please upload only one file.")
+    .refine(
+      (files) => {
+        const file = files[0];
+        if (!file) return false;
+        return ACCEPTED_FILE_TYPES.includes(file.type);
+      },
+      `Accepted file types: ${ACCEPTED_FILE_EXTENSIONS_STRING}`
+    )
+    .refine(
+      (files) => {
+        const file = files[0];
+        if (!file) return false;
+        return file.size <= MAX_FILE_SIZE;
+      },
+      `File size must be ${MAX_FILE_SIZE / (1024 * 1024)}MB or less.`
+    ),
   coverLetter: z.string().min(20, {message: "Cover letter must be at least 20 characters."}).optional(),
 });
 
@@ -72,13 +106,18 @@ export function CareerForm() {
       email: "",
       phone: "",
       positionAppliedFor: undefined,
-      resumeLink: "",
+      resumeFile: undefined,
       coverLetter: "",
     },
   });
 
   function onSubmit(data: CareerFormValues) {
-    console.log(data);
+    console.log("Form data:", data);
+    if (data.resumeFile && data.resumeFile.length > 0) {
+      console.log("Uploaded resume name:", data.resumeFile[0].name);
+      console.log("Uploaded resume size:", data.resumeFile[0].size);
+      console.log("Uploaded resume type:", data.resumeFile[0].type);
+    }
     toast({
       title: "Application Submitted!",
       description: "Thank you for your interest in joining Jagruthi. We will review your application and get back to you if there's a suitable opening.",
@@ -164,13 +203,25 @@ export function CareerForm() {
             />
             <FormField
               control={form.control}
-              name="resumeLink"
-              render={({ field }) => (
+              name="resumeFile"
+              render={({ field: { onChange, onBlur, name, ref } }) => (
                 <FormItem>
-                  <FormLabel>Link to Resume/CV (Required)</FormLabel>
+                  <FormLabel>Resume/CV File</FormLabel>
                   <FormControl>
-                    <Input type="url" placeholder="https://example.com/your-resume" {...field} />
+                    <Input
+                      type="file"
+                      accept={ACCEPTED_FILE_EXTENSIONS_STRING}
+                      onChange={(e) => {
+                        onChange(e.target.files);
+                      }}
+                      onBlur={onBlur}
+                      name={name}
+                      ref={ref}
+                    />
                   </FormControl>
+                  <FormDescription>
+                    Upload your resume ({ACCEPTED_FILE_EXTENSIONS_STRING}). Max file size: {MAX_FILE_SIZE / (1024 * 1024)}MB.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
