@@ -5,12 +5,19 @@ import { EmployeeDataForm } from "@/components/forms/EmployeeDataForm";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ShieldAlert } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Manage Employees | Admin | Jagruthi',
-  description: 'Manage employee data for Jagruthi.',
+  description: 'Manage employee data for Jagruthi. Restricted access.',
 };
+
+// TODO: Implement role-based access control.
+// This page should ideally only be accessible to users with 'founder' or 'hr_head' roles.
+// This would involve:
+// 1. Checking user authentication status.
+// 2. Verifying user roles.
+// 3. Redirecting or showing an "Access Denied" message if unauthorized.
 
 export default function ManageEmployeesPage() {
   return (
@@ -32,6 +39,10 @@ export default function ManageEmployeesPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             Add new employees or update existing employee information.
           </p>
+          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
+            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
+            <strong>Note:</strong> Access to this section is intended for authorized personnel (e.g., Founder, HR Head) only. Full role-based access control is pending implementation.
+          </div>
         </div>
         <EmployeeDataForm />
       </main>

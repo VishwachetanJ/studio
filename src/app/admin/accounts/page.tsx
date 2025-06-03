@@ -5,12 +5,19 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, ClipboardCheck, TrendingUp, Receipt } from 'lucide-react';
+import { ArrowLeft, ClipboardCheck, TrendingUp, Receipt, ShieldAlert } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Accounts Portal | Admin | Jagruthi',
-  description: 'Accounts department portal for managing financial operations and auditing at Jagruthi.',
+  description: 'Accounts department portal for managing financial operations and auditing at Jagruthi. Restricted access.',
 };
+
+// TODO: Implement role-based access control.
+// This page and its sub-pages should ideally only be accessible to users with 'founder' or 'accounts_head' roles.
+// This would involve:
+// 1. Checking user authentication status.
+// 2. Verifying user roles.
+// 3. Redirecting or showing an "Access Denied" message if unauthorized.
 
 export default function AccountsPortalPage() {
   return (
@@ -32,6 +39,10 @@ export default function AccountsPortalPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             Manage financial operations, review transactions, and oversee auditing processes.
           </p>
+          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
+            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
+            <strong>Note:</strong> Access to this portal is intended for authorized personnel (e.g., Founder, Accounts Head) only. Full role-based access control is pending implementation.
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -4,13 +4,16 @@ import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Construction, SearchCheck } from 'lucide-react';
+import { ArrowLeft, Construction, SearchCheck, ShieldAlert } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata: Metadata = {
   title: 'Audit Section | Accounts | Admin | Jagruthi',
-  description: 'Monitor and audit account-related operations for Jagruthi.',
+  description: 'Monitor and audit account-related operations for Jagruthi. Restricted access.',
 };
+
+// TODO: Implement role-based access control.
+// This page should ideally only be accessible to users with 'founder' or 'accounts_head' roles.
 
 export default function AuditPage() {
   return (
@@ -32,6 +35,10 @@ export default function AuditPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             This section will provide tools to monitor account activities, review logs, and ensure operational compliance.
           </p>
+           <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
+            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
+            <strong>Note:</strong> Access to this section is intended for authorized personnel (e.g., Founder, Accounts Head) only. Full role-based access control is pending implementation.
+          </div>
         </div>
 
         <Card className="max-w-xl mx-auto shadow-md">
