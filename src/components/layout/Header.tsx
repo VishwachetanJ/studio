@@ -25,7 +25,7 @@ export function Header() {
           <Link href="/" className="flex items-center space-x-2 group">
             <HandHeart className="h-12 w-12 text-primary group-hover:text-accent transition-colors duration-300" />
             <h1 className="text-3xl font-headline text-primary group-hover:text-accent transition-colors duration-300">
-              Jagruthi Connect
+              JAGRUTHI
             </h1>
           </Link>
 
@@ -66,7 +66,7 @@ export function Header() {
                   <Link href="/" className="flex items-center space-x-2 mb-6">
                     <HandHeart className="h-10 w-10 text-primary" />
                     <h1 className="text-2xl font-headline text-primary">
-                      Jagruthi Connect
+                      JAGRUTHI
                     </h1>
                   </Link>
                   <div className="flex items-center space-x-2 mb-4">
