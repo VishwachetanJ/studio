@@ -1,4 +1,6 @@
 
+"use client";
+
 import { Facebook, Instagram, MessageSquare, Youtube, Twitter, Ghost } from 'lucide-react';
 import Link from 'next/link';
 import { NewsletterSignUpForm } from '@/components/forms/NewsletterSignUpForm';
