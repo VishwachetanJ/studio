@@ -1,5 +1,18 @@
 import Link from 'next/link';
-import { HandHeart } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+
+const navLinks = [
+  { href: "/#about", label: "About" },
+  { href: "/#mission", label: "Mission" },
+  { href: "/volunteer", label: "Volunteer", icon: Users },
+  { href: "/donate", label: "Donate", icon: Gift },
+  { href: "/partner", label: "Partner", icon: Handshake },
+  { href: "/#founder", label: "Founder" },
+  { href: "/#achievements", label: "Gallery" },
+];
 
 export function Header() {
   return (
@@ -12,13 +25,54 @@ export function Header() {
               Jagruthi Connect
             </h1>
           </Link>
-          {/* Navigation items can be added here if needed in future */}
-          {/* <nav className="flex space-x-4">
-            <Link href="#about" className="text-foreground hover:text-primary font-medium">About</Link>
-            <Link href="#mission" className="text-foreground hover:text-primary font-medium">Mission</Link>
-            <Link href="#founder" className="text-foreground hover:text-primary font-medium">Founder</Link>
-            <Link href="#achievements" className="text-foreground hover:text-primary font-medium">Gallery</Link>
-          </nav> */}
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-3 lg:space-x-4 items-center">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-foreground hover:text-primary font-medium transition-colors duration-200 px-2 py-1 rounded-md text-sm"
+              >
+                {link.icon && <link.icon className="inline-block h-4 w-4 mr-1" />}
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle navigation menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px] sm:w-[320px]">
+                <div className="p-4">
+                  <Link href="/" className="flex items-center space-x-2 mb-6">
+                    <HandHeart className="h-8 w-8 text-primary" />
+                    <h1 className="text-2xl font-headline text-primary">
+                      Jagruthi Connect
+                    </h1>
+                  </Link>
+                  <nav className="flex flex-col space-y-3">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="text-lg text-foreground hover:text-primary font-medium flex items-center space-x-2 p-2 rounded-md hover:bg-muted"
+                      >
+                        {link.icon && <link.icon className="h-5 w-5" />}
+                        <span>{link.label}</span>
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
