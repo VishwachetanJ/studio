@@ -16,10 +16,10 @@ export default function Home() {
         {/* Combined Hero and Auth Section */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <div className="flex flex-col md:flex-row gap-6 lg:gap-8 md:items-stretch">
-            <div className="md:w-1/5 flex"> {/* Added flex to help child stretch */}
+            <div className="md:w-1/5 md:flex-none flex"> {/* HeroSection wrapper: fixed 1/5th width, non-flexible */}
               <HeroSection />
             </div>
-            <div className="md:w-4/5 flex"> {/* Added flex to help child stretch */}
+            <div className="md:flex-1 flex"> {/* HomeAuthSection wrapper: takes remaining space */}
               <HomeAuthSection />
             </div>
           </div>
