@@ -66,15 +66,15 @@ export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-lg">
+    <Card className="w-full max-w-sm mx-auto shadow-lg">
       <CardHeader className="text-center">
-        <UserPlus className="mx-auto h-12 w-12 text-primary mb-2" />
-        <CardTitle className="text-2xl font-headline text-primary">Create Account</CardTitle>
-        <CardDescription>Join Jagruthi and be part of the change.</CardDescription>
+        <UserPlus className="mx-auto h-10 w-10 text-primary mb-1 sm:h-12 sm:w-12 sm:mb-2" />
+        <CardTitle className="text-xl sm:text-2xl font-headline text-primary">Create Account</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">Join Jagruthi and be part of the change.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
             <FormField
               control={form.control}
               name="fullName"
@@ -133,7 +133,7 @@ export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
           </form>
         </Form>
         {onSwitchToSignIn && (
-          <p className="text-center text-sm text-muted-foreground mt-6">
+          <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
             Already have an account?{" "}
             <button
               type="button"

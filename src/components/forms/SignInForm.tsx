@@ -60,15 +60,15 @@ export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-lg">
+    <Card className="w-full max-w-sm mx-auto shadow-lg">
       <CardHeader className="text-center">
-        <LogIn className="mx-auto h-12 w-12 text-primary mb-2" />
-        <CardTitle className="text-2xl font-headline text-primary">Sign In</CardTitle>
-        <CardDescription>Access your Jagruthi account.</CardDescription>
+        <LogIn className="mx-auto h-10 w-10 text-primary mb-1 sm:h-12 sm:w-12 sm:mb-2" />
+        <CardTitle className="text-xl sm:text-2xl font-headline text-primary">Sign In</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">Access your Jagruthi account.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
             <FormField
               control={form.control}
               name="email"
@@ -97,7 +97,7 @@ export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
             />
             <div className="text-right">
               <Link href="/forgot-password" legacyBehavior>
-                <a className="text-sm text-primary hover:underline">
+                <a className="text-xs sm:text-sm text-primary hover:underline">
                   Forgot Password?
                 </a>
               </Link>
@@ -108,7 +108,7 @@ export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
           </form>
         </Form>
         {onSwitchToSignUp && (
-          <p className="text-center text-sm text-muted-foreground mt-6">
+          <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
             Don&apos;t have an account?{" "}
             <button
               type="button"
