@@ -21,7 +21,7 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2 group">
-            <HandHeart className="h-10 w-10 text-primary group-hover:text-accent transition-colors duration-300" />
+            <HandHeart className="h-12 w-12 text-primary group-hover:text-accent transition-colors duration-300" />
             <h1 className="text-3xl font-headline text-primary group-hover:text-accent transition-colors duration-300">
               Jagruthi Connect
             </h1>
@@ -53,7 +53,7 @@ export function Header() {
               <SheetContent side="right" className="w-[280px] sm:w-[320px]">
                 <div className="p-4">
                   <Link href="/" className="flex items-center space-x-2 mb-6">
-                    <HandHeart className="h-8 w-8 text-primary" />
+                    <HandHeart className="h-10 w-10 text-primary" />
                     <h1 className="text-2xl font-headline text-primary">
                       Jagruthi Connect
                     </h1>
