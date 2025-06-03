@@ -21,7 +21,9 @@ const focusAreas: FocusArea[] = [
     imageAlt: "Rural Youth Empowerment Program",
     imageHint: "youth group",
     title: "Rural Youth Empowerment",
-    description: "Providing skill development and opportunities for rural youth to achieve their potential.",
+    description: "Providing skill development, job opportunities, and startup support for rural youth. Visit our hub for more.",
+    link: "/rural-youth-empowerment",
+    linkText: "Explore Empowerment Hub",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
