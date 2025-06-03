@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -18,11 +18,6 @@ const mainNavLinks = [
   { href: "/careers", label: "Careers", icon: Briefcase },
   { href: "/#founder", label: "Founder" },
   { href: "/#achievements", label: "Gallery" },
-];
-
-const authNavLinks = [
-  { href: "/signin", label: "Sign In", icon: LogIn },
-  { href: "/signup", label: "Sign Up", icon: UserPlus },
 ];
 
 export function Header() {
@@ -56,16 +51,6 @@ export function Header() {
                 </Link>
               ))}
             </nav>
-            <div className="flex items-center space-x-2 border-l pl-3 lg:pl-4">
-               {authNavLinks.map((link) => (
-                <Button key={link.label} variant="ghost" asChild size="sm">
-                  <Link href={link.href} className="text-sm">
-                    {link.icon && <link.icon className="h-4 w-4 mr-1.5" />}
-                    {link.label}
-                  </Link>
-                </Button>
-              ))}
-            </div>
             <div className="flex items-center space-x-2 border-l pl-3 lg:pl-4">
               <Input type="search" placeholder="Search..." className="h-9 w-32 lg:w-40" />
               <Button variant="ghost" size="icon" aria-label="Search">
@@ -104,7 +89,7 @@ export function Header() {
                     </Button>
                   </div>
                   <nav className="flex flex-col space-y-2">
-                    {[...mainNavLinks, ...authNavLinks].map((link) => (
+                    {mainNavLinks.map((link) => (
                       <Link
                         key={link.label}
                         href={link.href}

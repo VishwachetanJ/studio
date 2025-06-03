@@ -1,6 +1,8 @@
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
+import { HomeAuthSection } from "@/components/home/HomeAuthSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { MissionVisionValuesSection } from "@/components/home/MissionVisionValuesSection";
 import { FounderSection } from "@/components/home/FounderSection";
@@ -12,6 +14,7 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <HeroSection />
+        <HomeAuthSection />
         <AboutSection />
         <MissionVisionValuesSection />
         <FounderSection />
