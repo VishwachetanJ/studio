@@ -1,5 +1,9 @@
+
+"use client";
+
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 
 const achievements = [
   { src: "https://placehold.co/600x400.png", alt: "Community Event", caption: "Successful Community Health Camp", hint: "community event" },
@@ -11,8 +15,13 @@ const achievements = [
 ];
 
 export function AchievementsSection() {
+  const [isPaused, setIsPaused] = useState(false);
   // Duplicate achievements for seamless scrolling
   const duplicatedAchievements = [...achievements, ...achievements];
+
+  const handleTogglePause = () => {
+    setIsPaused(prevState => !prevState);
+  };
 
   return (
     <section id="achievements" className="py-12 sm:py-16 bg-secondary/50">
@@ -20,11 +29,14 @@ export function AchievementsSection() {
         <h2 className="text-3xl sm:text-4xl font-headline text-center text-primary mb-12">
           Our Achievements
         </h2>
-        <div className="relative w-full overflow-hidden">
-          <div className="flex animate-marquee whitespace-nowrap">
+        <div className="relative w-full overflow-hidden group"> {/* Added group for potential group-hover play/pause state in future */}
+          <div 
+            className={`flex animate-marquee whitespace-nowrap ${isPaused ? '[animation-play-state:paused]' : '[animation-play-state:running]'}`}
+            onClick={handleTogglePause} // Click anywhere on the marquee to toggle pause
+          >
             {duplicatedAchievements.map((achievement, index) => (
-              <div key={index} className="flex-none w-72 sm:w-80 md:w-96 mx-3"> {/* Added mx-3 for spacing */}
-                <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full flex flex-col">
+              <div key={index} className="flex-none w-72 sm:w-80 md:w-96 mx-3 cursor-pointer">
+                <Card className="overflow-hidden group-hover:[animation-play-state:paused] hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full flex flex-col">
                   <div className="aspect-w-16 aspect-h-9">
                     <Image
                       src={achievement.src}
@@ -45,6 +57,9 @@ export function AchievementsSection() {
             ))}
           </div>
         </div>
+        <p className="text-center text-sm text-muted-foreground mt-4">
+          Click on the gallery to pause or resume scrolling.
+        </p>
       </div>
     </section>
   );
