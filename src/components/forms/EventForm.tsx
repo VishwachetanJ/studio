@@ -15,13 +15,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+
+const eventCategories = ["Weekly", "Monthly", "Annually", "Special Event"] as const;
 
 const eventFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
+  eventCategory: z.enum(eventCategories, {
+    required_error: "Please select an event category.",
+  }),
   numberOfAttendees: z.preprocess(
     (val) => (val === "" ? undefined : parseInt(String(val), 10)),
     z.number().int().positive({ message: "Number of attendees must be a positive number." }).optional()
@@ -39,6 +51,7 @@ export function EventForm() {
       fullName: "",
       email: "",
       phone: "",
+      eventCategory: undefined,
       numberOfAttendees: undefined,
       message: "",
     },
@@ -48,7 +61,7 @@ export function EventForm() {
     console.log(data);
     toast({
       title: "Event Registration Submitted!",
-      description: "Thank you for registering. We will get back to you soon with event details.",
+      description: `Thank you for registering for a ${data.eventCategory.toLowerCase()} event. We will get back to you soon with event details.`,
     });
     form.reset();
   }
@@ -97,6 +110,30 @@ export function EventForm() {
                   <FormControl>
                     <Input type="tel" placeholder="Your Phone Number" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="eventCategory"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event Category</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select event category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {eventCategories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
