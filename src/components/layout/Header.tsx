@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon } from 'lucide-react'; // Added HomeIcon
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 const navLinks = [
+  { href: "/", label: "Home", icon: HomeIcon }, // Added Home link
   { href: "/#about", label: "About" },
   { href: "/#mission", label: "Mission" },
   { href: "/volunteer", label: "Volunteer", icon: Users },
