@@ -13,8 +13,19 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow">
-        <HeroSection />
-        <HomeAuthSection />
+        {/* Combined Hero and Auth Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+          <div className="flex flex-col md:flex-row gap-6 lg:gap-8 md:items-stretch">
+            <div className="md:w-1/5 flex"> {/* Added flex to help child stretch */}
+              <HeroSection />
+            </div>
+            <div className="md:w-4/5 flex"> {/* Added flex to help child stretch */}
+              <HomeAuthSection />
+            </div>
+          </div>
+        </div>
+
+        {/* Other sections remain below */}
         <AboutSection />
         <MissionVisionValuesSection />
         <FounderSection />
