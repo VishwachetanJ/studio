@@ -5,8 +5,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { AddResourceForm } from "@/components/forms/AddResourceForm"; // Import the new form
-import { Separator } from "@/components/ui/separator"; // For visual separation
+import { AddResourceForm } from "@/components/forms/AddResourceForm";
+import { Separator } from "@/components/ui/separator";
 
 // Define a mapping from slug to display name
 const categoryDetails: Record<string, { name: string; description: string }> = {
@@ -37,9 +37,11 @@ export default function EducationCategoryPage({ params }: CategoryPageProps) {
   const { categorySlug } = params;
   const categoryInfo = categoryDetails[categorySlug] || { name: "Selected Category", description: "Information for this category will be available soon." };
 
-  // A simple flag to determine if this "admin" section should be shown.
-  // In a real app, this would be based on user authentication and roles.
-  const isAdminView = true; // Set to false to hide the form for regular users
+  // In a real application, this 'isAdminView' flag would be determined by
+  // authenticating the user and checking their roles/permissions.
+  // For this prototype, it's set to false to hide the form from general view.
+  // To test the form, you can temporarily set this to true.
+  const isAdminView = false; 
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -103,5 +105,3 @@ export async function generateStaticParams() {
     categorySlug: slug,
   }));
 }
-
-    
