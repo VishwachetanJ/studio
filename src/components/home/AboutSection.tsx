@@ -65,6 +65,8 @@ const focusAreas: FocusArea[] = [
     imageHint: "farmer harvest",
     title: "Farmers Welfare",
     description: "Guiding farmers on crop selection based on weather forecasts, water resources, and soil type. Providing advice on optimal pesticide and fertilizer usage. Facilitating direct-to-customer sales through our website to reduce middleman interference and improve farmer income.",
+    link: "/farmers-welfare",
+    linkText: "Explore Farmers Hub",
   },
 ];
 
