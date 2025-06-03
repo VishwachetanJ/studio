@@ -1,11 +1,13 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { AnimatedBackground } from "./AnimatedBackground";
 
 export function HeroSection() {
   return (
-    <section className="w-full min-h-[calc(100vh-5rem)] flex items-center bg-gradient-to-br from-primary/10 via-background to-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col items-start text-left">
+    <section className="relative w-full min-h-[calc(100vh-5rem)] flex items-center bg-gradient-to-br from-primary/10 via-background to-background overflow-hidden">
+      <AnimatedBackground />
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col items-start text-left">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline text-primary mb-6">
           Welcome to JAGRUTHI
         </h1>
