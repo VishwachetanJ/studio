@@ -1,18 +1,23 @@
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="w-full h-full flex flex-col justify-center bg-gradient-to-br from-primary/10 via-background to-background p-6 rounded-lg shadow-md">
-      <h2 className="text-3xl sm:text-4xl font-headline text-primary mb-4 text-left">
-        Welcome to JAGRUTHI
-      </h2>
-      <p className="text-md sm:text-lg text-foreground/80 text-left">
-        Empowering rural youth, educating children and women, promoting environmental sustainability, and championing women's rights for a brighter future.
-      </p>
-      {/* <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold mt-6">
-        Get Involved
-      </Button> */}
+    <section className="w-full min-h-[calc(100vh-5rem)] flex items-center bg-gradient-to-br from-primary/10 via-background to-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col items-start text-left">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline text-primary mb-6">
+          Welcome to JAGRUTHI
+        </h1>
+        <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mb-8">
+          Empowering rural youth, educating children and women, promoting environmental sustainability, and championing women's rights for a brighter future.
+        </p>
+        <Link href="/#about" legacyBehavior passHref>
+          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+            <a>Learn More</a>
+          </Button>
+        </Link>
+      </div>
     </section>
   );
 }
