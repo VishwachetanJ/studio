@@ -4,7 +4,8 @@ import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { School, BookCopy, Briefcase, GraduationCap, BookOpen } from 'lucide-react'; // Added relevant icons
+import { School, BookCopy, Briefcase, GraduationCap, BookOpen, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Educational Resources Hub | Jagruthi',
@@ -24,6 +25,15 @@ export default function EducationHubPage() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 sm:py-16">
+        <div className="mb-8">
+          <Link href="/" legacyBehavior>
+            <Button variant="outline" className="text-sm">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
+
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-headline text-primary mb-4">
             Educational Resources Hub
