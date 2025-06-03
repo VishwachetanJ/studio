@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import React from "react";
@@ -27,10 +29,11 @@ const donationFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   amount: z.number().min(1, { message: "Donation amount must be at least 1." }),
   customAmount: z.string().optional(), // For the "Other" input field
-  paymentMethod: z.enum(["credit_card", "paypal"], {
+  paymentMethod: z.enum(["credit_card", "paypal", "debit_card", "net_banking", "upi"], {
     required_error: "You need to select a payment method.",
   }),
   comment: z.string().optional(),
+  requestInvoice: z.boolean().default(false).optional(),
 }).refine(data => !(data.amount === -1 && (!data.customAmount || isNaN(parseFloat(data.customAmount)) || parseFloat(data.customAmount) < 1)), {
   message: "Please enter a valid custom amount if 'Other' is selected.",
   path: ["customAmount"],
@@ -53,6 +56,7 @@ export function DonationForm() {
       customAmount: "",
       paymentMethod: undefined,
       comment: "",
+      requestInvoice: false,
     },
   });
 
@@ -92,7 +96,7 @@ export function DonationForm() {
     console.log(finalData);
     toast({
       title: "Donation Processing!",
-      description: "Thank you for your generous donation. Your support is invaluable.",
+      description: `Thank you for your generous donation of $${finalData.amount.toFixed(2)}. ${finalData.requestInvoice ? "A receipt will be emailed to you shortly." : "Your support is invaluable."}`,
     });
     form.reset();
     setSelectedAmount(null);
@@ -203,7 +207,7 @@ export function DonationForm() {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex flex-col space-y-1"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2"
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
@@ -215,10 +219,34 @@ export function DonationForm() {
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
+                          <RadioGroupItem value="debit_card" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Debit Card
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
                           <RadioGroupItem value="paypal" />
                         </FormControl>
                         <FormLabel className="font-normal">
                           PayPal
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="net_banking" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Net Banking
+                        </FormLabel>
+                      </FormItem>
+                       <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="upi" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          UPI
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
@@ -240,6 +268,28 @@ export function DonationForm() {
                 </FormItem>
               )}
             />
+             <FormField
+              control={form.control}
+              name="requestInvoice"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Send me a receipt/invoice
+                    </FormLabel>
+                    <FormDescription>
+                      An email with the donation receipt will be sent to your provided email address.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
               Donate Now
             </Button>
@@ -249,3 +299,4 @@ export function DonationForm() {
     </Card>
   );
 }
+
