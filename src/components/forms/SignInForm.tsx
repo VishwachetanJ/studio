@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import React, { useState, useEffect } from "react";
 import { LogIn } from "lucide-react";
+import Link from "next/link";
 
 const signInFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -92,6 +93,13 @@ export function SignInForm() {
                 </FormItem>
               )}
             />
+            <div className="text-right">
+              <Link href="/forgot-password" legacyBehavior>
+                <a className="text-sm text-primary hover:underline">
+                  Forgot Password?
+                </a>
+              </Link>
+            </div>
             <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
               Sign In
             </Button>
@@ -99,9 +107,11 @@ export function SignInForm() {
         </Form>
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don't have an account?{" "}
-          <a href="/signup" className="font-medium text-primary hover:underline">
-            Sign Up
-          </a>
+          <Link href="/signup" legacyBehavior>
+            <a className="font-medium text-primary hover:underline">
+              Sign Up
+            </a>
+          </Link>
         </p>
       </CardContent>
     </Card>
