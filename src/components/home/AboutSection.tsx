@@ -56,8 +56,15 @@ const focusAreas: FocusArea[] = [
     imageUrl: "https://placehold.co/400x300.png",
     imageAlt: "Counselor guiding a student",
     imageHint: "student counseling",
-    title: "Educational Counseling",
-    description: "Offering guidance and counseling for students from 1st grade to degree level.",
+    title: "Educational Counseling & Mentorship",
+    description: "Guidance on what to study, how to study, and providing mentorship for students from 1st grade to degree level in all aspects.",
+  },
+  {
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Career counselor advising a person",
+    imageHint: "career guidance",
+    title: "Career Counseling",
+    description: "Expert advice on career paths, job market insights, and skill enhancement to help individuals achieve their professional goals.",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
