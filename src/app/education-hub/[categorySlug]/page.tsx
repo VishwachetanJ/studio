@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { AddResourceForm } from "@/components/forms/AddResourceForm"; // Import the new form
+import { Separator } from "@/components/ui/separator"; // For visual separation
 
 // Define a mapping from slug to display name
 const categoryDetails: Record<string, { name: string; description: string }> = {
@@ -34,6 +36,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default function EducationCategoryPage({ params }: CategoryPageProps) {
   const { categorySlug } = params;
   const categoryInfo = categoryDetails[categorySlug] || { name: "Selected Category", description: "Information for this category will be available soon." };
+
+  // A simple flag to determine if this "admin" section should be shown.
+  // In a real app, this would be based on user authentication and roles.
+  const isAdminView = true; // Set to false to hide the form for regular users
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -76,6 +82,14 @@ export default function EducationCategoryPage({ params }: CategoryPageProps) {
             </p>
           </div>
         </div>
+
+        {/* Conditional rendering for the Add Resource Form */}
+        {isAdminView && (
+          <>
+            <Separator className="my-12" />
+            <AddResourceForm categoryName={categoryInfo.name} />
+          </>
+        )}
       </main>
       <Footer />
     </div>
@@ -89,3 +103,5 @@ export async function generateStaticParams() {
     categorySlug: slug,
   }));
 }
+
+    
