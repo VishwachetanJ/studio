@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart } from 'lucide-react'; // Added Search and ShoppingCart icons
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -14,6 +14,8 @@ const navLinks = [
   { href: "/volunteer", label: "Volunteer", icon: Users },
   { href: "/donate", label: "Donate", icon: Gift },
   { href: "/partner", label: "Partner", icon: Handshake },
+  { href: "/events", label: "Events", icon: CalendarDays },
+  { href: "/careers", label: "Careers", icon: Briefcase },
   { href: "/#founder", label: "Founder" },
   { href: "/#achievements", label: "Gallery" },
 ];
