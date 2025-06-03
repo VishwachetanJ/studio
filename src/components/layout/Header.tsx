@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -18,6 +18,8 @@ const mainNavLinks = [
   { href: "/careers", label: "Careers", icon: Briefcase },
   { href: "/#founder", label: "Founder" },
   { href: "/#achievements", label: "Gallery" },
+  { href: "/signin", label: "Sign In", icon: LogIn },
+  { href: "/signup", label: "Sign Up", icon: UserPlus },
 ];
 
 export function Header() {

@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import React, { useState, useEffect } from "react";
 import { UserPlus } from "lucide-react";
+import Link from "next/link"; // Added Link import
 
 const signUpFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -31,11 +32,8 @@ const signUpFormSchema = z.object({
 
 type SignUpFormValues = z.infer<typeof signUpFormSchema>;
 
-interface SignUpFormProps {
-  onSwitchToSignIn?: () => void;
-}
-
-export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
+// onSwitchToSignIn prop removed
+export function SignUpForm() {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -132,18 +130,15 @@ export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
             </Button>
           </form>
         </Form>
-        {onSwitchToSignIn && (
-          <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
-            Already have an account?{" "}
-            <button
-              type="button"
-              onClick={onSwitchToSignIn}
-              className="font-medium text-primary hover:underline"
-            >
+        {/* Logic for switching to sign in within the same component removed */}
+        <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
+          Already have an account?{" "}
+          <Link href="/signin" legacyBehavior>
+            <a className="font-medium text-primary hover:underline">
               Sign In
-            </button>
-          </p>
-        )}
+            </a>
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );

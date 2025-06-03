@@ -27,11 +27,8 @@ const signInFormSchema = z.object({
 
 type SignInFormValues = z.infer<typeof signInFormSchema>;
 
-interface SignInFormProps {
-  onSwitchToSignUp?: () => void;
-}
-
-export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
+// onSwitchToSignUp prop removed
+export function SignInForm() {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -107,18 +104,15 @@ export function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
             </Button>
           </form>
         </Form>
-        {onSwitchToSignUp && (
-          <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
-            Don&apos;t have an account?{" "}
-            <button
-              type="button"
-              onClick={onSwitchToSignUp}
-              className="font-medium text-primary hover:underline"
-            >
+        {/* Logic for switching to sign up within the same component removed */}
+        <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" legacyBehavior>
+            <a className="font-medium text-primary hover:underline">
               Sign Up
-            </button>
-          </p>
-        )}
+            </a>
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );
