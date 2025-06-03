@@ -1,6 +1,7 @@
 
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -25,6 +26,12 @@ type NewsletterFormValues = z.infer<typeof newsletterFormSchema>;
 
 export function NewsletterSignUpForm() {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<NewsletterFormValues>({
     resolver: zodResolver(newsletterFormSchema),
     defaultValues: {
@@ -39,6 +46,14 @@ export function NewsletterSignUpForm() {
       description: "Thank you for signing up for our newsletter. You'll receive updates soon.",
     });
     form.reset();
+  }
+
+  if (!isMounted) {
+    // Render null or a placeholder until the component has mounted on the client
+    // This prevents the form from being part of the initial server-rendered HTML
+    // that might be modified by browser extensions before hydration.
+    // A placeholder could be used to prevent layout shifts, e.g., <div className="h-[APPROPRIATE_HEIGHT_HERE]"></div>
+    return null; 
   }
 
   return (
