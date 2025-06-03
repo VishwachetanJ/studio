@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
 
 const availablePositions = [
   "Project Coordinator",
@@ -58,6 +59,12 @@ type CareerFormValues = z.infer<typeof careerFormSchema>;
 
 export function CareerForm() {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<CareerFormValues>({
     resolver: zodResolver(careerFormSchema),
     defaultValues: {
@@ -77,6 +84,10 @@ export function CareerForm() {
       description: "Thank you for your interest in joining Jagruthi. We will review your application and get back to you if there's a suitable opening.",
     });
     form.reset();
+  }
+
+  if (!isMounted) {
+    return null; // Or a loading skeleton
   }
 
   return (
