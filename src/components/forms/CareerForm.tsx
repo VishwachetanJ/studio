@@ -15,15 +15,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+
+const availablePositions = [
+  "Project Coordinator",
+  "Field Officer",
+  "Fundraising Manager",
+  "Communications Lead",
+  "Administrative Assistant",
+  "Social Worker",
+  "Accountant",
+] as const;
 
 const careerFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
-  positionAppliedFor: z.string().min(2, {message: "Please specify the position or area of interest."}),
-  resumeLink: z.string().url({ message: "Please enter a valid URL for your resume/CV (e.g., Google Drive, LinkedIn)." }).optional(),
+  positionAppliedFor: z.enum(availablePositions, {
+    required_error: "Please select a position.",
+    errorMap: (issue, ctx) => {
+      if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+        return { message: "Please select a valid position from the list." };
+      }
+      return { message: ctx.defaultError };
+    },
+  }),
+  resumeLink: z.string().url({ message: "Please enter a valid URL for your resume/CV (e.g., Google Drive, LinkedIn)." }),
   coverLetter: z.string().min(20, {message: "Cover letter must be at least 20 characters."}).optional(),
 });
 
@@ -37,7 +62,7 @@ export function CareerForm() {
       fullName: "",
       email: "",
       phone: "",
-      positionAppliedFor: "",
+      positionAppliedFor: undefined,
       resumeLink: "",
       coverLetter: "",
     },
@@ -105,10 +130,21 @@ export function CareerForm() {
               name="positionAppliedFor"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Position Applied For / Area of Interest</FormLabel>
-                  <FormControl>
-                    <Input placeholder="E.g., Project Coordinator, Field Officer, General Application" {...field} />
-                  </FormControl>
+                  <FormLabel>Position Applied For</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a position" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {availablePositions.map((position) => (
+                        <SelectItem key={position} value={position}>
+                          {position}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -118,7 +154,7 @@ export function CareerForm() {
               name="resumeLink"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Link to Resume/CV (Optional)</FormLabel>
+                  <FormLabel>Link to Resume/CV (Required)</FormLabel>
                   <FormControl>
                     <Input type="url" placeholder="https://example.com/your-resume" {...field} />
                   </FormControl>
