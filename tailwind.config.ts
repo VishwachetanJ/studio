@@ -95,6 +95,10 @@ export default {
         'logo-subtle-pulse': {
           '0%, 100%': { opacity: '0.7' },
           '50%': { opacity: '1' },
+        },
+        'marquee': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }, // Scrolls one full set of items if content is duplicated
         }
       },
       animation: {
@@ -102,6 +106,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'logo-bob': 'logo-bob ease-in-out infinite',
         'logo-subtle-pulse': 'logo-subtle-pulse ease-in-out infinite',
+        'marquee': 'marquee 40s linear infinite', // Adjust duration as needed
       },
     },
   },
