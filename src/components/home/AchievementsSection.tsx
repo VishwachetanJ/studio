@@ -17,25 +17,27 @@ export function AchievementsSection() {
         <h2 className="text-3xl sm:text-4xl font-headline text-center text-primary mb-12">
           Our Achievements
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex overflow-x-auto space-x-6 pb-4 -mx-4 px-4"> {/* Added -mx-4 px-4 for edge padding if needed with scroll */}
           {achievements.map((achievement, index) => (
-            <Card key={index} className="overflow-hidden group hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
-              <div className="aspect-w-16 aspect-h-9">
-                <Image
-                  src={achievement.src}
-                  alt={achievement.alt}
-                  width={600}
-                  height={400}
-                  className="object-cover w-full h-full"
-                  data-ai-hint={achievement.hint}
-                />
-              </div>
-              <CardContent className="p-4">
-                <p className="text-center font-medium text-foreground/80 group-hover:text-primary transition-colors">
-                  {achievement.caption}
-                </p>
-              </CardContent>
-            </Card>
+            <div key={index} className="flex-none w-72 sm:w-80 md:w-96"> {/* Adjusted width for better display */}
+              <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full flex flex-col">
+                <div className="aspect-w-16 aspect-h-9">
+                  <Image
+                    src={achievement.src}
+                    alt={achievement.alt}
+                    width={600}
+                    height={400}
+                    className="object-cover w-full h-full"
+                    data-ai-hint={achievement.hint}
+                  />
+                </div>
+                <CardContent className="p-4 flex-grow flex items-center justify-center">
+                  <p className="text-center font-medium text-foreground/80 group-hover:text-primary transition-colors">
+                    {achievement.caption}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           ))}
         </div>
       </div>
