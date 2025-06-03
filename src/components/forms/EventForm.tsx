@@ -47,8 +47,8 @@ export function EventForm() {
   function onSubmit(data: EventFormValues) {
     console.log(data);
     toast({
-      title: "Event Inquiry Submitted!",
-      description: "Thank you for your interest. We will get back to you soon regarding event details or your inquiry.",
+      title: "Event Registration Submitted!",
+      description: "Thank you for registering. We will get back to you soon with event details.",
     });
     form.reset();
   }
@@ -56,8 +56,8 @@ export function EventForm() {
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-lg">
       <CardHeader>
-        <CardTitle className="text-2xl font-headline text-primary">Event Inquiry & Registration</CardTitle>
-        <CardDescription>Interested in our events? Fill out the form below to inquire or express your interest in attending.</CardDescription>
+        <CardTitle className="text-2xl font-headline text-primary">Event Registration</CardTitle>
+        <CardDescription>Interested in our events? Fill out the form below to register your attendance.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -119,16 +119,16 @@ export function EventForm() {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Message / Inquiry (Optional)</FormLabel>
+                  <FormLabel>Message / Special Requests (Optional)</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Any specific questions or details about your interest..." {...field} rows={4}/>
+                    <Textarea placeholder="Any specific requirements or questions..." {...field} rows={4}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
-              Submit Inquiry
+              Submit Registration
             </Button>
           </form>
         </Form>

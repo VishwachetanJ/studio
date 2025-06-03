@@ -19,7 +19,7 @@ export default function EventsPage() {
             Upcoming Events & Workshops
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
-            Join us for insightful workshops, community gatherings, and impactful events. Register your interest or inquire about participation.
+            Join us for insightful workshops, community gatherings, and impactful events. Register below to secure your spot or express your interest in participation.
           </p>
         </div>
         <EventForm />
