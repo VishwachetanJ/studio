@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -14,6 +14,7 @@ const mainNavLinks = [
   { href: "/rural-youth-empowerment", label: "Youth Hub", icon: Users },
   { href: "/womens-empowerment", label: "Women's Hub", icon: HelpingHand },
   { href: "/environmental-sustainability", label: "Eco Hub", icon: Leaf },
+  { href: "/farmer-connect", label: "Farmer Connect", icon: Sprout },
   { href: "/shop", label: "Shop", icon: ShoppingCart },
   { href: "/wall-of-fame", label: "Wall of Fame", icon: Award },
   { href: "/volunteer", label: "Volunteer", icon: Users },
@@ -116,3 +117,5 @@ export function Header() {
     </header>
   );
 }
+
+    
