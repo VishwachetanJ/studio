@@ -1,41 +1,54 @@
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UsersRound, GraduationCap, Leaf, ShieldCheck, MessageSquareText, Tractor, Sprout } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
 interface FocusArea {
-  icon: LucideIcon;
+  imageUrl: string;
+  imageAlt: string;
+  imageHint: string;
   title: string;
   description: string;
 }
 
 const focusAreas: FocusArea[] = [
   {
-    icon: UsersRound,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Rural Youth Empowerment Program",
+    imageHint: "youth group",
     title: "Rural Youth Empowerment",
     description: "Providing skill development and opportunities for rural youth to achieve their potential.",
   },
   {
-    icon: GraduationCap,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Children receiving education",
+    imageHint: "children learning",
     title: "Education for Underprivileged",
     description: "Ensuring access to quality education for children and women in underserved communities.",
   },
   {
-    icon: Leaf,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Lush green environment",
+    imageHint: "green plant",
     title: "Environmental Sustainability",
     description: "Promoting eco-friendly practices and conservation efforts for a healthier planet.",
   },
   {
-    icon: ShieldCheck,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Group of empowered women",
+    imageHint: "women meeting",
     title: "Women's Rights & Empowerment",
     description: "Advocating for women's rights and empowering them to lead fulfilling lives.",
   },
   {
-    icon: MessageSquareText,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Counselor guiding a student",
+    imageHint: "student counseling",
     title: "Educational Counseling",
     description: "Offering guidance and counseling for students from 1st grade to degree level.",
   },
   {
-    icon: Tractor,
+    imageUrl: "https://placehold.co/400x300.png",
+    imageAlt: "Farmer in a field with crops",
+    imageHint: "farmer harvest",
     title: "Farmers Welfare",
     description: "Supporting farmers with crop suggestions, modern techniques, and welfare programs.",
   },
@@ -53,14 +66,21 @@ export function AboutSection() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {focusAreas.map((area) => (
-            <Card key={area.title} className="text-center hover:shadow-xl transition-shadow duration-300">
-              <CardHeader>
-                <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
-                  <area.icon className="h-10 w-10 text-primary" />
-                </div>
+            <Card key={area.title} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative w-full h-48">
+                <Image
+                  src={area.imageUrl}
+                  alt={area.imageAlt}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={area.imageHint}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+              </div>
+              <CardHeader className="text-center">
                 <CardTitle className="font-headline text-2xl text-primary">{area.title}</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow pt-0 text-center">
                 <p className="text-foreground/70">{area.description}</p>
               </CardContent>
             </Card>
