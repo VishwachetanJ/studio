@@ -15,25 +15,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React from "react"; // Removed useEffect and useState as they are no longer needed for this form
 
-const eventCategories = ["Weekly", "Monthly", "Annually", "Special Event"] as const;
+// eventCategories constant is removed as category is now a prop
 
 const eventFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
-  eventCategory: z.enum(eventCategories, {
-    required_error: "Please select an event category.",
-  }),
+  // eventCategory is removed from schema as it's now a prop
   numberOfAttendees: z.preprocess(
     (val) => (val === "" ? undefined : parseInt(String(val), 10)),
     z.number().int().positive({ message: "Number of attendees must be a positive number." }).optional()
@@ -43,7 +35,11 @@ const eventFormSchema = z.object({
 
 type EventFormValues = z.infer<typeof eventFormSchema>;
 
-export function EventForm() {
+interface EventFormProps {
+  selectedCategory: string;
+}
+
+export function EventForm({ selectedCategory }: EventFormProps) {
   const { toast } = useToast();
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
@@ -51,17 +47,21 @@ export function EventForm() {
       fullName: "",
       email: "",
       phone: "",
-      eventCategory: undefined,
+      // eventCategory: selectedCategory, // Set directly via prop, not a form default here if not in schema
       numberOfAttendees: undefined,
       message: "",
     },
   });
 
   function onSubmit(data: EventFormValues) {
-    console.log(data);
+    const submissionData = {
+      ...data,
+      eventCategory: selectedCategory, // Add the selected category to the submitted data
+    };
+    console.log(submissionData);
     toast({
       title: "Event Registration Submitted!",
-      description: `Thank you for registering for a ${data.eventCategory.toLowerCase()} event. We will get back to you soon with event details.`,
+      description: `Thank you for registering for a ${selectedCategory.toLowerCase()} event. We will get back to you soon with event details.`,
     });
     form.reset();
   }
@@ -70,7 +70,7 @@ export function EventForm() {
     <Card className="w-full max-w-2xl mx-auto shadow-lg">
       <CardHeader>
         <CardTitle className="text-2xl font-headline text-primary">Event Registration</CardTitle>
-        <CardDescription>Interested in our events? Fill out the form below to register your attendance.</CardDescription>
+        <CardDescription>You are registering for: <span className="font-semibold text-accent">{selectedCategory}</span>. Please fill out your details below.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -114,30 +114,7 @@ export function EventForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="eventCategory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Event Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select event category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {eventCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Select dropdown for eventCategory is removed */}
             <FormField
               control={form.control}
               name="numberOfAttendees"
