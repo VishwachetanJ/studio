@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
 
 const areasOfInterest = [
   { id: "education", label: "Education" },
@@ -47,6 +48,12 @@ type VolunteerFormValues = z.infer<typeof volunteerFormSchema>;
 
 export function VolunteerForm() {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<VolunteerFormValues>({
     resolver: zodResolver(volunteerFormSchema),
     defaultValues: {
@@ -67,6 +74,10 @@ export function VolunteerForm() {
       description: "Thank you for your interest in volunteering. We will get back to you soon.",
     });
     form.reset();
+  }
+
+  if (!isMounted) {
+    return null; // Prevent server-side rendering of the main form structure
   }
 
   return (

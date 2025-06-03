@@ -17,15 +17,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import React from "react"; // Removed useEffect and useState as they are no longer needed for this form
-
-// eventCategories constant is removed as category is now a prop
+import React, { useState, useEffect } from "react";
 
 const eventFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
-  // eventCategory is removed from schema as it's now a prop
   numberOfAttendees: z.preprocess(
     (val) => (val === "" ? undefined : parseInt(String(val), 10)),
     z.number().int().positive({ message: "Number of attendees must be a positive number." }).optional()
@@ -41,13 +38,18 @@ interface EventFormProps {
 
 export function EventForm({ selectedCategory }: EventFormProps) {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
       fullName: "",
       email: "",
       phone: "",
-      // eventCategory: selectedCategory, // Set directly via prop, not a form default here if not in schema
       numberOfAttendees: undefined,
       message: "",
     },
@@ -56,7 +58,7 @@ export function EventForm({ selectedCategory }: EventFormProps) {
   function onSubmit(data: EventFormValues) {
     const submissionData = {
       ...data,
-      eventCategory: selectedCategory, // Add the selected category to the submitted data
+      eventCategory: selectedCategory, 
     };
     console.log(submissionData);
     toast({
@@ -64,6 +66,10 @@ export function EventForm({ selectedCategory }: EventFormProps) {
       description: `Thank you for registering for a ${selectedCategory.toLowerCase()} event. We will get back to you soon with event details.`,
     });
     form.reset();
+  }
+
+  if (!isMounted) {
+    return null; // Prevent server-side rendering of the main form structure
   }
 
   return (
@@ -114,7 +120,6 @@ export function EventForm({ selectedCategory }: EventFormProps) {
                 </FormItem>
               )}
             />
-            {/* Select dropdown for eventCategory is removed */}
             <FormField
               control={form.control}
               name="numberOfAttendees"

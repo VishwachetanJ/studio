@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
 
 const partnershipTypes = [
   "Corporate Sponsorship",
@@ -47,6 +48,12 @@ type PartnerFormValues = z.infer<typeof partnerFormSchema>;
 
 export function PartnerForm() {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<PartnerFormValues>({
     resolver: zodResolver(partnerFormSchema),
     defaultValues: {
@@ -66,6 +73,10 @@ export function PartnerForm() {
       description: "Thank you for your interest in partnering with Jagruthi. We will review your proposal and get back to you.",
     });
     form.reset();
+  }
+
+  if (!isMounted) {
+    return null; // Prevent server-side rendering of the main form structure
   }
 
   return (
