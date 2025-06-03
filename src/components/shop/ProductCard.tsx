@@ -1,7 +1,9 @@
+
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Repeat } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export interface Product {
   id: string;
@@ -11,6 +13,7 @@ export interface Product {
   imageUrl: string;
   imageHint: string;
   description?: string;
+  subscribable?: boolean;
 }
 
 interface ProductCardProps {
@@ -18,6 +21,22 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    toast({
+      title: "Added to Cart!",
+      description: `${product.name} has been added to your cart.`,
+    });
+  };
+
+  const handleSubscribe = () => {
+    toast({
+      title: "Subscribed!",
+      description: `You've subscribed to ${product.name}. We'll notify you about availability.`,
+    });
+  };
+
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300 ease-in-out h-full">
       <CardHeader className="p-0">
@@ -38,10 +57,15 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
         {product.description && <p className="text-xs text-foreground/70 mt-2 line-clamp-2">{product.description}</p>}
       </CardContent>
-      <CardFooter className="p-4 border-t">
-        <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+      <CardFooter className="p-4 border-t flex flex-col sm:flex-row gap-2">
+        <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={handleAddToCart}>
           <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
         </Button>
+        {product.subscribable && (
+          <Button variant="outline" className="w-full" onClick={handleSubscribe}>
+            <Repeat className="mr-2 h-4 w-4" /> Subscribe
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

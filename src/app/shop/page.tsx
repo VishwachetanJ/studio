@@ -1,9 +1,10 @@
+
 import type { Metadata } from 'next';
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard, type Product } from "@/components/shop/ProductCard";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Phone, MessageSquare, Globe, Users } from 'lucide-react'; // Added Users for social media
+import { Phone, MessageSquare, Globe, Users, Repeat } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Shop | Jagruthi Connect',
@@ -11,11 +12,11 @@ export const metadata: Metadata = {
 };
 
 const sampleProducts: Product[] = [
-  { id: '1', name: 'Organic Mangoes (Box)', farmerName: 'Farmer Raju', price: 15.99, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'mangoes fruit', description: 'Fresh, juicy organic mangoes, handpicked from our farms.' },
-  { id: '2', name: 'Farm Fresh Eggs (Dozen)', farmerName: 'Farmer Lakshmi', price: 4.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'eggs farm', description: 'Nutritious and delicious free-range eggs.' },
+  { id: '1', name: 'Organic Mangoes (Box)', farmerName: 'Farmer Raju', price: 15.99, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'mangoes fruit', description: 'Fresh, juicy organic mangoes, handpicked from our farms.', subscribable: true },
+  { id: '2', name: 'Farm Fresh Eggs (Dozen)', farmerName: 'Farmer Lakshmi', price: 4.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'eggs farm', description: 'Nutritious and delicious free-range eggs.', subscribable: true },
   { id: '3', name: 'Local Honey (Jar)', farmerName: 'Farmer Suresh', price: 8.00, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'honey jar', description: 'Pure, raw honey sourced locally from happy bees.' },
   { id: '4', name: 'Handmade Soap', farmerName: 'Asha Self-Help Group', price: 6.25, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'handmade soap', description: 'Artisanal soap made with natural ingredients.' },
-  { id: '5', name: 'Seasonal Vegetables Basket', farmerName: 'Community Farm', price: 22.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'vegetable basket', description: 'A curated basket of fresh, seasonal vegetables.' },
+  { id: '5', name: 'Seasonal Vegetables Basket', farmerName: 'Community Farm', price: 22.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'vegetable basket', description: 'A curated basket of fresh, seasonal vegetables.', subscribable: true },
   { id: '6', name: 'Millet Flour (1kg)', farmerName: 'Farmer Govind', price: 3.75, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'flour bag', description: 'Healthy and nutritious millet flour, stone-ground.' },
 ];
 
@@ -54,9 +55,13 @@ export default function ShopPage() {
                 <Globe className="h-5 w-5 mr-3 text-primary" />
                 <span><strong>Website Orders:</strong> Online cart and checkout coming soon!</span>
               </li>
+              <li className="flex items-center">
+                <Repeat className="h-5 w-5 mr-3 text-primary" />
+                <span><strong>Subscriptions:</strong> Some products are available for regular subscription. Look for the "Subscribe" option on product cards.</span>
+              </li>
             </ul>
             <p className="text-sm text-muted-foreground">
-              We appreciate your patience and support as we grow our platform.
+              We appreciate your patience and support as we grow our platform. Sign up for our newsletter in the footer to get updates on new products and features!
             </p>
           </CardContent>
         </Card>
