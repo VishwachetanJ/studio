@@ -58,6 +58,8 @@ const focusAreas: FocusArea[] = [
     imageHint: "student counseling",
     title: "Educational & Career Counseling",
     description: "Comprehensive guidance on educational paths (CBSE, State Board, etc.), what to study after 10th, 12th, and degree. Exploring various courses, career opportunities, job market insights, skill enhancement, study abroad options, and free education resources from government/private institutes. Mentorship for students from 1st grade to degree level.",
+    link: "/counseling-hub",
+    linkText: "Explore Counseling Hub",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
