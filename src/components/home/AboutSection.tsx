@@ -1,5 +1,9 @@
+
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from 'lucide-react';
 
 interface FocusArea {
   imageUrl: string;
@@ -7,6 +11,8 @@ interface FocusArea {
   imageHint: string;
   title: string;
   description: string;
+  link?: string;
+  linkText?: string;
 }
 
 const focusAreas: FocusArea[] = [
@@ -22,7 +28,9 @@ const focusAreas: FocusArea[] = [
     imageAlt: "Children receiving education",
     imageHint: "children learning",
     title: "Education for Underprivileged",
-    description: "Ensuring access to quality education for children and women in underserved communities.",
+    description: "Ensuring access to quality education for children and women in underserved communities. Explore our free learning resources.",
+    link: "/education-hub",
+    linkText: "Explore Resources",
   },
   {
     imageUrl: "https://placehold.co/400x300.png",
@@ -83,6 +91,16 @@ export function AboutSection() {
               <CardContent className="flex-grow pt-0 text-center">
                 <p className="text-foreground/70">{area.description}</p>
               </CardContent>
+              {area.link && area.linkText && (
+                <CardFooter className="justify-center pt-2">
+                  <Link href={area.link} passHref legacyBehavior>
+                    <Button variant="link" className="text-accent hover:text-accent/80">
+                      {area.linkText}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardFooter>
+              )}
             </Card>
           ))}
         </div>

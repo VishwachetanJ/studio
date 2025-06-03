@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -10,6 +10,7 @@ const mainNavLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/#about", label: "About" },
   { href: "/#mission", label: "Mission" },
+  { href: "/education-hub", label: "Education Hub", icon: BookOpenCheck },
   { href: "/shop", label: "Shop", icon: ShoppingCart },
   { href: "/volunteer", label: "Volunteer", icon: Users },
   { href: "/donate", label: "Donate", icon: Gift },
