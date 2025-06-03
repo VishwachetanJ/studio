@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon } from 'lucide-react'; // Added HomeIcon
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search } from 'lucide-react'; // Added Search icon
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Input } from "@/components/ui/input"; // Added Input component
 
 const navLinks = [
-  { href: "/", label: "Home", icon: HomeIcon }, // Added Home link
+  { href: "/", label: "Home", icon: HomeIcon },
   { href: "/#about", label: "About" },
   { href: "/#mission", label: "Mission" },
   { href: "/volunteer", label: "Volunteer", icon: Users },
@@ -27,22 +28,31 @@ export function Header() {
             </h1>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-3 lg:space-x-4 items-center">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-foreground hover:text-primary font-medium transition-colors duration-200 px-2 py-1 rounded-md text-sm"
-              >
-                {link.icon && <link.icon className="inline-block h-4 w-4 mr-1" />}
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {/* Desktop Navigation & Search */}
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
+            <nav className="flex space-x-3 lg:space-x-4 items-center">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-foreground hover:text-primary font-medium transition-colors duration-200 px-2 py-1 rounded-md text-sm"
+                >
+                  {link.icon && <link.icon className="inline-block h-4 w-4 mr-1" />}
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center space-x-2">
+              <Input type="search" placeholder="Search..." className="h-9 w-40 lg:w-56" />
+              <Button variant="ghost" size="icon" aria-label="Search">
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+
 
           {/* Mobile Navigation */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -58,6 +68,12 @@ export function Header() {
                       Jagruthi Connect
                     </h1>
                   </Link>
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Input type="search" placeholder="Search..." className="h-9 flex-grow" />
+                    <Button variant="ghost" size="icon" aria-label="Search">
+                      <Search className="h-5 w-5" />
+                    </Button>
+                  </div>
                   <nav className="flex flex-col space-y-3">
                     {navLinks.map((link) => (
                       <Link
