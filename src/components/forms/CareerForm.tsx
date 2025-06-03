@@ -40,8 +40,10 @@ const careerFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
   positionAppliedFor: z.enum(availablePositions, {
-    required_error: "Please select a position.",
     errorMap: (issue, ctx) => {
+      if (issue.code === z.ZodIssueCode.invalid_type) {
+        return { message: "Please select a position." };
+      }
       if (issue.code === z.ZodIssueCode.invalid_enum_value) {
         return { message: "Please select a valid position from the list." };
       }
