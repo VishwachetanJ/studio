@@ -80,6 +80,12 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+            <Link
+              href="/"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider"
+            >
+              HOME
+            </Link>
             {/* ABOUT Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
