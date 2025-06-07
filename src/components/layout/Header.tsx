@@ -146,7 +146,7 @@ export function Header() {
 
              <Link
                 href="/donate"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider whitespace-nowrap"
               >
                 SUPPORT US
             </Link>
