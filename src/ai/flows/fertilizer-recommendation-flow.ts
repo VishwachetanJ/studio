@@ -25,13 +25,14 @@ const FertilizerRecommendationInputSchema = z.object({
   currentSeason: z.enum(["Kharif", "Rabi", "Zaid", "Other"]).describe('The current growing season (e.g., "Kharif (June-Oct)", "Rabi (Nov-Mar)").'),
   waterAvailability: z.enum(["Abundant", "Moderate", "Scarce"]).describe('The general availability of water for irrigation (e.g., "Abundant (Canal/Borewell)", "Scarce (Rain-fed)").'),
   farmLocation: z.string().optional().describe('Optional: The general location of the farm (e.g., "Warangal, Telangana, India") for regional considerations.'),
+  farmSizeAcres: z.number().min(0).optional().describe('Optional: The size of the farm in acres. This helps contextualize the scale but specific unit conversions for guntas, cents etc. need to be done by the farmer based on the per acre/hectare rates provided.'),
 });
 export type FertilizerRecommendationInput = z.infer<typeof FertilizerRecommendationInputSchema>;
 
 const RecommendedFertilizerSchema = z.object({
   nutrient: z.string().describe('The primary nutrient this recommendation is for (e.g., "Nitrogen (N)", "Phosphorus (P2O5)", "Potassium (K2O)", "Zinc (Zn)").'),
   fertilizerType: z.string().describe('The type or name of the fertilizer recommended (e.g., "Urea", "DAP", "Muriate of Potash", "Zinc Sulphate", "Organic Compost").'),
-  applicationRate: z.string().describe('The recommended application rate (e.g., "100-120 kg/ha", "2 bags/acre", "As per soil test"). Include units.'),
+  applicationRate: z.string().describe('The recommended application rate (e.g., "100-120 kg/ha", "2 bags/acre", "As per soil test"). Clearly state the unit (e.g., per hectare, per acre). Farmer needs to scale this to their specific land area in local units like guntas or cents.'),
   timing: z.string().describe('When to apply the fertilizer (e.g., "Basal dose at sowing", "Split application: 50% at planting, 50% at 30 DAS", "Top dressing during tillering stage").'),
   method: z.string().describe('Recommended application method (e.g., "Broadcasting and incorporation", "Band placement near roots", "Foliar spray").'),
 });
@@ -66,10 +67,11 @@ The farmer has provided the following details about their farm and crop:
 - Current Growing Season: {{{currentSeason}}}
 - Water Availability: {{{waterAvailability}}}
 {{#if farmLocation}}- Farm Location: {{{farmLocation}}}{{/if}}
+{{#if farmSizeAcres}}- Farm Size: Approximately {{{farmSizeAcres}}} acres. (Note: Your application rates should be per standard unit like hectare or acre, and the farmer will need to scale this to their specific area in local units like guntas or cents).{{/if}}
 
 Based on this information:
 1.  Provide specific fertilizer recommendations. Consider the nutrient requirements of the specified crop, existing soil nutrient levels, season, and water availability.
-    - Detail type, application rate, timing, and method for each recommended fertilizer.
+    - Detail type, application rate (clearly stating units like kg/ha or bags/acre), timing, and method for each recommended fertilizer. Emphasize that the farmer must calculate the exact amount for their specific land area based on this rate.
     - Include micronutrients if commonly needed.
 2.  Offer general advice for fertilizer application, soil health improvement (e.g., organic manures), and water management.
 3.  List any important warnings or precautions.
@@ -77,7 +79,7 @@ Based on this information:
 5.  Outline key agricultural practice methods that would be beneficial. These should be practical tips directly related to the inputs and recommendations. For example: "Techniques for improving [Nutrient] uptake in [Soil Texture] soils" or "Best water management for [Crop Name] during [Current Season] with [Water Availability] water". Be specific.
 
 Structure your output according to the 'FertilizerRecommendationOutput' schema.
-Ensure 'recommendations' is an array of objects.
+Ensure 'recommendations' is an array of objects. Ensure 'applicationRate' clearly specifies its unit (e.g., "X kg/ha" or "Y bags/acre") and includes a note about farmer needing to scale it.
 'suggestedVideoTopics' should be an array of specific video topic suggestions.
 'keyPracticeMethods' should be an array of specific, actionable practice method suggestions.
 Focus on practical advice. If organic options are viable, include them.
@@ -101,3 +103,5 @@ const fertilizerRecommendationFlow = ai.defineFlow(
     return output;
   }
 );
+
+    

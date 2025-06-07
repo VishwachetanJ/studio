@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, FlaskConical, Loader2, AlertTriangle, YoutubeIcon, BookOpenText, ListChecks } from 'lucide-react'; // Added YoutubeIcon, BookOpenText, ListChecks
+import { ArrowLeft, FlaskConical, Loader2, AlertTriangle, YoutubeIcon, BookOpenText, ListChecks } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -37,6 +37,7 @@ const formSchema = z.object({
   currentSeason: z.enum(["Kharif", "Rabi", "Zaid", "Other"], {required_error: "Please select a season."}).describe('The current growing season (e.g., "Kharif (June-Oct)", "Rabi (Nov-Mar)").'),
   waterAvailability: z.enum(["Abundant", "Moderate", "Scarce"], {required_error: "Please select water availability."}).describe('The general availability of water for irrigation (e.g., "Abundant (Canal/Borewell)", "Scarce (Rain-fed)").'),
   farmLocation: z.string().optional().describe('Optional: The general location of the farm (e.g., "Warangal, Telangana, India") for regional considerations.'),
+  farmSizeAcres: z.coerce.number().min(0).optional().describe('Optional: The size of the farm in acres. This helps contextualize the scale.'),
 });
 
 
@@ -51,8 +52,8 @@ export default function FertilizerApplicationPage() {
     setIsMounted(true);
   }, []);
 
-  const form = useForm<FertilizerRecommendationInput>({ // Type remains FertilizerRecommendationInput from the flow
-    resolver: zodResolver(formSchema), // Use the locally defined formSchema for validation
+  const form = useForm<FertilizerRecommendationInput>({ 
+    resolver: zodResolver(formSchema), 
     defaultValues: {
       soilPH: 7.0,
       soilOrganicCarbonPercent: 0.5,
@@ -64,6 +65,7 @@ export default function FertilizerApplicationPage() {
       currentSeason: undefined,
       waterAvailability: undefined,
       farmLocation: "",
+      farmSizeAcres: undefined,
     },
   });
 
@@ -118,7 +120,7 @@ export default function FertilizerApplicationPage() {
             Efficient Fertilizer Application
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Input your farm and crop details to receive AI-powered fertilizer recommendations, learning tips, and best practices tailored to your specific needs.
+            Input your farm and crop details to receive AI-powered fertilizer recommendations, learning tips, and best practices tailored to your specific needs. Remember to scale application rates to your specific land area.
           </p>
         </div>
 
@@ -267,11 +269,24 @@ export default function FertilizerApplicationPage() {
                       </FormItem>
                     )}
                   />
+                   <FormField
+                    control={form.control}
+                    name="farmSizeAcres"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Farm Size (Acres) (Optional)</FormLabel>
+                        <FormControl>
+                          <Input type="number" step="0.1" placeholder="e.g., 5.5" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="farmLocation"
                     render={({ field }) => (
-                      <FormItem className="md:col-span-2">
+                      <FormItem className="md:col-span-1">
                         <FormLabel>Farm Location (Optional)</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., Village, Mandal, District, State" {...field} />
@@ -387,3 +402,5 @@ export default function FertilizerApplicationPage() {
     </div>
   );
 }
+
+    

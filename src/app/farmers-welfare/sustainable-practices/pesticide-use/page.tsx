@@ -33,6 +33,7 @@ const formSchema = z.object({
   infestationSeverity: z.enum(["Low", "Moderate", "High", "Very High"], {required_error: "Please select severity."}),
   previousPesticideUsage: z.string().optional(),
   farmLocation: z.string().optional(),
+  farmSizeAcres: z.coerce.number().min(0).optional().describe('Optional: The size of the affected area in acres.'),
 });
 
 
@@ -57,6 +58,7 @@ export default function PesticideUsePage() {
       infestationSeverity: undefined,
       previousPesticideUsage: "",
       farmLocation: "",
+      farmSizeAcres: undefined,
     },
   });
 
@@ -154,7 +156,7 @@ export default function PesticideUsePage() {
             Safe &amp; Effective Pesticide Use
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Get AI-powered advice on managing crop pests and diseases, including whether to use pesticides or explore non-pesticide alternatives, with a focus on safety and Integrated Pest Management (IPM).
+            Get AI-powered advice on managing crop pests and diseases, including whether to use pesticides or explore non-pesticide alternatives, with a focus on safety and Integrated Pest Management (IPM). Remember to scale application rates to your specific land area.
           </p>
         </div>
 
@@ -220,29 +222,44 @@ export default function PesticideUsePage() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="infestationSeverity"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Infestation/Infection Severity</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select severity level" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Low">Low (Few plants affected, minor symptoms)</SelectItem>
-                          <SelectItem value="Moderate">Moderate (Noticeable spread, some damage)</SelectItem>
-                          <SelectItem value="High">High (Widespread, significant damage/yield loss potential)</SelectItem>
-                          <SelectItem value="Very High">Very High (Severe infestation, critical)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="infestationSeverity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Infestation/Infection Severity</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select severity level" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="Low">Low (Few plants affected, minor symptoms)</SelectItem>
+                              <SelectItem value="Moderate">Moderate (Noticeable spread, some damage)</SelectItem>
+                              <SelectItem value="High">High (Widespread, significant damage/yield loss potential)</SelectItem>
+                              <SelectItem value="Very High">Very High (Severe infestation, critical)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="farmSizeAcres"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Affected Area Size (Acres) (Optional)</FormLabel>
+                          <FormControl>
+                            <Input type="number" step="0.1" placeholder="e.g., 2.5" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                </div>
                 <FormField
                   control={form.control}
                   name="previousPesticideUsage"
@@ -374,3 +391,4 @@ export default function PesticideUsePage() {
   );
 }
 
+    
