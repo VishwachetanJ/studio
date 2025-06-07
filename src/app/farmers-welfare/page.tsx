@@ -19,9 +19,9 @@ const welfareServices = [
     description: "Make informed decisions for sustainable and profitable farming. Our guidance on optimal pesticide/fertilizer use, integrated pest management, soil health, and organic methods leverages insights from weather patterns, seasonal forecasts, your farm's water and soil conditions, and market trends. For the most personalized advice, please utilize our Smart Crop Planning tools and share your farm details via the Farmer Connect program.",
     subPractices: [
         { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "/farmers-welfare/sustainable-practices/fertilizer-application" },
-        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "pesticide-use" }, // Placeholder slug
-        { title: "Organic Farming Techniques", icon: Leaf, slug: "organic-farming" }, // Placeholder slug
-        { title: "Soil Health Management", icon: Layers, slug: "soil-health" }, // Placeholder slug
+        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "/farmers-welfare/sustainable-practices/pesticide-use" }, // Placeholder slug, update when page is ready
+        { title: "Organic Farming Techniques", icon: Leaf, slug: "/farmers-welfare/sustainable-practices/organic-farming" }, 
+        { title: "Soil Health Management", icon: Layers, slug: "/farmers-welfare/sustainable-practices/soil-health" }, // Placeholder slug
     ]
   },
   {
@@ -109,7 +109,6 @@ export default function FarmersWelfarePage() {
                                     variant="outline" 
                                     size="sm" 
                                     className="w-full justify-start text-left hover:bg-accent/5 py-3 h-auto"
-                                    // onClick={() => console.log(`Navigate to details for ${practice.slug}`)} // Placeholder action
                                 >
                                     <practice.icon className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
                                     <span className="text-sm font-medium text-foreground">{practice.title}</span>
@@ -117,7 +116,7 @@ export default function FarmersWelfarePage() {
                             </Link>
                         ))}
                          <p className="text-xs text-muted-foreground mt-2 italic">
-                           (More detailed guidance pages for other practices coming soon)
+                           (Guidance pages for other practices coming soon)
                          </p>
                     </div>
                 )}
@@ -134,7 +133,6 @@ export default function FarmersWelfarePage() {
             </Card>
           ))}
 
-          {/* New Card for Smart Crop Planning Tools */}
           <Card className="flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 border-accent/30 h-full">
             <CardHeader className="items-center text-center">
               <div className="p-3 bg-accent/10 rounded-full w-fit mb-3 group-hover:bg-accent/20 transition-colors">
@@ -181,4 +179,3 @@ export default function FarmersWelfarePage() {
     </div>
   );
 }
-
