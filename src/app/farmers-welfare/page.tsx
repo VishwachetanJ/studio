@@ -5,23 +5,24 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, ClipboardList, Leaf, Store, BarChart3, Droplets, Sun, CloudSun } from 'lucide-react';
+import { ArrowLeft, ClipboardList, Leaf, Store, BarChart3, Droplets, Sun, CloudSun, TrendingUp } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Farmers Welfare Hub | Jagruthi',
-  description: 'Guidance on crop selection, sustainable practices, and direct market access for farmers by Jagruthi.',
+  description: 'Guidance on crop selection, sustainable practices, market trends, and direct market access for farmers by Jagruthi.',
 };
 
 const welfareServices = [
   {
     icon: ClipboardList,
     title: "Smart Crop Selection",
-    description: "Receive tailored advice on choosing the right crops. We analyze advanced weather forecasts from sources like ISRO, Google Weather, and other meteorological services, alongside water resource availability (borewell, canal, rain-fed), and soil type to help you maximize yield and build resilience against changing climatic conditions.",
+    description: "Receive tailored advice on choosing the right crops. We analyze advanced weather forecasts (ISRO, Google Weather), market trends from global/Indian markets and e-commerce sites, water resource availability (borewell, canal, rain-fed), and soil type to help you maximize yield, meet upcoming demand, and build resilience against changing climatic conditions.",
     details: [
         { icon: CloudSun, text: "Advanced Weather Data (ISRO, Google)" },
         { icon: Sun, text: "Seasonal Weather Forecast Integration" },
         { icon: Droplets, text: "Water Resource Assessment" },
         { icon: BarChart3, text: "Soil Type Analysis" },
+        { icon: TrendingUp, text: "Market Demand & Trend Analysis" },
     ]
   },
   {
