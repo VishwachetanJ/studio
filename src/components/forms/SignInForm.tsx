@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import React, { useState, useEffect } from "react";
-import { LogIn } from "lucide-react";
 import Link from "next/link";
 
 const signInFormSchema = z.object({
@@ -27,7 +26,6 @@ const signInFormSchema = z.object({
 
 type SignInFormValues = z.infer<typeof signInFormSchema>;
 
-// onSwitchToSignUp prop removed
 export function SignInForm() {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
@@ -59,8 +57,8 @@ export function SignInForm() {
   return (
     <Card className="w-full max-w-sm mx-auto shadow-lg">
       <CardHeader className="text-center">
-        <LogIn className="mx-auto h-10 w-10 text-primary mb-1 sm:h-12 sm:w-12 sm:mb-2" />
-        <CardTitle className="text-xl sm:text-2xl font-headline text-primary">Sign In</CardTitle>
+        {/* LogIn icon removed from here */}
+        <CardTitle className="text-xl sm:text-2xl font-headline text-primary mt-2">Sign In</CardTitle> {/* Added mt-2 for spacing if needed */}
         <CardDescription className="text-xs sm:text-sm">Access your Jagruthi account.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -104,7 +102,6 @@ export function SignInForm() {
             </Button>
           </form>
         </Form>
-        {/* Logic for switching to sign up within the same component removed */}
         <p className="text-center text-xs sm:text-sm text-muted-foreground mt-4 sm:mt-6">
           Don&apos;t have an account?{" "}
           <Link href="/signup" legacyBehavior>
