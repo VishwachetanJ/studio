@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, ClipboardList, Leaf, Store, BarChart3, Droplets, Sun, CloudSun, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ClipboardList, Leaf, Store, CloudSun, CalendarClock, Waves, ScanSearch, TrendingUp } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Farmers Welfare Hub | Jagruthi',
@@ -13,13 +13,6 @@ export const metadata: Metadata = {
 };
 
 const welfareServices = [
-  {
-    icon: ClipboardList,
-    title: "Smart Crop Selection",
-    description: "Leverage advanced analytics for crop planning. Access tools for weather data, seasonal forecasts, water resource assessment, soil analysis, and market trends to maximize yield and profitability.",
-    link: "/farmers-welfare/smart-crop-selection", // Updated link
-    linkText: "Access Crop Planning Tools",
-  },
   {
     icon: Leaf,
     title: "Sustainable Farming Practices",
@@ -39,6 +32,39 @@ const welfareServices = [
     link: "/shop",
     linkText: "Visit Our Shop",
   }
+];
+
+const smartTools = [
+  {
+    slug: "weather-data",
+    title: "Weather Data",
+    icon: CloudSun,
+    link: "/farmers-welfare/smart-crop-selection/weather-data",
+  },
+  {
+    slug: "seasonal-forecast",
+    title: "Seasonal Forecasts",
+    icon: CalendarClock,
+    link: "/farmers-welfare/smart-crop-selection/seasonal-forecast",
+  },
+  {
+    slug: "water-resources",
+    title: "Water Assessment",
+    icon: Waves,
+    link: "/farmers-welfare/smart-crop-selection/water-resources",
+  },
+  {
+    slug: "soil-analysis",
+    title: "Soil Analysis",
+    icon: ScanSearch,
+    link: "/farmers-welfare/smart-crop-selection/soil-analysis",
+  },
+  {
+    slug: "market-trends",
+    title: "Market Trends",
+    icon: TrendingUp,
+    link: "/farmers-welfare/smart-crop-selection/market-trends",
+  },
 ];
 
 export default function FarmersWelfarePage() {
@@ -75,7 +101,7 @@ export default function FarmersWelfarePage() {
               </CardHeader>
               <CardContent className="flex-grow space-y-3 text-center">
                 <p className="text-sm text-foreground/70">{service.description}</p>
-                {service.details && !service.link && ( // Only show details if no link to a sub-page
+                {service.details && !service.link && ( 
                     <div className="text-left text-xs text-muted-foreground space-y-1 mt-3 pt-3 border-t border-border">
                         {service.detailsHeading && <p className="font-semibold text-primary mb-1">{service.detailsHeading}</p>}
                         <ul className="list-none space-y-1">
@@ -100,6 +126,31 @@ export default function FarmersWelfarePage() {
               </CardContent>
             </Card>
           ))}
+
+          {/* New Card for Smart Crop Planning Tools */}
+          <Card className="flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 border-accent/30 h-full">
+            <CardHeader className="items-center text-center">
+              <div className="p-3 bg-accent/10 rounded-full w-fit mb-3 group-hover:bg-accent/20 transition-colors">
+                  <ClipboardList className="h-10 w-10 text-accent" />
+              </div>
+              <CardTitle className="text-xl font-headline text-accent">Smart Crop Planning Tools</CardTitle>
+            </CardHeader>
+            <CardContent className="flex-grow space-y-3 text-center">
+              <p className="text-sm text-foreground/70 mb-4">
+                Access data-driven insights for your farm.
+              </p>
+              <div className="space-y-2">
+                {smartTools.map(tool => (
+                  <Link href={tool.link} passHref legacyBehavior key={tool.slug}>
+                    <Button variant="ghost" className="w-full justify-start text-left hover:bg-accent/5 py-3 h-auto">
+                      <tool.icon className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
+                      <span className="text-sm font-medium text-foreground">{tool.title}</span>
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <Card className="bg-primary/10 border-primary/30 shadow-md">
@@ -123,3 +174,4 @@ export default function FarmersWelfarePage() {
     </div>
   );
 }
+
