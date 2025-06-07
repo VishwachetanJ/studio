@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Provides AI-driven fertilizer recommendations for farmers.
@@ -10,6 +11,9 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+// Input schema remains internal to this file for use by the flow.
+// The page component will define its own Zod schema for client-side form validation
+// but will use the exported FertilizerRecommendationInput type.
 const FertilizerRecommendationInputSchema = z.object({
   soilPH: z.number().min(0).max(14).describe('The pH level of the soil (e.g., 6.5).'),
   soilOrganicCarbonPercent: z.number().min(0).max(100).describe('The percentage of organic carbon in the soil (e.g., 0.7).'),
@@ -32,10 +36,13 @@ const RecommendedFertilizerSchema = z.object({
   method: z.string().describe('Recommended application method (e.g., "Broadcasting and incorporation", "Band placement near roots", "Foliar spray").'),
 });
 
+// Output schema is internal, but its inferred type is exported.
 const FertilizerRecommendationOutputSchema = z.object({
   recommendations: z.array(RecommendedFertilizerSchema).describe('A list of specific fertilizer recommendations for different nutrients.'),
   generalAdvice: z.string().describe('Overall advice, tips for soil health, or other considerations related to fertilizer application.'),
   warnings: z.string().optional().describe('Any specific warnings or precautions to take (e.g., "Avoid over-application of Urea to prevent lodging in wheat.").'),
+  suggestedVideoTopics: z.array(z.string()).describe('A list of suggested topics for educational videos relevant to the crop, soil conditions, and fertilizer practices (e.g., "How to apply Urea efficiently for Rice in Loamy soil"). Be specific.'),
+  keyPracticeMethods: z.array(z.string()).describe('A list of key agricultural practice methods to consider for optimal yield and soil health, related to the inputs (e.g., "Importance of split application of Nitrogen for Cotton", "Soil moisture conservation for Zaid crops"). Be specific.'),
 });
 export type FertilizerRecommendationOutput = z.infer<typeof FertilizerRecommendationOutputSchema>;
 
@@ -47,7 +54,7 @@ const prompt = ai.definePrompt({
   name: 'fertilizerRecommendationPrompt',
   input: {schema: FertilizerRecommendationInputSchema},
   output: {schema: FertilizerRecommendationOutputSchema},
-  prompt: `You are an expert agronomist providing fertilizer recommendations to a farmer.
+  prompt: `You are an expert agronomist providing fertilizer recommendations and related agricultural advice to a farmer.
 The farmer has provided the following details about their farm and crop:
 - Soil pH: {{{soilPH}}}
 - Soil Organic Carbon: {{{soilOrganicCarbonPercent}}}%
@@ -60,23 +67,23 @@ The farmer has provided the following details about their farm and crop:
 - Water Availability: {{{waterAvailability}}}
 {{#if farmLocation}}- Farm Location: {{{farmLocation}}}{{/if}}
 
-Based on this information, provide specific fertilizer recommendations. Consider the nutrient requirements of the specified crop, the existing nutrient levels in the soil, the impact of the season on nutrient uptake and availability, and how water availability affects fertilizer choice and efficiency.
-
-Your recommendations should include:
-1.  Specific fertilizers for Nitrogen (N), Phosphorus (P), and Potassium (K). If micronutrient deficiencies are common for this crop/soil/location, suggest them too.
-2.  For each fertilizer, specify the recommended type (e.g., Urea, DAP, MOP, organic options like compost if applicable), the application rate (e.g., in kg/ha or bags/acre), the timing of application (e.g., basal, top dressing at specific crop stages), and the application method.
-3.  Provide general advice related to fertilizer application, soil health improvement (e.g., use of organic manures), and water management in relation to fertilization.
-4.  Include any important warnings or precautions the farmer should be aware of.
+Based on this information:
+1.  Provide specific fertilizer recommendations. Consider the nutrient requirements of the specified crop, existing soil nutrient levels, season, and water availability.
+    - Detail type, application rate, timing, and method for each recommended fertilizer.
+    - Include micronutrients if commonly needed.
+2.  Offer general advice for fertilizer application, soil health improvement (e.g., organic manures), and water management.
+3.  List any important warnings or precautions.
+4.  Suggest specific topics for educational videos relevant to the farmer's situation (crop, soil, water, season). These topics should help the farmer understand best practices related to the recommendations. For example: "Video on benefits of balanced fertilization for [Crop Name] in [Soil Texture]" or "Applying [Fertilizer Type] in [Current Season] for [Crop Name]". Be specific and actionable.
+5.  Outline key agricultural practice methods that would be beneficial. These should be practical tips directly related to the inputs and recommendations. For example: "Techniques for improving [Nutrient] uptake in [Soil Texture] soils" or "Best water management for [Crop Name] during [Current Season] with [Water Availability] water". Be specific.
 
 Structure your output according to the 'FertilizerRecommendationOutput' schema.
-Ensure 'recommendations' is an array of objects, each detailing a specific fertilizer for a nutrient.
-'generalAdvice' should consolidate overall tips.
-'warnings' should highlight critical precautions.
-Focus on practical and actionable advice. If organic options are viable and effective, include them.
-If soil nutrient levels are very high for a particular nutrient, you may recommend a reduced dose or no application for that nutrient.
-Consider the crop's entire lifecycle for timing recommendations (e.g., split applications).
-For application rates, if providing in bags/acre, assume standard bag weights if not specified (e.g. Urea/DAP 50kg bags).
-If location is provided, consider general soil types or common deficiencies known for that region if possible, but prioritize the provided soil data.
+Ensure 'recommendations' is an array of objects.
+'suggestedVideoTopics' should be an array of specific video topic suggestions.
+'keyPracticeMethods' should be an array of specific, actionable practice method suggestions.
+Focus on practical advice. If organic options are viable, include them.
+If soil nutrient levels are very high, recommend reduced or no application for that nutrient.
+Consider the crop's entire lifecycle for timing.
+If location is provided, consider regional factors if possible, but prioritize provided soil data.
 `,
 });
 

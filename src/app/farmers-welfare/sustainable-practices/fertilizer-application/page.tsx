@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, FlaskConical, Loader2, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, FlaskConical, Loader2, AlertTriangle, YoutubeIcon, BookOpenText, ListChecks } from 'lucide-react'; // Added YoutubeIcon, BookOpenText, ListChecks
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,19 +19,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Textarea was missing an import
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect } from "react";
 import { recommendFertilizers, type FertilizerRecommendationInput, type FertilizerRecommendationOutput } from "@/ai/flows/fertilizer-recommendation-flow";
 
-// Define the schema directly in the client component
+// Define the form schema directly in the client component for react-hook-form
 const formSchema = z.object({
-  soilPH: z.number().min(0).max(14).describe('The pH level of the soil (e.g., 6.5).'),
-  soilOrganicCarbonPercent: z.number().min(0).max(100).describe('The percentage of organic carbon in the soil (e.g., 0.7).'),
-  soilNitrogenKgHa: z.number().min(0).describe('Available Nitrogen (N) in the soil in kg/ha (e.g., 250).'),
-  soilPhosphorusKgHa: z.number().min(0).describe('Available Phosphorus (P) in the soil in kg/ha (e.g., 20).'),
-  soilPotassiumKgHa: z.number().min(0).describe('Available Potassium (K) in the soil in kg/ha (e.g., 180).'),
+  soilPH: z.coerce.number().min(0).max(14).describe('The pH level of the soil (e.g., 6.5).'),
+  soilOrganicCarbonPercent: z.coerce.number().min(0).max(100).describe('The percentage of organic carbon in the soil (e.g., 0.7).'),
+  soilNitrogenKgHa: z.coerce.number().min(0).describe('Available Nitrogen (N) in the soil in kg/ha (e.g., 250).'),
+  soilPhosphorusKgHa: z.coerce.number().min(0).describe('Available Phosphorus (P) in the soil in kg/ha (e.g., 20).'),
+  soilPotassiumKgHa: z.coerce.number().min(0).describe('Available Potassium (K) in the soil in kg/ha (e.g., 180).'),
   soilTexture: z.string().min(1,{message: "Soil texture is required."}).describe('The texture of the soil (e.g., "Loamy", "Sandy Clay", "Black Cotton Soil").'),
   cropName: z.string().min(1, {message: "Crop name is required."}).describe('The name of the crop being cultivated (e.g., "Rice", "Cotton", "Tomato").'),
   currentSeason: z.enum(["Kharif", "Rabi", "Zaid", "Other"], {required_error: "Please select a season."}).describe('The current growing season (e.g., "Kharif (June-Oct)", "Rabi (Nov-Mar)").'),
@@ -51,8 +51,8 @@ export default function FertilizerApplicationPage() {
     setIsMounted(true);
   }, []);
 
-  const form = useForm<FertilizerRecommendationInput>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FertilizerRecommendationInput>({ // Type remains FertilizerRecommendationInput from the flow
+    resolver: zodResolver(formSchema), // Use the locally defined formSchema for validation
     defaultValues: {
       soilPH: 7.0,
       soilOrganicCarbonPercent: 0.5,
@@ -76,7 +76,7 @@ export default function FertilizerApplicationPage() {
       setRecommendation(result);
       toast({
         title: "Recommendation Generated",
-        description: "AI has provided fertilizer advice based on your inputs.",
+        description: "AI has provided fertilizer advice and learning suggestions based on your inputs.",
       });
     } catch (e) {
       console.error(e);
@@ -96,7 +96,7 @@ export default function FertilizerApplicationPage() {
   }
 
   if (!isMounted) {
-    return null; // Or a loading skeleton
+    return null;
   }
 
   return (
@@ -118,7 +118,7 @@ export default function FertilizerApplicationPage() {
             Efficient Fertilizer Application
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Input your farm and crop details to receive AI-powered fertilizer recommendations tailored to your specific needs, considering soil health, crop type, season, and water availability.
+            Input your farm and crop details to receive AI-powered fertilizer recommendations, learning tips, and best practices tailored to your specific needs.
           </p>
         </div>
 
@@ -138,7 +138,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Soil pH Level</FormLabel>
                         <FormControl>
-                          <Input type="number" step="0.1" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                          <Input type="number" step="0.1" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -151,7 +151,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Soil Organic Carbon (%)</FormLabel>
                         <FormControl>
-                          <Input type="number" step="0.01" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                          <Input type="number" step="0.01" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -164,7 +164,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Available Nitrogen (N) (kg/ha)</FormLabel>
                         <FormControl>
-                          <Input type="number" step="1" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                          <Input type="number" step="1" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -177,7 +177,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Available Phosphorus (P) (kg/ha)</FormLabel>
                         <FormControl>
-                          <Input type="number" step="1" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                          <Input type="number" step="1" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -190,7 +190,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Available Potassium (K) (kg/ha)</FormLabel>
                         <FormControl>
-                          <Input type="number" step="1" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                          <Input type="number" step="1" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -283,7 +283,7 @@ export default function FertilizerApplicationPage() {
                 </div>
                 <Button type="submit" disabled={isLoading} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
                   {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Get Fertilizer Recommendation
+                  Get Recommendations
                 </Button>
               </form>
             </Form>
@@ -309,43 +309,78 @@ export default function FertilizerApplicationPage() {
         )}
 
         {recommendation && !isLoading && (
-          <Card className="mt-12 w-full max-w-3xl mx-auto shadow-lg border-green-500/50">
-            <CardHeader>
-              <CardTitle className="text-2xl text-green-700">AI Fertilizer Recommendation</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold text-primary mb-3">Specific Recommendations:</h3>
-                {recommendation.recommendations.length > 0 ? (
-                  <div className="space-y-4">
-                    {recommendation.recommendations.map((rec, index) => (
-                      <Card key={index} className="bg-muted/30 p-4">
-                        <CardTitle className="text-lg text-accent mb-1">{rec.nutrient}</CardTitle>
-                        <p><strong className="text-foreground/80">Fertilizer:</strong> {rec.fertilizerType}</p>
-                        <p><strong className="text-foreground/80">Rate:</strong> {rec.applicationRate}</p>
-                        <p><strong className="text-foreground/80">Timing:</strong> {rec.timing}</p>
-                        <p><strong className="text-foreground/80">Method:</strong> {rec.method}</p>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-foreground/70">No specific fertilizer recommendations were generated. Please check the general advice.</p>
-                )}
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold text-primary mb-2">General Advice:</h3>
-                <p className="text-foreground/70 whitespace-pre-line">{recommendation.generalAdvice}</p>
-              </div>
-
-              {recommendation.warnings && (
+          <div className="mt-12 space-y-8">
+            <Card className="w-full max-w-3xl mx-auto shadow-lg border-green-500/50">
+              <CardHeader>
+                <CardTitle className="text-2xl text-green-700">AI Fertilizer Recommendation</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold text-destructive mb-2">Warnings:</h3>
-                  <p className="text-destructive/90 whitespace-pre-line">{recommendation.warnings}</p>
+                  <h3 className="text-xl font-semibold text-primary mb-3 flex items-center"><ListChecks className="mr-2 h-6 w-6 text-primary"/>Specific Recommendations:</h3>
+                  {recommendation.recommendations.length > 0 ? (
+                    <div className="space-y-4">
+                      {recommendation.recommendations.map((rec, index) => (
+                        <Card key={index} className="bg-muted/30 p-4">
+                          <CardTitle className="text-lg text-accent mb-1">{rec.nutrient}</CardTitle>
+                          <p><strong className="text-foreground/80">Fertilizer:</strong> {rec.fertilizerType}</p>
+                          <p><strong className="text-foreground/80">Rate:</strong> {rec.applicationRate}</p>
+                          <p><strong className="text-foreground/80">Timing:</strong> {rec.timing}</p>
+                          <p><strong className="text-foreground/80">Method:</strong> {rec.method}</p>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-foreground/70">No specific fertilizer recommendations were generated. Please check the general advice.</p>
+                  )}
                 </div>
-              )}
-            </CardContent>
-          </Card>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-primary mb-2">General Advice:</h3>
+                  <p className="text-foreground/70 whitespace-pre-line">{recommendation.generalAdvice}</p>
+                </div>
+
+                {recommendation.warnings && (
+                  <div>
+                    <h3 className="text-xl font-semibold text-destructive mb-2 flex items-center"><AlertTriangle className="mr-2 h-5 w-5"/>Warnings:</h3>
+                    <p className="text-destructive/90 whitespace-pre-line">{recommendation.warnings}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            
+            <Card className="w-full max-w-3xl mx-auto shadow-lg border-blue-500/50">
+              <CardHeader>
+                <CardTitle className="text-2xl text-blue-700">Further Learning & Best Practices</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {recommendation.suggestedVideoTopics && recommendation.suggestedVideoTopics.length > 0 && (
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary mb-3 flex items-center"><YoutubeIcon className="mr-2 h-6 w-6 text-red-600"/>Suggested Video Topics:</h3>
+                    <ul className="list-disc list-inside space-y-2 pl-4 text-foreground/70">
+                      {recommendation.suggestedVideoTopics.map((topic, index) => (
+                        <li key={index}>{topic} <span className="text-xs text-muted-foreground">(Search on YouTube/Agri platforms)</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {recommendation.keyPracticeMethods && recommendation.keyPracticeMethods.length > 0 && (
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary mb-3 flex items-center"><BookOpenText className="mr-2 h-6 w-6 text-green-600"/>Key Practice Methods to Explore:</h3>
+                    <ul className="list-disc list-inside space-y-2 pl-4 text-foreground/70">
+                      {recommendation.keyPracticeMethods.map((method, index) => (
+                        <li key={index}>{method}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                 {(!recommendation.suggestedVideoTopics || recommendation.suggestedVideoTopics.length === 0) &&
+                  (!recommendation.keyPracticeMethods || recommendation.keyPracticeMethods.length === 0) && (
+                    <p className="text-foreground/70">No specific learning suggestions were generated for this query.</p>
+                 )}
+              </CardContent>
+            </Card>
+          </div>
         )}
       </main>
       <Footer />
