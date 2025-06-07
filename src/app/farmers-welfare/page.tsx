@@ -19,7 +19,7 @@ const welfareServices = [
     description: "Make informed decisions for sustainable and profitable farming. Our guidance on optimal pesticide/fertilizer use, integrated pest management, soil health, and organic methods leverages insights from weather patterns, seasonal forecasts, your farm's water and soil conditions, and market trends. For the most personalized advice, please utilize our Smart Crop Planning tools and share your farm details via the Farmer Connect program.",
     subPractices: [
         { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "/farmers-welfare/sustainable-practices/fertilizer-application" },
-        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "/farmers-welfare/sustainable-practices/pesticide-use" }, // Placeholder slug, update when page is ready
+        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "/farmers-welfare/sustainable-practices/pesticide-use" },
         { title: "Organic Farming Techniques", icon: Leaf, slug: "/farmers-welfare/sustainable-practices/organic-farming" }, 
         { title: "Soil Health Management", icon: Layers, slug: "/farmers-welfare/sustainable-practices/soil-health" }, 
     ]
@@ -115,9 +115,9 @@ export default function FarmersWelfarePage() {
                                 </Button>
                             </Link>
                         ))}
-                         <p className="text-xs text-muted-foreground mt-2 italic">
+                         {/* <p className="text-xs text-muted-foreground mt-2 italic">
                            (Guidance pages for other practices coming soon)
-                         </p>
+                         </p> */}
                     </div>
                 )}
                 {service.link && (
