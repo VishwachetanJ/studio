@@ -131,7 +131,7 @@ export function Header() {
                 SHOP
             </Link>
 
-            {/* JOIN US Dropdown (formerly MORE) */}
+            {/* JOIN US Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider p-0 hover:bg-transparent">
@@ -171,11 +171,7 @@ export function Header() {
                 Sign In
               </Button>
             </Link>
-            <Link href="/signup" legacyBehavior>
-              <Button className="text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5 py-2">
-                Join Us
-              </Button>
-            </Link>
+            {/* Prominent "Join Us" button (linking to /signup) removed as per request */}
           </div>
 
 
@@ -229,11 +225,7 @@ export function Header() {
                             Sign In
                         </Button>
                     </Link>
-                    <Link href="/signup" legacyBehavior>
-                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                            Join Us
-                        </Button>
-                    </Link>
+                    {/* "Join Us" button (linking to /signup) at the bottom of mobile sheet removed as per request */}
                   </div>
                 </div>
               </SheetContent>
@@ -244,4 +236,3 @@ export function Header() {
     </header>
   );
 }
-
