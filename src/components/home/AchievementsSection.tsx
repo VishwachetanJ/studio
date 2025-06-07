@@ -29,7 +29,7 @@ export function AchievementsSection() {
         <h2 className="text-3xl sm:text-4xl font-headline text-center text-primary mb-12">
           Our Achievements
         </h2>
-        <div className="relative w-full overflow-hidden group"> {/* Added group for potential group-hover play/pause state in future */}
+        <div className="relative w-full overflow-hidden group">
           <div 
             className={`flex animate-marquee whitespace-nowrap ${isPaused ? '[animation-play-state:paused]' : '[animation-play-state:running]'}`}
             onClick={handleTogglePause} // Click anywhere on the marquee to toggle pause
@@ -37,14 +37,14 @@ export function AchievementsSection() {
             {duplicatedAchievements.map((achievement, index) => (
               <div key={index} className="flex-none w-72 sm:w-80 md:w-96 mx-3 cursor-pointer">
                 <Card className="overflow-hidden group-hover:[animation-play-state:paused] hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full flex flex-col">
-                  <div className="aspect-w-16 aspect-h-9">
+                  <div className="relative w-full aspect-[3/2]"> {/* Changed to standard aspect ratio and relative positioning */}
                     <Image
                       src={achievement.src}
                       alt={achievement.alt}
-                      width={600}
-                      height={400}
-                      className="object-cover w-full h-full"
+                      fill // Use fill to cover the container
+                      className="object-cover" // Removed w-full h-full as fill handles this
                       data-ai-hint={achievement.hint}
+                      sizes="(max-width: 768px) 72vw, (max-width: 1024px) 80vw, 96vw" // Example sizes, adjust as needed
                     />
                   </div>
                   <CardContent className="p-4 flex-grow flex items-center justify-center">
