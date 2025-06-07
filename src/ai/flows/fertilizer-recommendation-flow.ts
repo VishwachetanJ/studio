@@ -26,6 +26,7 @@ const FertilizerRecommendationInputSchema = z.object({
   waterAvailability: z.enum(["Abundant", "Moderate", "Scarce"]).describe('The general availability of water for irrigation (e.g., "Abundant (Canal/Borewell)", "Scarce (Rain-fed)").'),
   farmLocation: z.string().optional().describe('Optional: The general location of the farm (e.g., "Warangal, Telangana, India") for regional considerations.'),
   farmSizeAcres: z.number().min(0).optional().describe('Optional: The size of the farm in acres. This helps contextualize the scale but specific unit conversions for guntas, cents etc. need to be done by the farmer based on the per acre/hectare rates provided.'),
+  targetLanguage: z.string().optional().describe('The desired language for the AI response (e.g., "Hindi", "Telugu"). Defaults to English if not provided or unsupported.'),
 });
 export type FertilizerRecommendationInput = z.infer<typeof FertilizerRecommendationInputSchema>;
 
@@ -56,6 +57,12 @@ const prompt = ai.definePrompt({
   input: {schema: FertilizerRecommendationInputSchema},
   output: {schema: FertilizerRecommendationOutputSchema},
   prompt: `You are an expert agronomist providing fertilizer recommendations and related agricultural advice to a farmer.
+{{#if targetLanguage}}
+Please provide your response in {{{targetLanguage}}}. If {{{targetLanguage}}} is not specified or if you cannot reliably provide a high-quality response in that language, please respond in English.
+{{else}}
+Please provide your response in English.
+{{/if}}
+
 The farmer has provided the following details about their farm and crop:
 - Soil pH: {{{soilPH}}}
 - Soil Organic Carbon: {{{soilOrganicCarbonPercent}}}%

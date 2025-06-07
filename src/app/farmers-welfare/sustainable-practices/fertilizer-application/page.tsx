@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, FlaskConical, Loader2, AlertTriangle, YoutubeIcon, BookOpenText, ListChecks } from 'lucide-react';
+import { ArrowLeft, FlaskConical, Loader2, AlertTriangle, YoutubeIcon, BookOpenText, ListChecks, Languages } from 'lucide-react'; // Added Languages icon
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -38,7 +38,23 @@ const formSchema = z.object({
   waterAvailability: z.enum(["Abundant", "Moderate", "Scarce"], {required_error: "Please select water availability."}).describe('The general availability of water for irrigation (e.g., "Abundant (Canal/Borewell)", "Scarce (Rain-fed)").'),
   farmLocation: z.string().optional().describe('Optional: The general location of the farm (e.g., "Warangal, Telangana, India") for regional considerations.'),
   farmSizeAcres: z.coerce.number().min(0).optional().describe('Optional: The size of the farm in acres. This helps contextualize the scale.'),
+  targetLanguage: z.string({required_error: "Please select a language."}).optional().default("English"),
 });
+
+const indianLanguages = [
+  { value: "English", label: "English" },
+  { value: "Hindi", label: "हिन्दी (Hindi)" },
+  { value: "Telugu", label: "తెలుగు (Telugu)" },
+  { value: "Tamil", label: "தமிழ் (Tamil)" },
+  { value: "Kannada", label: "ಕನ್ನಡ (Kannada)" },
+  { value: "Malayalam", label: "മലയാളം (Malayalam)" },
+  { value: "Marathi", label: "मराठी (Marathi)" },
+  { value: "Bengali", label: "বাংলা (Bengali)" },
+  { value: "Gujarati", label: "ગુજરાતી (Gujarati)" },
+  { value: "Punjabi", label: "ਪੰਜਾਬੀ (Punjabi)" },
+  { value: "Odia", label: "ଓଡ଼ିଆ (Odia)" },
+  { value: "Assamese", label: "অসমীয়া (Assamese)" },
+];
 
 
 export default function FertilizerApplicationPage() {
@@ -66,6 +82,7 @@ export default function FertilizerApplicationPage() {
       waterAvailability: undefined,
       farmLocation: "",
       farmSizeAcres: undefined,
+      targetLanguage: "English",
     },
   });
 
@@ -120,7 +137,7 @@ export default function FertilizerApplicationPage() {
             Efficient Fertilizer Application
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Input your farm and crop details to receive AI-powered fertilizer recommendations, learning tips, and best practices tailored to your specific needs. Remember to scale application rates to your specific land area.
+            Input your farm and crop details to receive AI-powered fertilizer recommendations, learning tips, and best practices tailored to your specific needs. Remember to scale application rates to your specific land area. Select your preferred language for the advice.
           </p>
         </div>
 
@@ -132,6 +149,30 @@ export default function FertilizerApplicationPage() {
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="targetLanguage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center"><Languages className="mr-2 h-5 w-5 text-primary"/>Preferred Language for Advice</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select language" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {indianLanguages.map(lang => (
+                            <SelectItem key={lang.value} value={lang.value}>
+                              {lang.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
@@ -276,7 +317,7 @@ export default function FertilizerApplicationPage() {
                       <FormItem>
                         <FormLabel>Farm Size (Acres) (Optional)</FormLabel>
                         <FormControl>
-                          <Input type="number" step="0.1" placeholder="e.g., 5.5" {...field} />
+                          <Input type="number" step="0.1" placeholder="e.g., 5.5" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -328,6 +369,7 @@ export default function FertilizerApplicationPage() {
             <Card className="w-full max-w-3xl mx-auto shadow-lg border-green-500/50">
               <CardHeader>
                 <CardTitle className="text-2xl text-green-700">AI Fertilizer Recommendation</CardTitle>
+                <CardDescription>Advice generated in: {form.getValues("targetLanguage") || "English"}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
@@ -366,6 +408,7 @@ export default function FertilizerApplicationPage() {
             <Card className="w-full max-w-3xl mx-auto shadow-lg border-blue-500/50">
               <CardHeader>
                 <CardTitle className="text-2xl text-blue-700">Further Learning & Best Practices</CardTitle>
+                 <CardDescription>Advice generated in: {form.getValues("targetLanguage") || "English"}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {recommendation.suggestedVideoTopics && recommendation.suggestedVideoTopics.length > 0 && (
