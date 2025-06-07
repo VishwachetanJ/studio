@@ -3,7 +3,6 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-// import type { Metadata } from 'next'; // For server component metadata
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -12,17 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import React, { useState } from "react";
-
-// export const metadata: Metadata = { ... } // Metadata for server components
-
-const soilProperties = [
-  { id: "ph", label: "pH Level", placeholder: "e.g., 6.5 - 7.5" },
-  { id: "organic_carbon", label: "Organic Carbon (%)", placeholder: "e.g., 0.5 - 0.75%" },
-  { id: "nitrogen", label: "Nitrogen (N) (kg/ha)", placeholder: "e.g., 280-560 kg/ha" },
-  { id: "phosphorus", label: "Phosphorus (P) (kg/ha)", placeholder: "e.g., 10-25 kg/ha" },
-  { id: "potassium", label: "Potassium (K) (kg/ha)", placeholder: "e.g., 120-280 kg/ha" },
-];
+import React, { useState, useEffect } from "react"; // Added useEffect and useState
 
 export default function SoilAnalysisPage() {
   const { toast } = useToast();
@@ -30,6 +19,11 @@ export default function SoilAnalysisPage() {
   const [manualData, setManualData] = useState<Record<string, string>>({});
   const [soilTexture, setSoilTexture] = useState("");
   const [additionalNotes, setAdditionalNotes] = useState("");
+  const [isMounted, setIsMounted] = useState(false); // Added isMounted state
+
+  useEffect(() => { // Added useEffect to set isMounted
+    setIsMounted(true);
+  }, []);
   
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -51,6 +45,10 @@ export default function SoilAnalysisPage() {
       description: "Your soil information has been logged. Analysis features are under development.",
     });
   };
+
+  if (!isMounted) { // Added check for isMounted
+    return null; // Or a loading spinner
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -95,7 +93,13 @@ export default function SoilAnalysisPage() {
                     <Label htmlFor="soilTexture">Predominant Soil Texture</Label>
                     <Input id="soilTexture" value={soilTexture} onChange={(e) => setSoilTexture(e.target.value)} placeholder="e.g., Loamy, Clayey, Sandy, Black Cotton Soil" />
                   </div>
-                  {soilProperties.map(prop => (
+                  {[
+                    { id: "ph", label: "pH Level", placeholder: "e.g., 6.5 - 7.5" },
+                    { id: "organic_carbon", label: "Organic Carbon (%)", placeholder: "e.g., 0.5 - 0.75%" },
+                    { id: "nitrogen", label: "Nitrogen (N) (kg/ha)", placeholder: "e.g., 280-560 kg/ha" },
+                    { id: "phosphorus", label: "Phosphorus (P) (kg/ha)", placeholder: "e.g., 10-25 kg/ha" },
+                    { id: "potassium", label: "Potassium (K) (kg/ha)", placeholder: "e.g., 120-280 kg/ha" },
+                  ].map(prop => (
                     <div key={prop.id} className="mt-3">
                       <Label htmlFor={prop.id}>{prop.label}</Label>
                       <Input 
@@ -139,7 +143,6 @@ export default function SoilAnalysisPage() {
               <p className="text-sm text-center mt-6 text-primary font-semibold">
                 Automated analysis, detailed reports, and crop matching algorithms are under development.
               </p>
-              {/* TODO: Display actual analysis results and recommendations */}
             </CardContent>
           </Card>
         </div>

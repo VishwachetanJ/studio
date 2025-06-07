@@ -3,21 +3,16 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import type { Metadata } from 'next'; // Keep for consistency, though dynamic metadata is for server components
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, Waves, Droplets, Edit3, BarChartHorizontalBig } from 'lucide-react';
+import { ArrowLeft, Waves, Edit3, BarChartHorizontalBig } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import React from "react";
-
-// Dynamic metadata generation is typically for server components.
-// For client components, this would be set in a parent server component or RootLayout.
-// export const metadata: Metadata = { ... }; 
+import React, { useState, useEffect } from "react"; // Added useEffect and useState
 
 const waterSourcesOptions = [
   { id: "borewell", label: "Borewell (Depth, Yield)" },
@@ -36,6 +31,11 @@ export default function WaterResourcesPage() {
     otherSourceDetails: "",
     notes: "",
   });
+  const [isMounted, setIsMounted] = useState(false); // Added isMounted state
+
+  useEffect(() => { // Added useEffect to set isMounted
+    setIsMounted(true);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -59,8 +59,11 @@ export default function WaterResourcesPage() {
       title: "Data Submitted (Demo)",
       description: "Your water resource information has been logged. Analysis features are under development.",
     });
-    // Reset form if needed
   };
+
+  if (!isMounted) { // Added check for isMounted
+    return null; // Or a loading spinner
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -149,7 +152,6 @@ export default function WaterResourcesPage() {
               <p className="text-sm text-center mt-6 text-primary font-semibold">
                 Advanced analysis and personalized recommendations are under development.
               </p>
-              {/* TODO: Display analysis results here, potentially with charts */}
             </CardContent>
           </Card>
         </div>
@@ -158,13 +160,3 @@ export default function WaterResourcesPage() {
     </div>
   );
 }
-
-// It's good practice to define metadata for pages, but for client components, 
-// it's often handled by a parent server component or in RootLayout.
-// If this page were a server component, metadata could be dynamically generated:
-// export async function generateMetadata(): Promise<Metadata> {
-//   return {
-//     title: 'Water Resource Assessment | Smart Crop Selection | Jagruthi',
-//     description: 'Assess water availability for efficient irrigation and crop selection.',
-//   };
-// }
