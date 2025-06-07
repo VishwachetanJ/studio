@@ -43,7 +43,7 @@ export default function WeatherDataPage() {
             Advanced Weather Data
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Access clear and actionable weather information, aiming for the utility and comprehensiveness found in leading mobile weather apps and services like Google Weather. We plan to integrate data from reliable meteorological sources, including ISRO, to help you make informed farming decisions.
+            Access clear and actionable weather information, aiming for the utility and comprehensiveness found in leading mobile weather apps and services like Google Weather. We plan to integrate data from reliable meteorological sources, including ISRO. By utilizing your device's location (with permission), we can provide more precise local weather data, and we are always exploring ways to incorporate more granular data sources, potentially including insights from mobile device capabilities in the future.
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function WeatherDataPage() {
             <p className="text-sm text-center mt-4 text-primary font-semibold">
               Full data integration and interactive charts are under development.
             </p>
-            {/* TODO: Implement backend API calls to fetch real weather data and populate charts */}
+            {/* TODO: Implement backend API calls to real weather data and populate charts */}
           </CardContent>
         </Card>
 
