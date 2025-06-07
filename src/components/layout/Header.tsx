@@ -36,9 +36,6 @@ const allNavLinks = [
   { href: "/admin", label: "Admin Dashboard", icon: UserCog, category: "admin" },
 ];
 
-// DesktopNavLinks are now defined by the DropdownMenu structures below
-// const desktopNavLinks = [...]; // This array is no longer needed for direct links
-
 const aboutDropdownLinks = [
   { href: "/#about", label: "Our Focus" },
   { href: "/#mission", label: "Mission & Vision" },
@@ -56,7 +53,7 @@ const ourWorkHubs = [
   { href: "/farmers-welfare", label: "Farmers Welfare Hub" },
 ];
 
-const moreDropdownLinks = [
+const joinUsDropdownLinks = [
   { href: "/volunteer", label: "Volunteer" },
   { href: "/partner", label: "Partner With Us" },
   { href: "/events", label: "Events" },
@@ -128,16 +125,16 @@ export function Header() {
                 SHOP
             </Link>
 
-            {/* MORE Dropdown */}
+            {/* JOIN US Dropdown (formerly MORE) */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider p-0 hover:bg-transparent">
-                  MORE
+                  JOIN US
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-56">
-                {moreDropdownLinks.map((link) => (
+                {joinUsDropdownLinks.map((link) => (
                   <DropdownMenuItem key={link.href} asChild>
                     <Link href={link.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
                       {link.label}
