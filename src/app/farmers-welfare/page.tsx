@@ -18,10 +18,10 @@ const welfareServices = [
     title: "Sustainable Farming Practices",
     description: "Make informed decisions for sustainable and profitable farming. Our guidance on optimal pesticide/fertilizer use, integrated pest management, soil health, and organic methods leverages insights from weather patterns, seasonal forecasts, your farm's water and soil conditions, and market trends. For the most personalized advice, please utilize our Smart Crop Planning tools and share your farm details via the Farmer Connect program.",
     subPractices: [
-        { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "fertilizer-application" },
-        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "pesticide-use" },
-        { title: "Organic Farming Techniques", icon: Leaf, slug: "organic-farming" },
-        { title: "Soil Health Management", icon: Layers, slug: "soil-health" },
+        { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "/farmers-welfare/sustainable-practices/fertilizer-application" },
+        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "pesticide-use" }, // Placeholder slug
+        { title: "Organic Farming Techniques", icon: Leaf, slug: "organic-farming" }, // Placeholder slug
+        { title: "Soil Health Management", icon: Layers, slug: "soil-health" }, // Placeholder slug
     ]
   },
   {
@@ -104,18 +104,21 @@ export default function FarmersWelfarePage() {
                     <div className="mt-4 pt-4 border-t border-border space-y-2">
                         <p className="text-sm font-semibold text-primary mb-2">Explore Specific Guidance:</p>
                         {service.subPractices.map(practice => (
-                            <Button 
-                                key={practice.slug} 
-                                variant="outline" 
-                                size="sm" 
-                                className="w-full justify-start text-left hover:bg-accent/5 py-3 h-auto"
-                                // onClick={() => console.log(`Navigate to details for ${practice.slug}`)} // Placeholder action
-                            >
-                                <practice.icon className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
-                                <span className="text-sm font-medium text-foreground">{practice.title}</span>
-                            </Button>
+                            <Link key={practice.slug} href={practice.slug} passHref legacyBehavior>
+                                <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="w-full justify-start text-left hover:bg-accent/5 py-3 h-auto"
+                                    // onClick={() => console.log(`Navigate to details for ${practice.slug}`)} // Placeholder action
+                                >
+                                    <practice.icon className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
+                                    <span className="text-sm font-medium text-foreground">{practice.title}</span>
+                                </Button>
+                            </Link>
                         ))}
-                         <p className="text-xs text-muted-foreground mt-2 italic">(Detailed guidance pages coming soon)</p>
+                         <p className="text-xs text-muted-foreground mt-2 italic">
+                           (More detailed guidance pages for other practices coming soon)
+                         </p>
                     </div>
                 )}
                 {service.link && (
@@ -141,7 +144,7 @@ export default function FarmersWelfarePage() {
             </CardHeader>
             <CardContent className="flex-grow space-y-3 text-center">
               <p className="text-sm text-foreground/70 mb-4">
-                Access data-driven insights for your farm. These tools consider factors like weather, soil, water, and market trends to help you plan effectively.
+                Access data-driven insights for your farm. These tools consider factors like weather, soil, water, and market trends to help you plan effectively. The information gathered here can also enhance the advice provided under Sustainable Farming Practices.
               </p>
               <div className="space-y-2">
                 {smartTools.map(tool => (
@@ -178,3 +181,4 @@ export default function FarmersWelfarePage() {
     </div>
   );
 }
+
