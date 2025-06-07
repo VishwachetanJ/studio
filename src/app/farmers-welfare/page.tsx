@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, ClipboardList, Leaf, Store, CloudSun, CalendarClock, Waves, ScanSearch, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ClipboardList, Leaf, Store, CloudSun, CalendarClock, Waves, ScanSearch, TrendingUp, FlaskConical, ShieldCheck, Layers } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Farmers Welfare Hub | Jagruthi',
@@ -17,12 +17,11 @@ const welfareServices = [
     icon: Leaf,
     title: "Sustainable Farming Practices",
     description: "Make informed decisions for sustainable and profitable farming. Our guidance on optimal pesticide/fertilizer use, integrated pest management, soil health, and organic methods leverages insights from weather patterns, seasonal forecasts, your farm's water and soil conditions, and market trends. For the most personalized advice, please utilize our Smart Crop Planning tools and share your farm details via the Farmer Connect program.",
-    detailsHeading: "Key Areas of Guidance:",
-    details: [
-        { text: "Efficient Fertilizer Application Strategies" },
-        { text: "Safe & Effective Pesticide Use Protocols" },
-        { text: "Organic Farming Transition & Techniques" },
-        { text: "Comprehensive Soil Health Management" },
+    subPractices: [
+        { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "fertilizer-application" },
+        { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "pesticide-use" },
+        { title: "Organic Farming Techniques", icon: Leaf, slug: "organic-farming" },
+        { title: "Soil Health Management", icon: Layers, slug: "soil-health" },
     ]
   },
   {
@@ -101,17 +100,22 @@ export default function FarmersWelfarePage() {
               </CardHeader>
               <CardContent className="flex-grow space-y-3 text-center">
                 <p className="text-sm text-foreground/70">{service.description}</p>
-                {service.details && !service.link && ( 
-                    <div className="text-left text-xs text-muted-foreground space-y-1 mt-3 pt-3 border-t border-border">
-                        {service.detailsHeading && <p className="font-semibold text-primary mb-1">{service.detailsHeading}</p>}
-                        <ul className="list-none space-y-1">
-                        {service.details.map(detail => (
-                            <li key={detail.text} className="flex items-center">
-                                {detail.icon && <detail.icon className="h-3.5 w-3.5 mr-2 text-primary flex-shrink-0" />}
-                                <span>{detail.text}</span>
-                            </li>
+                {service.subPractices && (
+                    <div className="mt-4 pt-4 border-t border-border space-y-2">
+                        <p className="text-sm font-semibold text-primary mb-2">Explore Specific Guidance:</p>
+                        {service.subPractices.map(practice => (
+                            <Button 
+                                key={practice.slug} 
+                                variant="outline" 
+                                size="sm" 
+                                className="w-full justify-start text-left hover:bg-accent/5 py-3 h-auto"
+                                // onClick={() => console.log(`Navigate to details for ${practice.slug}`)} // Placeholder action
+                            >
+                                <practice.icon className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
+                                <span className="text-sm font-medium text-foreground">{practice.title}</span>
+                            </Button>
                         ))}
-                        </ul>
+                         <p className="text-xs text-muted-foreground mt-2 italic">(Detailed guidance pages coming soon)</p>
                     </div>
                 )}
                 {service.link && (
@@ -174,4 +178,3 @@ export default function FarmersWelfarePage() {
     </div>
   );
 }
-
