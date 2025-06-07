@@ -164,6 +164,7 @@ export function Header() {
             </div>
             <Link href="/signin" legacyBehavior>
               <Button variant="default" className="text-sm font-medium">
+                <LogIn className="mr-2 h-4 w-4" /> 
                 Sign In
               </Button>
             </Link>
