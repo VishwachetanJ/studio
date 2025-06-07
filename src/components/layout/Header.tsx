@@ -146,7 +146,7 @@ export function Header() {
             </Link>
             <Link href="/signup" legacyBehavior>
               <Button className="text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-5 py-2">
-                Join Now
+                Join Us
               </Button>
             </Link>
           </div>
@@ -204,7 +204,7 @@ export function Header() {
                     </Link>
                     <Link href="/signup" legacyBehavior>
                         <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                            Join Now
+                            Join Us
                         </Button>
                     </Link>
                   </div>
