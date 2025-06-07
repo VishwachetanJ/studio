@@ -14,12 +14,18 @@ export const metadata: Metadata = {
   description: 'Analyze market trends and demand from various sources to make profitable crop choices.',
 };
 
-// Sample data - in a real app, this would come from an API
+// Sample data - in a real app, this would come from an API connecting to a comprehensive global crop database
 const sampleMarketData = [
-  { crop: "Tomato", currentPrice: 25, demandTrend: "High", forecast: "Stable to Rising" },
-  { crop: "Onion", currentPrice: 30, demandTrend: "Medium", forecast: "Stable" },
-  { crop: "Chilli", currentPrice: 120, demandTrend: "High", forecast: "Volatile" },
-  { crop: "Mango (Seasonal)", currentPrice: 80, demandTrend: "Seasonal High", forecast: "Peaking" },
+  { crop: "Tomato (India)", currentPrice: 25, demandTrend: "High", forecast: "Stable to Rising" },
+  { crop: "Onion (India)", currentPrice: 30, demandTrend: "Medium", forecast: "Stable" },
+  { crop: "Chilli (India)", currentPrice: 120, demandTrend: "High", forecast: "Volatile" },
+  { crop: "Mango (Seasonal, India)", currentPrice: 80, demandTrend: "Seasonal High", forecast: "Peaking" },
+  { crop: "Wheat (Global)", currentPrice: 20, demandTrend: "Medium", forecast: "Stable" },
+  { crop: "Corn/Maize (Global)", currentPrice: 18, demandTrend: "High", forecast: "Rising" },
+  { crop: "Soybeans (Global)", currentPrice: 45, demandTrend: "Medium", forecast: "Stable" },
+  { crop: "Coffee (Arabica, Global)", currentPrice: 250, demandTrend: "High", forecast: "Volatile" },
+  { crop: "Rice (Basmati, Export)", currentPrice: 90, demandTrend: "Medium", forecast: "Stable" },
+  { crop: "Potato (India)", currentPrice: 15, demandTrend: "High", forecast: "Stable" },
 ];
 
 export default function MarketTrendsPage() {
@@ -48,8 +54,10 @@ export default function MarketTrendsPage() {
 
         <Card className="shadow-lg border-primary/30 mb-8">
           <CardHeader>
-            <CardTitle className="text-2xl text-primary">Current Market Snapshot (Illustrative)</CardTitle>
-            <CardDescription>Overview of key crop prices and demand signals. (Data is for demonstration)</CardDescription>
+            <CardTitle className="text-2xl text-primary">Current Market Snapshot</CardTitle>
+            <CardDescription>
+              Overview of key crop prices and demand signals. The data below is illustrative; a full implementation would connect to live global market data for comprehensive analysis.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -78,7 +86,7 @@ export default function MarketTrendsPage() {
                 </tbody>
               </table>
             </div>
-            {/* TODO: Implement API calls to fetch live market data */}
+            {/* TODO: Implement API calls to fetch live market data from a comprehensive database */}
           </CardContent>
         </Card>
 
@@ -89,7 +97,7 @@ export default function MarketTrendsPage() {
                 </CardHeader>
                 <CardContent>
                     <p className="text-sm text-foreground/70">
-                        Analysis of online sales data and consumer preferences to identify niche markets and emerging demands. (e.g., organic produce, exotic vegetables).
+                        Analysis of online sales data and consumer preferences to identify niche markets and emerging demands (e.g., organic produce, exotic vegetables).
                     </p>
                     <div className="mt-4 h-40 bg-muted/30 rounded-lg flex items-center justify-center">
                         <p className="text-muted-foreground">E-commerce Trend Chart Area</p>
