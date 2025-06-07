@@ -16,14 +16,9 @@ const welfareServices = [
   {
     icon: ClipboardList,
     title: "Smart Crop Selection",
-    description: "Receive tailored advice on choosing the right crops. We analyze advanced weather forecasts (ISRO, Google Weather), market trends from global/Indian markets and e-commerce sites, water resource availability (borewell, canal, rain-fed), and soil type to help you maximize yield, meet upcoming demand, and build resilience against changing climatic conditions.",
-    details: [
-        { icon: CloudSun, text: "Advanced Weather Data (ISRO, Google)" },
-        { icon: Sun, text: "Seasonal Weather Forecast Integration" },
-        { icon: Droplets, text: "Water Resource Assessment" },
-        { icon: BarChart3, text: "Soil Type Analysis" },
-        { icon: TrendingUp, text: "Market Demand & Trend Analysis" },
-    ]
+    description: "Leverage advanced analytics for crop planning. Access tools for weather data, seasonal forecasts, water resource assessment, soil analysis, and market trends to maximize yield and profitability.",
+    link: "/farmers-welfare/smart-crop-selection", // Updated link
+    linkText: "Access Crop Planning Tools",
   },
   {
     icon: Leaf,
@@ -80,7 +75,7 @@ export default function FarmersWelfarePage() {
               </CardHeader>
               <CardContent className="flex-grow space-y-3 text-center">
                 <p className="text-sm text-foreground/70">{service.description}</p>
-                {service.details && (
+                {service.details && !service.link && ( // Only show details if no link to a sub-page
                     <div className="text-left text-xs text-muted-foreground space-y-1 mt-3 pt-3 border-t border-border">
                         {service.detailsHeading && <p className="font-semibold text-primary mb-1">{service.detailsHeading}</p>}
                         <ul className="list-none space-y-1">
