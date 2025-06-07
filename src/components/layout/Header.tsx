@@ -15,7 +15,7 @@ import {
 // Full list for mobile navigation and potential future "More" dropdowns
 const allNavLinks = [
   { href: "/", label: "Home", icon: HomeIcon, category: "main" },
-  { href: "/#about", label: "About", icon: Eye, category: "main" }, // Added icon for consistency
+  { href: "/#about", label: "About", icon: Eye, category: "main" },
   { href: "/#mission", label: "Mission", icon: Target, category: "main" },
   { href: "/education-hub", label: "Education Hub", icon: BookOpenCheck, category: "programs" },
   { href: "/counseling-hub", label: "Counseling Hub", icon: Lightbulb, category: "programs" },
@@ -30,9 +30,9 @@ const allNavLinks = [
   { href: "/partner", label: "Partner", icon: Handshake, category: "engage" },
   { href: "/events", label: "Events", icon: CalendarDays, category: "engage" },
   { href: "/careers", label: "Careers", icon: Briefcase, category: "engage" },
-  { href: "/#founder", label: "Founder", icon: UserCog, category: "main" }, // Using UserCog as placeholder, could be specific
+  { href: "/#founder", label: "Founder", icon: UserCog, category: "main" },
   { href: "/#achievements", label: "Gallery", icon: GalleryHorizontalEnd, category: "main" },
-  { href: "/admin", label: "Admin Dashboard", icon: TvIcon, category: "admin" }, // Changed UserCog to TvIcon for Admin
+  { href: "/admin", label: "Admin Dashboard", icon: TvIcon, category: "admin" },
 ];
 
 const aboutDropdownLinks = [
@@ -163,7 +163,7 @@ export function Header() {
               </Button>
             </div>
             <Link href="/signin" legacyBehavior>
-              <Button variant="accent" className="text-sm font-medium">
+              <Button variant="default" className="text-sm font-medium">
                 <LogIn className="mr-2 h-4 w-4" /> Sign In
               </Button>
             </Link>
@@ -216,7 +216,7 @@ export function Header() {
                   </div>
                   <div className="p-4 border-t mt-auto space-y-2">
                      <Link href="/signin" legacyBehavior>
-                        <Button variant="accent" className="w-full">
+                        <Button variant="default" className="w-full">
                             <LogIn className="mr-2 h-4 w-4" /> Sign In
                         </Button>
                     </Link>
