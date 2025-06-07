@@ -26,6 +26,10 @@ const sampleMarketData = [
   { crop: "Coffee (Arabica, Global)", currentPrice: 250, demandTrend: "High", forecast: "Volatile" },
   { crop: "Rice (Basmati, Export)", currentPrice: 90, demandTrend: "Medium", forecast: "Stable" },
   { crop: "Potato (India)", currentPrice: 15, demandTrend: "High", forecast: "Stable" },
+  { crop: "Apple (Fuji, Global)", currentPrice: 150, demandTrend: "Medium", forecast: "Stable" },
+  { crop: "Banana (Cavendish, Global)", currentPrice: 40, demandTrend: "High", forecast: "Stable" },
+  { crop: "Cotton (Global)", currentPrice: 200, demandTrend: "Medium", forecast: "Volatile" },
+  { crop: "Sugarcane (India)", currentPrice: 3, demandTrend: "High", forecast: "Stable" },
 ];
 
 export default function MarketTrendsPage() {
@@ -56,7 +60,7 @@ export default function MarketTrendsPage() {
           <CardHeader>
             <CardTitle className="text-2xl text-primary">Current Market Snapshot</CardTitle>
             <CardDescription>
-              Overview of key crop prices and demand signals. The data below is illustrative; a full implementation would connect to live global market data for comprehensive analysis.
+              Overview of key crop prices and demand signals. The data below is illustrative for a broader range of global and Indian crops; a full implementation would connect to live global market data for comprehensive analysis.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -65,7 +69,7 @@ export default function MarketTrendsPage() {
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-3 font-semibold text-muted-foreground">Crop</th>
-                    <th className="text-right p-3 font-semibold text-muted-foreground">Avg. Price (₹/kg)</th>
+                    <th className="text-right p-3 font-semibold text-muted-foreground">Avg. Price (₹/kg Est.)</th>
                     <th className="text-center p-3 font-semibold text-muted-foreground">Demand Trend</th>
                     <th className="text-left p-3 font-semibold text-muted-foreground">Price Forecast</th>
                   </tr>
@@ -97,7 +101,7 @@ export default function MarketTrendsPage() {
                 </CardHeader>
                 <CardContent>
                     <p className="text-sm text-foreground/70">
-                        Analysis of online sales data and consumer preferences to identify niche markets and emerging demands (e.g., organic produce, exotic vegetables).
+                        Analysis of online sales data and consumer preferences from major e-commerce grocery platforms (like Swiggy Instamart, Zepto, Blinkit) and supermarket chains (such as Reliance, D-Mart, Walmart, Big Bazaar, More, Heritage, Rathnadeep) to identify niche markets, emerging demands (e.g., organic produce, exotic vegetables, ready-to-cook kits), and regional buying patterns.
                     </p>
                     <div className="mt-4 h-40 bg-muted/30 rounded-lg flex items-center justify-center">
                         <p className="text-muted-foreground">E-commerce Trend Chart Area</p>
