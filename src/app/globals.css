@@ -102,6 +102,16 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline; /* Apply headline font by default */
+    color: hsl(var(--primary)); /* Apply sunlight gold color by default */
+    text-shadow: /* Black outline */
+      -1px -1px 0 #000,  
+       1px -1px 0 #000,
+      -1px  1px 0 #000,
+       1px  1px 0 #000;
+  }
 }
 
 @layer components {
