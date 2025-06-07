@@ -16,13 +16,13 @@ const welfareServices = [
   {
     icon: Leaf,
     title: "Sustainable Farming Practices",
-    description: "Get expert guidance on optimal and eco-friendly pesticide and fertilizer usage. Learn about integrated pest management, soil health improvement techniques, and organic alternatives to ensure sustainable and profitable farming.",
-    detailsHeading: "Key Areas:",
+    description: "Make informed decisions for sustainable and profitable farming. Our guidance on optimal pesticide/fertilizer use, integrated pest management, soil health, and organic methods leverages insights from weather patterns, seasonal forecasts, your farm's water and soil conditions, and market trends. For the most personalized advice, please utilize our Smart Crop Planning tools and share your farm details via the Farmer Connect program.",
+    detailsHeading: "Key Areas of Guidance:",
     details: [
-        { text: "Efficient Fertilizer Application" },
-        { text: "Safe & Effective Pesticide Use" },
-        { text: "Organic Farming Techniques" },
-        { text: "Soil Health Management" },
+        { text: "Efficient Fertilizer Application Strategies" },
+        { text: "Safe & Effective Pesticide Use Protocols" },
+        { text: "Organic Farming Transition & Techniques" },
+        { text: "Comprehensive Soil Health Management" },
     ]
   },
   {
@@ -37,7 +37,7 @@ const welfareServices = [
 const smartTools = [
   {
     slug: "weather-data",
-    title: "Weather Data",
+    title: "Advanced Weather Data",
     icon: CloudSun,
     link: "/farmers-welfare/smart-crop-selection/weather-data",
   },
@@ -137,7 +137,7 @@ export default function FarmersWelfarePage() {
             </CardHeader>
             <CardContent className="flex-grow space-y-3 text-center">
               <p className="text-sm text-foreground/70 mb-4">
-                Access data-driven insights for your farm.
+                Access data-driven insights for your farm. These tools consider factors like weather, soil, water, and market trends to help you plan effectively.
               </p>
               <div className="space-y-2">
                 {smartTools.map(tool => (
@@ -159,7 +159,7 @@ export default function FarmersWelfarePage() {
             </CardHeader>
             <CardContent className="text-center">
                 <p className="text-foreground/70 mb-6">
-                For tailored guidance specific to your farm, crops, and local conditions, please share your details with us through our Farmer Connect program. Our experts will analyze your information and provide personalized recommendations.
+                For tailored guidance specific to your farm, crops, and local conditions, please share your details with us through our Farmer Connect program. Our experts will analyze your information, considering data from all available tools and your inputs, to provide personalized recommendations.
                 </p>
                 <Link href="/farmer-connect" legacyBehavior>
                     <Button className="bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
