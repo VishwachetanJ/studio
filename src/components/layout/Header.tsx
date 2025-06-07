@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown, Target, Eye } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -16,7 +16,7 @@ import {
 const allNavLinks = [
   { href: "/", label: "Home", icon: HomeIcon, category: "main" },
   { href: "/#about", label: "About", category: "main" },
-  { href: "/#mission", label: "Mission", category: "main" },
+  { href: "/#mission", label: "Mission", icon: Target, category: "main" },
   { href: "/education-hub", label: "Education Hub", icon: BookOpenCheck, category: "programs" },
   { href: "/counseling-hub", label: "Counseling Hub", icon: Lightbulb, category: "programs" },
   { href: "/rural-youth-empowerment", label: "Youth Hub", icon: Users, category: "programs" },
@@ -36,12 +36,15 @@ const allNavLinks = [
   { href: "/admin", label: "Admin Dashboard", icon: UserCog, category: "admin" },
 ];
 
-const desktopNavLinks = [
-  { href: "/#about", label: "ABOUT" },
-  // "OUR WORK" is a dropdown
-  // "MORE" is a dropdown
-  { href: "/shop", label: "SHOP" },
-  { href: "/donate", label: "SUPPORT US" },
+// DesktopNavLinks are now defined by the DropdownMenu structures below
+// const desktopNavLinks = [...]; // This array is no longer needed for direct links
+
+const aboutDropdownLinks = [
+  { href: "/#about", label: "Our Focus" },
+  { href: "/#mission", label: "Mission & Vision" },
+  { href: "/#founder", label: "Founder" },
+  { href: "/#achievements", label: "Gallery" },
+  { href: "/wall-of-fame", label: "Wall of Fame" },
 ];
 
 const ourWorkHubs = [
@@ -54,13 +57,10 @@ const ourWorkHubs = [
 ];
 
 const moreDropdownLinks = [
-  { href: "/wall-of-fame", label: "Wall of Fame" },
   { href: "/volunteer", label: "Volunteer" },
   { href: "/partner", label: "Partner With Us" },
   { href: "/events", label: "Events" },
   { href: "/careers", label: "Careers" },
-  { href: "/#achievements", label: "Gallery" },
-  { href: "/#founder", label: "Founder" },
 ];
 
 
@@ -83,15 +83,25 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
-            {desktopNavLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* ABOUT Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider p-0 hover:bg-transparent">
+                  ABOUT
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-56">
+                {aboutDropdownLinks.map((link) => (
+                  <DropdownMenuItem key={link.href} asChild>
+                    <Link href={link.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
+                      {link.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {/* OUR WORK Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -110,6 +120,13 @@ export function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+            
+            <Link
+                href="/shop"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider"
+              >
+                SHOP
+            </Link>
 
             {/* MORE Dropdown */}
             <DropdownMenu>
@@ -129,6 +146,13 @@ export function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+             <Link
+                href="/donate"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider"
+              >
+                SUPPORT US
+            </Link>
           </nav>
 
           {/* Desktop Right-Side Actions */}
