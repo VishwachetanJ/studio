@@ -47,7 +47,7 @@ export function Footer() {
             </div>
             <div className="space-y-2 text-sm text-foreground/80">
               <p className="flex items-start">
-                <MapPin className="mr-3 h-4 w-4 mt-1 flex-shrink-0 text-accent" />
+                <MapPin className="mr-3 h-3.5 w-3.5 mt-1 flex-shrink-0 text-accent" />
                 <span>{placeholderAddress}</span>
               </p>
               <p className="flex items-center">
