@@ -4,94 +4,92 @@
 
 @layer base {
   :root {
-    --background: 48 89% 70%; /* Golden Yellow */
-    --foreground: 30 50% 15%; /* Dark Brown */
-    --card: 48 89% 75%; /* Slightly Lighter Golden Yellow */
-    --card-foreground: 30 50% 15%; /* Dark Brown */
-    --popover: 48 89% 75%; /* Slightly Lighter Golden Yellow */
-    --popover-foreground: 30 50% 15%; /* Dark Brown */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 15%; /* Dark Gray, almost Black */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 0 0% 15%; /* Dark Gray */
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 0 0% 15%; /* Dark Gray */
     
-    --primary: 50 90% 55%; /* Sunlight Gold */
+    --primary: 158 100% 22%; /* Starbucks Green (approx #00704A) */
     --primary-foreground: 0 0% 100%; /* White */
     
-    --secondary: 45 70% 85%; /* Light Yellow */
-    --secondary-foreground: 30 50% 20%; /* Medium Dark Brown */
+    --secondary: 158 30% 90%; /* Very Light Mint Green (for subtle backgrounds) */
+    --secondary-foreground: 158 80% 20%; /* Darker Green (for text on light green) */
     
-    --muted: 45 70% 90%; /* Very Light Yellow */
-    --muted-foreground: 45 30% 50%; /* Muted Gold/Brown */
+    --muted: 0 0% 95%; /* Light Gray */
+    --muted-foreground: 0 0% 40%; /* Medium Gray */
     
-    --accent: 270 60% 50%; /* Royal Purple */
-    --accent-foreground: 0 0% 98%; /* Off-White */
+    --accent: 0 0% 13%; /* Dark Gray / Off-Black (for buttons/accents on white) */
+    --accent-foreground: 0 0% 98%; /* Off-White (for text on dark accent) */
     
     --destructive: 0 84.2% 60.2%; /* Standard Red */
     --destructive-foreground: 0 0% 98%; /* #FAFAFA White */
     
-    --border: 45 50% 60%; /* Muted Gold Border */
-    --input: 45 50% 60%; /* Muted Gold Input */
-    --ring: 50 90% 50%; /* Darker Gold for focus rings */
+    --border: 0 0% 88%; /* Light Gray Border */
+    --input: 0 0% 88%; /* Light Gray Input Border */
+    --ring: 158 80% 35%; /* Slightly Brighter Starbucks Green (for focus rings) */
 
-    --chart-1: 45 80% 60%; /* Gold-variants for charts */
-    --chart-2: 35 70% 55%;
-    --chart-3: 270 50% 50%;
-    --chart-4: 40 90% 65%;
-    --chart-5: 270 40% 60%;
+    --chart-1: 158 100% 22%; /* Starbucks Green */
+    --chart-2: 158 70% 35%; /* Lighter Green */
+    --chart-3: 30 60% 50%;  /* Muted Brown/Beige */
+    --chart-4: 158 50% 50%; /* Medium Green */
+    --chart-5: 0 0% 40%;    /* Gray */
     --radius: 0.5rem;
 
-    /* Sidebar specific variables - retain for potential use */
-    --sidebar-background: 48 89% 72%; /* Light Golden */
-    --sidebar-foreground: 30 50% 15%; /* Dark Brown */
-    --sidebar-primary: 50 90% 55%; /* Sunlight Gold */
-    --sidebar-primary-foreground: 0 0% 100%; /* White */
-    --sidebar-accent: 270 60% 55%; /* Royal Purple */
-    --sidebar-accent-foreground: 0 0% 98%; /* Off-White */
-    --sidebar-border: 45 50% 60%; /* Muted Gold Border */
-    --sidebar-ring: 50 90% 50%; /* Darker Gold */
-    --icon-gold: 50 100% 50%; /* Gold for icons */
+    /* Sidebar specific variables */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 15%;
+    --sidebar-primary: 158 100% 22%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 13%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 88%;
+    --sidebar-ring: 158 80% 35%;
   }
 
   .dark {
-    --background: 40 10% 10%; /* Very Dark Warm Gray/Brown */
-    --foreground: 45 50% 85%; /* Light Gold */
-    --card: 40 10% 15%; /* Slightly Lighter Dark Warm Gray/Brown */
-    --card-foreground: 45 50% 85%; /* Light Gold */
-    --popover: 40 10% 15%; /* Slightly Lighter Dark Warm Gray/Brown */
-    --popover-foreground: 45 50% 85%; /* Light Gold */
+    --background: 150 7% 12%; /* Very Dark, slightly cool/greenish Gray */
+    --foreground: 0 0% 90%; /* Light Gray / Off-White */
+    --card: 150 7% 15%; /* Slightly Lighter Dark Gray */
+    --card-foreground: 0 0% 90%;
+    --popover: 150 7% 15%;
+    --popover-foreground: 0 0% 90%;
 
-    --primary: 50 90% 65%; /* Brighter Sunlight Gold */
-    --primary-foreground: 40 50% 10%; /* Very Dark Brown */
+    --primary: 158 70% 40%; /* Brighter Starbucks Green for Dark Mode */
+    --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 40 10% 20%; /* Darker Warm Gray/Brown */
-    --secondary-foreground: 45 50% 85%; /* Light Gold */
+    --secondary: 150 7% 20%; /* Darker Gray */
+    --secondary-foreground: 0 0% 80%; /* Lighter Gray */
 
-    --muted: 40 10% 20%; /* Darker Warm Gray/Brown */
-    --muted-foreground: 45 30% 65%; /* Muted Light Gold */
+    --muted: 150 7% 25%; /* Dark Gray */
+    --muted-foreground: 0 0% 60%; /* Medium-Light Gray */
     
-    --accent: 270 60% 60%; /* Lighter Royal Purple */
-    --accent-foreground: 0 0% 98%; /* Off-White */
+    --accent: 0 0% 90%; /* Light Gray / Off-White for accents */
+    --accent-foreground: 150 7% 12%; /* Dark Background for text on light accent */
     
     --destructive: 0 70% 50%; /* Darker Red */
     --destructive-foreground: 0 0% 98%; /* #FAFAFA White */
     
-    --border: 40 10% 25%; /* Medium Dark Warm Gray/Brown Border */
-    --input: 40 10% 25%; /* Medium Dark Warm Gray/Brown Border */
-    --ring: 50 90% 60%; /* Brighter Gold for rings */
+    --border: 150 7% 30%; /* Medium Dark Gray Border */
+    --input: 150 7% 30%;
+    --ring: 158 60% 50%; /* Vibrant Green for focus rings */
 
-    --chart-1: 50 80% 70%; /* Gold-variants for charts */
-    --chart-2: 45 70% 65%;
-    --chart-3: 270 50% 65%;
-    --chart-4: 40 90% 70%;
-    --chart-5: 270 40% 70%;
+    --chart-1: 158 70% 40%; /* Brighter Starbucks Green */
+    --chart-2: 158 50% 55%; /* Lighter Green variant */
+    --chart-3: 30 40% 70%;  /* Light Muted Brown/Beige */
+    --chart-4: 158 40% 65%; /* Medium Green variant */
+    --chart-5: 0 0% 70%;    /* Light Gray */
 
-    /* Sidebar specific variables for dark mode - retain for potential use */
-    --sidebar-background: 40 10% 12%; /* Dark Warm */
-    --sidebar-foreground: 45 50% 85%; /* Light Gold */
-    --sidebar-primary: 50 90% 65%; /* Brighter Gold */
-    --sidebar-primary-foreground: 40 50% 10%; /* Dark Brown */
-    --sidebar-accent: 270 60% 65%; /* Lighter Purple */
-    --sidebar-accent-foreground: 0 0% 98%; /* Off-White */
-    --sidebar-border: 40 10% 25%; /* Dark Warm Border */
-    --sidebar-ring: 50 90% 60%; /* Brighter Gold */
-    --icon-gold: 50 100% 50%; /* Gold for icons */
+    /* Sidebar specific variables for dark mode */
+    --sidebar-background: 150 7% 12%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 158 70% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 90%;
+    --sidebar-accent-foreground: 150 7% 12%;
+    --sidebar-border: 150 7% 30%;
+    --sidebar-ring: 158 60% 50%;
   }
 }
 
@@ -105,17 +103,12 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline; /* Apply headline font by default */
-    color: hsl(var(--primary)); /* Apply sunlight gold color by default */
-    text-shadow: /* Black outline */
-      -1px -1px 0 #000,  
-       1px -1px 0 #000,
-      -1px  1px 0 #000,
-       1px  1px 0 #000;
+    color: hsl(var(--foreground)); /* Default to foreground color */
   }
 }
 
 @layer components {
   .lucide {
-    stroke: hsl(var(--icon-gold));
+    stroke: hsl(var(--primary)); /* Starbucks Green for icons */
   }
 }
