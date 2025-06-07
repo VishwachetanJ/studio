@@ -38,7 +38,8 @@ const allNavLinks = [
 
 const desktopNavLinks = [
   { href: "/#about", label: "ABOUT" },
-  // "OUR WORK" is now a dropdown defined separately
+  // "OUR WORK" is a dropdown
+  // "MORE" is a dropdown
   { href: "/shop", label: "SHOP" },
   { href: "/donate", label: "SUPPORT US" },
 ];
@@ -51,6 +52,17 @@ const ourWorkHubs = [
   { href: "/environmental-sustainability", label: "Environmental Hub" },
   { href: "/farmers-welfare", label: "Farmers Welfare Hub" },
 ];
+
+const moreDropdownLinks = [
+  { href: "/wall-of-fame", label: "Wall of Fame" },
+  { href: "/volunteer", label: "Volunteer" },
+  { href: "/partner", label: "Partner With Us" },
+  { href: "/events", label: "Events" },
+  { href: "/careers", label: "Careers" },
+  { href: "/#achievements", label: "Gallery" },
+  { href: "/#founder", label: "Founder" },
+];
+
 
 export function Header() {
   return (
@@ -93,6 +105,25 @@ export function Header() {
                   <DropdownMenuItem key={hub.href} asChild>
                     <Link href={hub.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
                       {hub.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* MORE Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider p-0 hover:bg-transparent">
+                  MORE
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-56">
+                {moreDropdownLinks.map((link) => (
+                  <DropdownMenuItem key={link.href} asChild>
+                    <Link href={link.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
+                      {link.label}
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -186,3 +217,4 @@ export function Header() {
     </header>
   );
 }
+
