@@ -2,100 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
-    --background: 0 0% 100%; /* #FFFFFF White */
-    --foreground: 224 71.4% 4.1%; /* #070E14 Dark Blue/Black */
-    --card: 0 0% 100%; /* #FFFFFF White */
-    --card-foreground: 224 71.4% 4.1%; /* #070E14 Dark Blue/Black */
-    --popover: 0 0% 100%; /* #FFFFFF White */
-    --popover-foreground: 224 71.4% 4.1%; /* #070E14 Dark Blue/Black */
+    --background: 48 89% 70%; /* Golden Yellow */
+    --foreground: 30 50% 15%; /* Dark Brown */
+    --card: 48 89% 75%; /* Slightly Lighter Golden Yellow */
+    --card-foreground: 30 50% 15%; /* Dark Brown */
+    --popover: 48 89% 75%; /* Slightly Lighter Golden Yellow */
+    --popover-foreground: 30 50% 15%; /* Dark Brown */
     
-    --primary: 330 85% 55%; /* #F23886 Vibrant Pink */
-    --primary-foreground: 0 0% 98%; /* #FAFAFA Off-White */
+    --primary: 50 90% 55%; /* Sunlight Gold */
+    --primary-foreground: 0 0% 100%; /* White */
     
-    --secondary: 215 27.9% 95%; /* #F0F3F7 Very Light Blue/Gray */
-    --secondary-foreground: 224 71.4% 4.1%; /* #070E14 Dark Blue/Black */
+    --secondary: 45 70% 85%; /* Light Yellow */
+    --secondary-foreground: 30 50% 20%; /* Medium Dark Brown */
     
-    --muted: 215 27.9% 95%; /* #F0F3F7 Very Light Blue/Gray */
-    --muted-foreground: 215 20.2% 65.1%; /* #9AA7B8 Medium Gray */
+    --muted: 45 70% 90%; /* Very Light Yellow */
+    --muted-foreground: 45 30% 50%; /* Muted Gold/Brown */
     
-    --accent: 30 95% 55%; /* #FB7B18 Vibrant Orange */
-    --accent-foreground: 0 0% 98%; /* #FAFAFA Off-White */
+    --accent: 270 60% 50%; /* Royal Purple */
+    --accent-foreground: 0 0% 98%; /* Off-White */
     
     --destructive: 0 84.2% 60.2%; /* Standard Red */
     --destructive-foreground: 0 0% 98%; /* #FAFAFA White */
     
-    --border: 215 20.2% 90%; /* #E0E5EB Light Gray/Blue Border */
-    --input: 215 20.2% 90%; /* #E0E5EB Light Gray/Blue Input */
-    --ring: 330 85% 50%; /* #EC2F7D Darker Pink for focus rings */
+    --border: 45 50% 60%; /* Muted Gold Border */
+    --input: 45 50% 60%; /* Muted Gold Input */
+    --ring: 50 90% 50%; /* Darker Gold for focus rings */
 
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 45 80% 60%; /* Gold-variants for charts */
+    --chart-2: 35 70% 55%;
+    --chart-3: 270 50% 50%;
+    --chart-4: 40 90% 65%;
+    --chart-5: 270 40% 60%;
     --radius: 0.5rem;
 
     /* Sidebar specific variables - retain for potential use */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --icon-gold: 45 100% 50%; /* Gold for icon outlines - can be re-evaluated */
+    --sidebar-background: 48 89% 72%; /* Light Golden */
+    --sidebar-foreground: 30 50% 15%; /* Dark Brown */
+    --sidebar-primary: 50 90% 55%; /* Sunlight Gold */
+    --sidebar-primary-foreground: 0 0% 100%; /* White */
+    --sidebar-accent: 270 60% 55%; /* Royal Purple */
+    --sidebar-accent-foreground: 0 0% 98%; /* Off-White */
+    --sidebar-border: 45 50% 60%; /* Muted Gold Border */
+    --sidebar-ring: 50 90% 50%; /* Darker Gold */
+    --icon-gold: 50 100% 50%; /* Gold for icons */
   }
 
   .dark {
-    --background: 224 71.4% 4.1%; /* #070E14 Very Dark Blue/Black */
-    --foreground: 0 0% 98%; /* #FAFAFA Off-White */
-    --card: 224 71.4% 6.1%; /* #0A131C Slightly Lighter Dark Blue */
-    --card-foreground: 0 0% 98%; /* #FAFAFA Off-White */
-    --popover: 224 71.4% 6.1%; /* #0A131C */
-    --popover-foreground: 0 0% 98%; /* #FAFAFA */
+    --background: 40 10% 10%; /* Very Dark Warm Gray/Brown */
+    --foreground: 45 50% 85%; /* Light Gold */
+    --card: 40 10% 15%; /* Slightly Lighter Dark Warm Gray/Brown */
+    --card-foreground: 45 50% 85%; /* Light Gold */
+    --popover: 40 10% 15%; /* Slightly Lighter Dark Warm Gray/Brown */
+    --popover-foreground: 45 50% 85%; /* Light Gold */
 
-    --primary: 330 85% 60%; /* #F55396 Lighter Vibrant Pink for Dark Mode */
-    --primary-foreground: 0 0% 98%; /* #FAFAFA Off-White */
+    --primary: 50 90% 65%; /* Brighter Sunlight Gold */
+    --primary-foreground: 40 50% 10%; /* Very Dark Brown */
 
-    --secondary: 224 71.4% 10.1%; /* #101B28 Darker Gray/Blue */
-    --secondary-foreground: 0 0% 98%; /* #FAFAFA Off-White */
+    --secondary: 40 10% 20%; /* Darker Warm Gray/Brown */
+    --secondary-foreground: 45 50% 85%; /* Light Gold */
 
-    --muted: 224 71.4% 10.1%; /* #101B28 */
-    --muted-foreground: 215 20.2% 75.1%; /* #B8C2D0 Lighter Gray Text */
+    --muted: 40 10% 20%; /* Darker Warm Gray/Brown */
+    --muted-foreground: 45 30% 65%; /* Muted Light Gold */
     
-    --accent: 30 95% 60%; /* #FC8F36 Lighter Vibrant Orange for Dark Mode */
-    --accent-foreground: 0 0% 98%; /* #FAFAFA White */
+    --accent: 270 60% 60%; /* Lighter Royal Purple */
+    --accent-foreground: 0 0% 98%; /* Off-White */
     
     --destructive: 0 70% 50%; /* Darker Red */
     --destructive-foreground: 0 0% 98%; /* #FAFAFA White */
     
-    --border: 224 71.4% 15.1%; /* #1B293B Medium Dark Gray/Blue Border */
-    --input: 224 71.4% 15.1%; /* #1B293B */
-    --ring: 330 85% 55%; /* #F23886 Pink for rings in dark mode */
+    --border: 40 10% 25%; /* Medium Dark Warm Gray/Brown Border */
+    --input: 40 10% 25%; /* Medium Dark Warm Gray/Brown Border */
+    --ring: 50 90% 60%; /* Brighter Gold for rings */
 
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 50 80% 70%; /* Gold-variants for charts */
+    --chart-2: 45 70% 65%;
+    --chart-3: 270 50% 65%;
+    --chart-4: 40 90% 70%;
+    --chart-5: 270 40% 70%;
 
     /* Sidebar specific variables for dark mode - retain for potential use */
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --icon-gold: 45 100% 50%; 
+    --sidebar-background: 40 10% 12%; /* Dark Warm */
+    --sidebar-foreground: 45 50% 85%; /* Light Gold */
+    --sidebar-primary: 50 90% 65%; /* Brighter Gold */
+    --sidebar-primary-foreground: 40 50% 10%; /* Dark Brown */
+    --sidebar-accent: 270 60% 65%; /* Lighter Purple */
+    --sidebar-accent-foreground: 0 0% 98%; /* Off-White */
+    --sidebar-border: 40 10% 25%; /* Dark Warm Border */
+    --sidebar-ring: 50 90% 60%; /* Brighter Gold */
+    --icon-gold: 50 100% 50%; /* Gold for icons */
   }
 }
 
@@ -110,6 +106,6 @@ body {
 
 @layer components {
   .lucide {
-    stroke: hsl(var(--icon-gold)); /* Consider changing this if gold clashes */
+    stroke: hsl(var(--icon-gold));
   }
 }
