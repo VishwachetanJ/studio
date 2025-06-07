@@ -10,7 +10,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const FertilizerRecommendationInputSchema = z.object({
+const FertilizerRecommendationInputSchema = z.object({
   soilPH: z.number().min(0).max(14).describe('The pH level of the soil (e.g., 6.5).'),
   soilOrganicCarbonPercent: z.number().min(0).max(100).describe('The percentage of organic carbon in the soil (e.g., 0.7).'),
   soilNitrogenKgHa: z.number().min(0).describe('Available Nitrogen (N) in the soil in kg/ha (e.g., 250).'),
@@ -32,7 +32,7 @@ const RecommendedFertilizerSchema = z.object({
   method: z.string().describe('Recommended application method (e.g., "Broadcasting and incorporation", "Band placement near roots", "Foliar spray").'),
 });
 
-export const FertilizerRecommendationOutputSchema = z.object({
+const FertilizerRecommendationOutputSchema = z.object({
   recommendations: z.array(RecommendedFertilizerSchema).describe('A list of specific fertilizer recommendations for different nutrients.'),
   generalAdvice: z.string().describe('Overall advice, tips for soil health, or other considerations related to fertilizer application.'),
   warnings: z.string().optional().describe('Any specific warnings or precautions to take (e.g., "Avoid over-application of Urea to prevent lodging in wheat.").'),

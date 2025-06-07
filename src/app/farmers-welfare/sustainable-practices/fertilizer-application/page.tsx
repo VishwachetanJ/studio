@@ -3,12 +3,11 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import type { Metadata } from 'next'; // Keep for potential future use if metadata becomes dynamic
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ArrowLeft, FlaskConical, Loader2, AlertTriangle } from 'lucide-react';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
@@ -20,19 +19,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea"; // Textarea was missing an import
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect } from "react";
-import { recommendFertilizers, FertilizerRecommendationInputSchema, type FertilizerRecommendationInput, type FertilizerRecommendationOutput } from "@/ai/flows/fertilizer-recommendation-flow";
+import { recommendFertilizers, type FertilizerRecommendationInput, type FertilizerRecommendationOutput } from "@/ai/flows/fertilizer-recommendation-flow";
 
-// Metadata object (commented out as it's for server components, but good for reference)
-// export const metadata: Metadata = {
-//   title: 'Efficient Fertilizer Application | Farmers Welfare | Jagruthi',
-//   description: 'Get AI-powered fertilizer recommendations based on your farm\'s specific conditions.',
-// };
+// Define the schema directly in the client component
+const formSchema = z.object({
+  soilPH: z.number().min(0).max(14).describe('The pH level of the soil (e.g., 6.5).'),
+  soilOrganicCarbonPercent: z.number().min(0).max(100).describe('The percentage of organic carbon in the soil (e.g., 0.7).'),
+  soilNitrogenKgHa: z.number().min(0).describe('Available Nitrogen (N) in the soil in kg/ha (e.g., 250).'),
+  soilPhosphorusKgHa: z.number().min(0).describe('Available Phosphorus (P) in the soil in kg/ha (e.g., 20).'),
+  soilPotassiumKgHa: z.number().min(0).describe('Available Potassium (K) in the soil in kg/ha (e.g., 180).'),
+  soilTexture: z.string().min(1,{message: "Soil texture is required."}).describe('The texture of the soil (e.g., "Loamy", "Sandy Clay", "Black Cotton Soil").'),
+  cropName: z.string().min(1, {message: "Crop name is required."}).describe('The name of the crop being cultivated (e.g., "Rice", "Cotton", "Tomato").'),
+  currentSeason: z.enum(["Kharif", "Rabi", "Zaid", "Other"], {required_error: "Please select a season."}).describe('The current growing season (e.g., "Kharif (June-Oct)", "Rabi (Nov-Mar)").'),
+  waterAvailability: z.enum(["Abundant", "Moderate", "Scarce"], {required_error: "Please select water availability."}).describe('The general availability of water for irrigation (e.g., "Abundant (Canal/Borewell)", "Scarce (Rain-fed)").'),
+  farmLocation: z.string().optional().describe('Optional: The general location of the farm (e.g., "Warangal, Telangana, India") for regional considerations.'),
+});
 
-const formSchema = FertilizerRecommendationInputSchema; // Use the schema from the flow
 
 export default function FertilizerApplicationPage() {
   const { toast } = useToast();
@@ -346,4 +352,3 @@ export default function FertilizerApplicationPage() {
     </div>
   );
 }
-
