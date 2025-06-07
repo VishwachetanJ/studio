@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowLeft, CloudSun, Thermometer, Wind, BarChartBig } from 'lucide-react';
+import { ArrowLeft, CloudSun, Thermometer, Wind, Droplets, BarChartBig } from 'lucide-react'; // Added Droplets
 // TODO: Import charting libraries if needed, e.g., Recharts for Shadcn Charts
 
 export const metadata: Metadata = {
@@ -43,7 +43,7 @@ export default function WeatherDataPage() {
             Advanced Weather Data
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Monitor current conditions and analyze historical weather patterns from sources like ISRO and Google Weather to make informed farming decisions.
+            Access clear and actionable weather information, aiming for the utility and comprehensiveness found in leading mobile weather apps and services like Google Weather. We plan to integrate data from reliable meteorological sources, including ISRO, to help you make informed farming decisions.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export default function WeatherDataPage() {
               <p className="text-sm text-muted-foreground">Wind</p>
             </div>
             <div className="p-4 bg-muted/50 rounded-lg text-center">
-              <Droplets className="h-8 w-8 text-accent mx-auto mb-2" /> {/* Using Droplets for Humidity */}
+              <Droplets className="h-8 w-8 text-accent mx-auto mb-2" />
               <p className="font-semibold text-lg">{sampleWeatherData.current.humidity}</p>
               <p className="text-sm text-muted-foreground">Humidity</p>
             </div>
