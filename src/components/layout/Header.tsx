@@ -1,10 +1,16 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, CalendarCheck, BookUser } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Full list for mobile navigation and potential future "More" dropdowns
 const allNavLinks = [
@@ -32,9 +38,18 @@ const allNavLinks = [
 
 const desktopNavLinks = [
   { href: "/#about", label: "ABOUT" },
-  { href: "/education-hub", label: "OUR WORK" }, // Example primary program link
+  // "OUR WORK" is now a dropdown defined separately
   { href: "/shop", label: "SHOP" },
   { href: "/donate", label: "SUPPORT US" },
+];
+
+const ourWorkHubs = [
+  { href: "/education-hub", label: "Education Hub" },
+  { href: "/counseling-hub", label: "Counseling Hub" },
+  { href: "/rural-youth-empowerment", label: "Youth Empowerment Hub" },
+  { href: "/womens-empowerment", label: "Women's Empowerment Hub" },
+  { href: "/environmental-sustainability", label: "Environmental Hub" },
+  { href: "/farmers-welfare", label: "Farmers Welfare Hub" },
 ];
 
 export function Header() {
@@ -65,6 +80,24 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            {/* OUR WORK Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200 uppercase tracking-wider p-0 hover:bg-transparent">
+                  OUR WORK
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-56">
+                {ourWorkHubs.map((hub) => (
+                  <DropdownMenuItem key={hub.href} asChild>
+                    <Link href={hub.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
+                      {hub.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Desktop Right-Side Actions */}
