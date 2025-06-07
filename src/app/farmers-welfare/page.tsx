@@ -21,7 +21,7 @@ const welfareServices = [
         { title: "Efficient Fertilizer Application", icon: FlaskConical, slug: "/farmers-welfare/sustainable-practices/fertilizer-application" },
         { title: "Safe & Effective Pesticide Use", icon: ShieldCheck, slug: "/farmers-welfare/sustainable-practices/pesticide-use" }, // Placeholder slug, update when page is ready
         { title: "Organic Farming Techniques", icon: Leaf, slug: "/farmers-welfare/sustainable-practices/organic-farming" }, 
-        { title: "Soil Health Management", icon: Layers, slug: "/farmers-welfare/sustainable-practices/soil-health" }, // Placeholder slug
+        { title: "Soil Health Management", icon: Layers, slug: "/farmers-welfare/sustainable-practices/soil-health" }, 
     ]
   },
   {
@@ -179,3 +179,4 @@ export default function FarmersWelfarePage() {
     </div>
   );
 }
+
