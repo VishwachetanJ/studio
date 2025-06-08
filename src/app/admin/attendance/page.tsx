@@ -83,39 +83,45 @@ export default function AttendancePage() {
   const numberOfMonthsToDisplay = viewMode === 'year' ? 12 : 1;
 
   const calendarGridClassNames = {
-    months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-1 justify-center",
-    month: "border rounded-lg p-2 sm:p-3 bg-background shadow-sm flex flex-col", 
-    caption: "flex justify-center pt-1 relative items-center mb-2", 
-    caption_label: "text-sm sm:text-base font-semibold text-center block w-full", 
-    nav_button: "hidden", 
-    table: "w-full border-collapse mt-1", 
-    head_row: "flex justify-around mb-1",
-    head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center",
-    row: "flex w-full mt-0.5 justify-around",
-    cell: "h-7 w-7 sm:h-8 sm:w-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center", 
+    // Container for all 12 month blocks
+    months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 justify-center", // Increased gap
+    // Individual month block
+    month: "border rounded-lg p-3 sm:p-4 bg-background shadow-md flex flex-col min-h-0", // Increased padding, added shadow-md for better separation
+    // Month name above days
+    caption: "flex justify-center pt-1 relative items-center mb-2.5", 
+    caption_label: "text-sm sm:text-base font-semibold text-center block w-full",
+    nav_button: "hidden", // Custom navigation handles this
+    // Table containing days
+    table: "w-full border-collapse mt-2", 
+    // Row for day names (S M T W T F S)
+    head_row: "flex justify-around mb-1.5", 
+    head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center", // Day name cells
+    // Week row
+    row: "flex w-full mt-1 justify-around", 
+    // Day number cell container
+    cell: "h-7 w-7 sm:h-8 sm:h-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center", 
+    // Clickable day element
     day: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-7 w-7 sm:h-8 sm:w-8 p-0 font-normal aria-selected:opacity-100 rounded-full"
+      "h-7 w-7 sm:h-8 sm:h-8 p-0 font-normal aria-selected:opacity-100 rounded-full"
     ),
     day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
     day_today: "bg-accent text-accent-foreground",
-    day_outside: "day-outside text-muted-foreground opacity-30",
+    day_outside: "day-outside text-muted-foreground opacity-20", // Made outside days much fainter
   };
 
   const calendarSingleMonthClassNames = {
-    // Default ShadCN styles will apply, but we can override if needed
-    month: "space-y-4", // Standard spacing for single month
+    month: "space-y-4", 
     caption: "flex justify-center pt-1 relative items-center",
-    caption_label: "text-sm font-medium", // Standard caption label
-    nav_button: "hidden", // Still hide default nav if controlled by our dropdowns
-     // Other styles can be default or slightly adjusted
+    caption_label: "text-sm font-medium", 
+    nav_button: "hidden", 
     day: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-9 w-9 p-0 font-normal aria-selected:opacity-100" // Standard day size
+      "h-9 w-9 p-0 font-normal aria-selected:opacity-100" 
     ),
     day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
     day_today: "bg-accent text-accent-foreground",
-    day_outside: "day-outside text-muted-foreground opacity-50", // Standard opacity for outside days
+    day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:opacity-100", 
   };
 
 
@@ -243,16 +249,16 @@ export default function AttendancePage() {
                       }
                     </p>
                   <Calendar
-                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`} // Add key to help React re-render if major props change
+                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`}
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
                     month={initialCalendarMonth} 
                     numberOfMonths={numberOfMonthsToDisplay}
-                    disableNavigation // Always disable internal navigation, use our dropdowns
+                    disableNavigation 
                     className={cn(
-                        "w-full border-0 shadow-none p-1 sm:p-2",
-                        viewMode === 'month' ? "max-w-md mx-auto" : "" // Center single month view
+                        "w-full border-0 shadow-none",
+                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2" 
                     )}
                     classNames={viewMode === 'year' ? calendarGridClassNames : calendarSingleMonthClassNames}
                     modifiers={{ holiday: holidayMatcher }}
@@ -345,6 +351,5 @@ export default function AttendancePage() {
     </div>
   );
 }
-
 
     
