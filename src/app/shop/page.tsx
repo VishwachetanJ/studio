@@ -21,6 +21,8 @@ const initialSampleProducts: Product[] = [
   { id: '4', name: 'Handmade Soap', farmerName: 'Asha Self-Help Group', price: 6.25, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'handmade soap', description: 'Artisanal soap made with natural ingredients.' },
   { id: '5', name: 'Seasonal Vegetables Basket', farmerName: 'Community Farm', price: 22.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'vegetable basket', description: 'A curated basket of fresh, seasonal vegetables.', subscribable: true },
   { id: '6', name: 'Millet Flour (1kg)', farmerName: 'Farmer Govind', price: 3.75, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'flour bag', description: 'Healthy and nutritious millet flour, stone-ground.' },
+  { id: '7', name: 'Basmati Rice (5kg Bag)', farmerName: 'Farmer Priya', price: 12.99, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'rice bag', description: 'Premium quality Basmati rice, aged for aroma and flavor.', subscribable: true },
+  { id: '8', name: 'Whole Wheat Flour (5kg Bag)', farmerName: 'Farmer Anand', price: 7.50, imageUrl: 'https://placehold.co/400x300.png', imageHint: 'wheat flour', description: 'Freshly milled whole wheat atta, perfect for rotis and bread.' },
 ];
 
 export default function ShopPage() {
@@ -146,3 +148,4 @@ export default function ShopPage() {
     </div>
   );
 }
+
