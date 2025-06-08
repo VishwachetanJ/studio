@@ -16,11 +16,21 @@ import { buttonVariants } from "@/components/ui/button";
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+const generateYearOptions = () => {
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let i = currentYear - 10; i <= currentYear + 5; i++) {
+    years.push(i);
+  }
+  return years;
+};
+
 export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined); 
   const [displayYear, setDisplayYear] = useState<number>(new Date().getFullYear());
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth());
   const [isMounted, setIsMounted] = useState(false);
+  const yearOptions = useMemo(() => generateYearOptions(), []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -53,13 +63,8 @@ export default function AttendancePage() {
   // The theme's destructive color is 0 84.2% 60.2%
   const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' };
 
-
-  const handlePreviousYear = () => {
-    setDisplayYear(prevYear => prevYear - 1);
-  };
-
-  const handleNextYear = () => {
-    setDisplayYear(prevYear => prevYear + 1);
+  const handleYearChange = (value: string) => {
+    setDisplayYear(parseInt(value, 10));
   };
 
   const handleMonthChange = (value: string) => {
@@ -161,15 +166,18 @@ export default function AttendancePage() {
               <CardContent className="space-y-4">
                 <div className="bg-card border rounded-lg shadow-sm">
                   <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 py-3 px-2 border-b">
-                    <div className="flex items-center space-x-2">
-                      <Button variant="outline" size="icon" onClick={handlePreviousYear} aria-label="Previous Year">
-                        <ChevronLeft className="h-5 w-5" />
-                      </Button>
-                      <span className="text-lg font-semibold text-primary tabular-nums w-16 text-center">{displayYear}</span>
-                      <Button variant="outline" size="icon" onClick={handleNextYear} aria-label="Next Year">
-                        <ChevronRight className="h-5 w-5" />
-                      </Button>
-                    </div>
+                    <Select value={displayYear.toString()} onValueChange={handleYearChange}>
+                      <SelectTrigger className="w-full sm:w-[120px]">
+                        <SelectValue placeholder="Select year" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {yearOptions.map((year) => (
+                          <SelectItem key={year} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <Select value={selectedMonthIndex.toString()} onValueChange={handleMonthChange}>
                       <SelectTrigger className="w-full sm:w-[180px]">
                         <SelectValue placeholder="Select month" />
@@ -302,3 +310,4 @@ export default function AttendancePage() {
     </div>
   );
 }
+
