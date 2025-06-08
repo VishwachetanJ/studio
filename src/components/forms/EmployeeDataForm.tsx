@@ -46,6 +46,30 @@ const departments = [
   "Other",
 ] as const;
 
+const designations = [
+  "Project Manager",
+  "Field Officer",
+  "Program Coordinator",
+  "Counselor",
+  "Accountant",
+  "HR Manager",
+  "IT Specialist",
+  "Administrative Assistant",
+  "Social Worker",
+  "Director",
+  "Founder",
+  "Team Lead",
+  "Volunteer Coordinator",
+  "Operations Manager",
+  "Communications Officer",
+  "Data Analyst",
+  "Researcher",
+  "Trainer",
+  "Consultant",
+  "Intern",
+  "Other",
+] as const;
+
 const employeeDataFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   employeeId: z.string().min(1, { message: "Employee ID is required." }),
@@ -53,7 +77,7 @@ const employeeDataFormSchema = z.object({
   phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
   dateOfJoining: z.date({ required_error: "Date of joining is required." }),
   department: z.enum(departments, { required_error: "Please select a department." }),
-  designation: z.string().min(2, { message: "Designation must be at least 2 characters." }),
+  designation: z.enum(designations, { required_error: "Please select a designation." }),
   address: z.string().min(10, { message: "Address must be at least 10 characters." }).optional(),
   emergencyContactName: z.string().min(2, { message: "Emergency contact name is required." }),
   emergencyContactPhone: z.string().min(10, { message: "Emergency contact phone must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
@@ -78,7 +102,7 @@ export function EmployeeDataForm() {
       phone: "",
       dateOfJoining: undefined,
       department: undefined,
-      designation: "",
+      designation: undefined,
       address: "",
       emergencyContactName: "",
       emergencyContactPhone: "",
@@ -232,9 +256,20 @@ export function EmployeeDataForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Designation</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Project Manager, Field Officer" {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a designation" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {designations.map((designation) => (
+                          <SelectItem key={designation} value={designation}>
+                            {designation}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
