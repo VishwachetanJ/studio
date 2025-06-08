@@ -5,13 +5,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction, AlertTriangle, Edit } from 'lucide-react';
+import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction, AlertTriangle, Edit, UserCog } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,7 @@ interface SampleLeave {
 
 export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [hrSelectedDate, setHrSelectedDate] = useState<Date | undefined>(new Date());
   const [displayYear, setDisplayYear] = useState<number>(new Date().getFullYear());
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth());
   const [viewMode, setViewMode] = useState<'month' | 'year'>('year');
@@ -70,7 +72,7 @@ export default function AttendancePage() {
       { date: new Date(displayYear, 6, 1), type: 'unplanned', description: 'Urgent Personal' }, 
       { date: new Date(displayYear, 8, 15), type: 'planned', description: 'Vacation' }, 
       { date: new Date(displayYear, 10, 10), type: 'planned', description: 'Vacation' }, 
-      { date: new Date(displayYear, 0, 7), type: 'planned', description: 'Sunday Leave' }, 
+      { date: new Date(displayYear, 0, 7), type: 'planned', description: 'Sunday Leave' }, // Example for style precedence
     ];
   }, [displayYear]);
 
@@ -103,7 +105,7 @@ export default function AttendancePage() {
       date.getDate() === leave.date.getDate()
     );
   };
-
+  
   const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' }; 
   const plannedLeaveStyle = { color: 'hsl(120, 60%, 35%)', fontWeight: 'bold' }; 
   const unplannedLeaveStyle = { color: 'hsl(270, 60%, 55%)', fontWeight: 'bold' };
@@ -122,10 +124,10 @@ export default function AttendancePage() {
   };
   
   const handleManualUpdate = () => {
-    if (!selectedDate) {
+    if (!hrSelectedDate) {
       toast({
-        title: "No Date Selected",
-        description: "Please select a date on the calendar to update attendance.",
+        title: "No Date Selected in HR Panel",
+        description: "Please select a date from the HR panel calendar to update attendance.",
         variant: "destructive",
       });
       return;
@@ -133,7 +135,7 @@ export default function AttendancePage() {
     // In a real app, you'd get employee ID and new status from inputs
     toast({
       title: "Manual Update (Demo)",
-      description: `Attendance for ${selectedDate.toLocaleDateString()} would be updated. Backend not connected.`,
+      description: `Attendance for ${hrSelectedDate.toLocaleDateString()} would be updated for the specified employee. Backend not connected.`,
     });
   };
 
@@ -332,14 +334,14 @@ export default function AttendancePage() {
                   />
                   {selectedDate && (
                     <p className="mt-3 text-sm text-center text-primary p-2 border-t">
-                      Selected Date: {selectedDate.toLocaleDateString()}
+                      Main Calendar Selected Date: {selectedDate.toLocaleDateString()}
                     </p>
                   )}
                   {!selectedDate && (
                      <p className="mt-3 text-sm text-center text-muted-foreground p-2 border-t">
                       {viewMode === 'year'
-                        ? `Full year view for ${displayYear}. Click a date to select. Month focus: ${MONTH_NAMES[selectedMonthIndex]}.`
-                        : `Month view for ${MONTH_NAMES[selectedMonthIndex]} ${displayYear}. Click a date to select.`
+                        ? `Full year view for ${displayYear}. Click a date to select on main calendar. Month focus: ${MONTH_NAMES[selectedMonthIndex]}.`
+                        : `Month view for ${MONTH_NAMES[selectedMonthIndex]} ${displayYear}. Click a date to select on main calendar.`
                       }
                     </p>
                   )}
@@ -349,18 +351,31 @@ export default function AttendancePage() {
                    </div>
                 </div>
 
-                <Separator className="my-6" />
+                <p className="text-sm text-foreground/70 font-semibold pt-4">Planned Data Sources & Features:</p>
+                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-4">
+                    <li className="flex items-center"><Fingerprint className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Biometric Systems Integration</li>
+                    <li className="flex items-center"><MapPin className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> GPS-based Attendance (for field staff)</li>
+                    <li className="flex items-center"><Users className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Manual Entry/Correction (by HR via controls below)</li>
+                </ul>
+                <Button variant="outline" size="sm" disabled className="mt-2">View Full Attendance Logs (Coming Soon)</Button>
+              </CardContent>
+            </Card>
 
-                <div className="space-y-4 p-4 border rounded-md bg-muted/20">
-                  <h4 className="text-md font-semibold text-primary flex items-center"><Edit className="mr-2 h-5 w-5"/>Manual Attendance Management (HR)</h4>
-                  <p className="text-xs text-muted-foreground">Select a date on the calendar above, then use the options below to manually record or update attendance. (This is a UI demo).</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Card className="border-primary/30">
+              <CardHeader>
+                <CardTitle className="text-lg text-primary flex items-center"><UserCog className="mr-2 h-5 w-5"/>HR Manual Attendance Override</CardTitle>
+                <CardDescription className="text-xs">Authorized HR personnel can manually update or record attendance for specific employees.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  <div className="space-y-4">
                     <div>
-                      <Label htmlFor="hrEmployeeId" className="text-xs">Employee ID</Label>
+                      <Label htmlFor="hrEmployeeId" className="text-sm">Employee ID</Label>
                       <Input id="hrEmployeeId" placeholder="Enter Employee ID" disabled className="mt-1"/>
+                       <p className="text-xs text-muted-foreground mt-1">Employee ID field (backend integration needed).</p>
                     </div>
                     <div>
-                      <Label htmlFor="hrAttendanceStatus" className="text-xs">New Attendance Status</Label>
+                      <Label htmlFor="hrAttendanceStatus" className="text-sm">New Attendance Status</Label>
                       <Select disabled>
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select status" />
@@ -373,20 +388,42 @@ export default function AttendancePage() {
                           <SelectItem value="HalfDay">Half Day</SelectItem>
                         </SelectContent>
                       </Select>
+                      <p className="text-xs text-muted-foreground mt-1">Status selection (backend integration needed).</p>
+                    </div>
+                     <div>
+                        <Label htmlFor="hrRemarks" className="text-sm">Reason / Remarks (Optional)</Label>
+                        <Textarea id="hrRemarks" placeholder="Enter reason for manual update..." disabled className="mt-1" rows={2} />
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" onClick={handleManualUpdate} className="mt-3">
-                    Update Attendance Record
-                  </Button>
+                  <div className="space-y-2">
+                    <Label className="text-sm">Select Date for Update</Label>
+                    <Calendar
+                      mode="single"
+                      selected={hrSelectedDate}
+                      onSelect={setHrSelectedDate}
+                      className="rounded-md border p-2 bg-card shadow-sm w-full sm:max-w-xs mx-auto"
+                      initialFocus
+                      month={hrSelectedDate || new Date()} // Ensure calendar opens to current month or selected
+                      modifiers={{
+                        holiday: holidayMatcher,
+                        sunday: sundayMatcher,
+                      }}
+                      modifiersStyles={{
+                          holiday: holidayStyle,
+                          sunday: holidayStyle, 
+                      }}
+                    />
+                    {hrSelectedDate && (
+                        <p className="text-xs text-center text-primary pt-1">
+                        HR Panel Selected Date: {hrSelectedDate.toLocaleDateString()}
+                        </p>
+                    )}
+                  </div>
                 </div>
-
-                <p className="text-sm text-foreground/70 font-semibold pt-4">Planned Data Sources & Features:</p>
-                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-4">
-                    <li className="flex items-center"><Fingerprint className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Biometric Systems Integration</li>
-                    <li className="flex items-center"><MapPin className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> GPS-based Attendance (for field staff)</li>
-                    <li className="flex items-center"><Users className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Manual Entry/Correction (by HR via above controls)</li>
-                </ul>
-                <Button variant="outline" size="sm" disabled className="mt-2">View Full Attendance Logs (Coming Soon)</Button>
+                <Button variant="outline" size="sm" onClick={handleManualUpdate} className="mt-4">
+                  <Edit className="mr-2 h-4 w-4"/> Update Attendance Record
+                </Button>
+                <p className="text-xs text-muted-foreground mt-1">This is a UI demonstration. Backend not connected.</p>
               </CardContent>
             </Card>
 
@@ -446,7 +483,7 @@ export default function AttendancePage() {
                     <div>
                         <strong className="font-semibold">Developer Note:</strong>
                         <p className="mt-1">
-                        The calendar above is a functional UI demonstration. 
+                        The calendars and forms above are functional UI demonstrations. 
                         Integration with a live backend for storing/retrieving actual holidays, employee schedules, leave requests, biometric data, and GPS data is required for full functionality. 
                         Performance metric calculations and complaint logging also depend on backend services. Manual updates shown are for UI demonstration only.
                         </p>
@@ -465,4 +502,3 @@ export default function AttendancePage() {
   );
 }
 
-    
