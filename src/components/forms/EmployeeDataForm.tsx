@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -78,7 +79,9 @@ const employeeDataFormSchema = z.object({
   dateOfJoining: z.date({ required_error: "Date of joining is required." }),
   department: z.enum(departments, { required_error: "Please select a department." }),
   designation: z.enum(designations, { required_error: "Please select a designation." }),
-  address: z.string().min(10, { message: "Address must be at least 10 characters." }).optional(),
+  communicationAddress: z.string().min(10, { message: "Communication address must be at least 10 characters." }),
+  permanentAddress: z.string().min(10, { message: "Permanent address must be at least 10 characters." }),
+  sameAsCommunicationAddress: z.boolean().optional(),
   emergencyContactName: z.string().min(2, { message: "Emergency contact name is required." }),
   emergencyContactPhone: z.string().min(10, { message: "Emergency contact phone must be at least 10 digits." }).regex(/^\+?[0-9\s-()]*$/, { message: "Invalid phone number format." }),
 });
@@ -103,11 +106,29 @@ export function EmployeeDataForm() {
       dateOfJoining: undefined,
       department: undefined,
       designation: undefined,
-      address: "",
+      communicationAddress: "",
+      permanentAddress: "",
+      sameAsCommunicationAddress: false,
       emergencyContactName: "",
       emergencyContactPhone: "",
     },
   });
+
+  const watchedCommunicationAddress = form.watch("communicationAddress");
+  const watchedSameAsCommunicationAddress = form.watch("sameAsCommunicationAddress");
+
+  useEffect(() => {
+    if (watchedSameAsCommunicationAddress) {
+      form.setValue("permanentAddress", watchedCommunicationAddress);
+      if (watchedCommunicationAddress.length >= 10) {
+        form.clearErrors("permanentAddress");
+      } else {
+        // Optionally trigger validation if communication address itself is not yet valid
+        form.trigger("permanentAddress");
+      }
+    }
+  }, [watchedCommunicationAddress, watchedSameAsCommunicationAddress, form]);
+
 
   function onSubmit(data: EmployeeDataFormValues) {
     console.log("Employee Data Submitted (Demo):", data);
@@ -274,19 +295,72 @@ export function EmployeeDataForm() {
                   </FormItem>
                 )}
               />
-               <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Address (Optional)</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Employee's current residential address" {...field} rows={3}/>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            </div>
+            
+            <FormField
+              control={form.control}
+              name="communicationAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Communication Address</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Employee's current communication address" {...field} rows={3}/>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="sameAsCommunicationAddress"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(checkedState) => {
+                        field.onChange(checkedState);
+                        if (checkedState) {
+                          form.setValue("permanentAddress", form.getValues("communicationAddress"));
+                           if (form.getValues("communicationAddress").length >= 10) {
+                            form.clearErrors("permanentAddress");
+                          } else {
+                            form.trigger("permanentAddress");
+                          }
+                        } else {
+                          form.setValue("permanentAddress", ""); // Clear if unchecked
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormLabel className="font-normal">
+                    Permanent address is the same as communication address
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="permanentAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Permanent Address</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Employee's permanent residential address" 
+                      {...field} 
+                      rows={3}
+                      disabled={watchedSameAsCommunicationAddress} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="emergencyContactName"
