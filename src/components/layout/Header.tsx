@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown, Target, Eye, GalleryHorizontalEnd, TvIcon, Shield } from 'lucide-react'; // Added Shield for Admin
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown, Target, Eye, GalleryHorizontalEnd, TvIcon, Shield, MapPin } from 'lucide-react'; // Added MapPin for Field Attendance, Shield for Admin
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -23,6 +23,7 @@ const allNavLinks = [
   { href: "/womens-empowerment", label: "Women's Hub", icon: HelpingHand, category: "programs" },
   { href: "/environmental-sustainability", label: "Eco Hub", icon: Leaf, category: "programs" },
   { href: "/farmers-welfare", label: "Farmers Welfare", icon: Sprout, category: "programs" },
+  { href: "/field-attendance", label: "Field Attendance", icon: MapPin, category: "programs" }, // Added Field Attendance
   { href: "/shop", label: "Shop", icon: ShoppingCart, category: "engage" },
   { href: "/wall-of-fame", label: "Wall of Fame", icon: Award, category: "engage" },
   { href: "/volunteer", label: "Volunteer", icon: Users, category: "engage" },
@@ -32,7 +33,7 @@ const allNavLinks = [
   { href: "/careers", label: "Careers", icon: Briefcase, category: "engage" },
   { href: "/#founder", label: "Founder", icon: UserCog, category: "main" },
   { href: "/#achievements", label: "Gallery", icon: GalleryHorizontalEnd, category: "main" },
-  { href: "/admin", label: "Admin Dashboard", icon: Shield, category: "admin" }, // Changed icon to Shield
+  { href: "/admin", label: "Admin Dashboard", icon: Shield, category: "admin" },
 ];
 
 const aboutDropdownLinks = [
@@ -50,6 +51,7 @@ const ourWorkHubs = [
   { href: "/womens-empowerment", label: "Women's Empowerment Hub" },
   { href: "/environmental-sustainability", label: "Environmental Hub" },
   { href: "/farmers-welfare", label: "Farmers Welfare Hub" },
+  { href: "/field-attendance", label: "Field Staff Attendance" }, // Added Field Attendance
 ];
 
 const joinUsDropdownLinks = [
@@ -110,7 +112,7 @@ export function Header() {
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-56">
+              <DropdownMenuContent align="start" className="bg-card border-border shadow-lg w-max">
                 {ourWorkHubs.map((hub) => (
                   <DropdownMenuItem key={hub.href} asChild>
                     <Link href={hub.href} className="text-sm text-foreground hover:bg-muted hover:text-primary w-full cursor-pointer">
