@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown, Target, Eye, GalleryHorizontalEnd, TvIcon } from 'lucide-react';
+import { HandHeart, Users, Gift, Handshake, HomeIcon, Search, ShoppingCart, CalendarDays, Briefcase, LogIn, UserPlus, BookOpenCheck, HelpingHand, Leaf, Award, Sprout, Lightbulb, FileText, UserCog, ChevronDown, Target, Eye, GalleryHorizontalEnd, TvIcon, Shield } from 'lucide-react'; // Added Shield for Admin
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -32,7 +32,7 @@ const allNavLinks = [
   { href: "/careers", label: "Careers", icon: Briefcase, category: "engage" },
   { href: "/#founder", label: "Founder", icon: UserCog, category: "main" },
   { href: "/#achievements", label: "Gallery", icon: GalleryHorizontalEnd, category: "main" },
-  { href: "/admin", label: "Admin Dashboard", icon: TvIcon, category: "admin" },
+  { href: "/admin", label: "Admin Dashboard", icon: Shield, category: "admin" }, // Changed icon to Shield
 ];
 
 const aboutDropdownLinks = [
@@ -152,6 +152,12 @@ export function Header() {
               >
                 SUPPORT US
             </Link>
+            <Link
+              href="/admin"
+              className="text-sm font-medium text-destructive hover:text-destructive/80 transition-colors duration-200 uppercase tracking-wider flex items-center"
+            >
+              <Shield className="mr-1 h-4 w-4" /> ADMIN
+            </Link>
           </nav>
 
           {/* Desktop Right-Side Actions */}
@@ -203,13 +209,13 @@ export function Header() {
                       </Button>
                     </div>
                     <nav className="flex flex-col space-y-1">
-                      {allNavLinks.filter(link => link.category !== 'admin').map((link) => ( 
+                      {allNavLinks.map((link) => ( 
                         <Link
                           key={link.label}
                           href={link.href}
-                          className="text-md text-foreground hover:text-primary font-medium flex items-center space-x-3 p-3 rounded-md hover:bg-muted transition-colors"
+                          className={`text-md text-foreground hover:text-primary font-medium flex items-center space-x-3 p-3 rounded-md hover:bg-muted transition-colors ${link.category === 'admin' ? 'text-destructive hover:text-destructive/80' : ''}`}
                         >
-                          {link.icon && <link.icon className="h-5 w-5 text-primary/80" />}
+                          {link.icon && <link.icon className={`h-5 w-5 ${link.category === 'admin' ? 'text-destructive/80' : 'text-primary/80'}`} />}
                           <span>{link.label}</span>
                         </Link>
                       ))}
@@ -231,3 +237,4 @@ export function Header() {
     </header>
   );
 }
+
