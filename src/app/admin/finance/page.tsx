@@ -32,9 +32,18 @@ export default function FinanceManagementPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             This section will provide tools for financial oversight, budgeting, reporting, and strategic financial planning for the organization.
           </p>
-           <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
-            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
-            <strong>Note:</strong> Access to this section is intended for authorized personnel (e.g., Founder, Finance Head) only. Full role-based access control and financial system integration are pending implementation.
+           <div className="mt-4 p-4 bg-destructive/10 border border-destructive/30 rounded-md max-w-3xl mx-auto text-sm text-destructive">
+            <div className="flex items-start">
+                <ShieldAlert className="inline-block h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+                <div>
+                    <strong className="font-semibold">Security & Access Control Note:</strong>
+                    <p className="mt-1">
+                    Access to this section is intended for authorized personnel (e.g., Founder, Finance Head) only. 
+                    Full role-based access control (RBAC) enabling actions like verify, accept, rectify, and update financial data, and secure login systems are pending implementation.
+                    Access will be governed by an employee hierarchical structure.
+                    </p>
+                </div>
+            </div>
           </div>
         </div>
 

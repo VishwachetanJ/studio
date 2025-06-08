@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   description: 'Accounts department portal for managing financial operations and auditing at Jagruthi. Restricted access.',
 };
 
-// TODO: Implement role-based access control.
-// This page and its sub-pages should ideally only be accessible to users with 'founder' or 'accounts_head' roles.
-// This would involve:
-// 1. Checking user authentication status.
-// 2. Verifying user roles.
-// 3. Redirecting or showing an "Access Denied" message if unauthorized.
-
 export default function AccountsPortalPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -39,9 +32,18 @@ export default function AccountsPortalPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             Manage financial operations, review transactions, and oversee auditing processes.
           </p>
-          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
-            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
-            <strong>Note:</strong> Access to this portal is intended for authorized personnel (e.g., Founder, Accounts Head) only. Full role-based access control is pending implementation.
+           <div className="mt-4 p-4 bg-destructive/10 border border-destructive/30 rounded-md max-w-3xl mx-auto text-sm text-destructive">
+            <div className="flex items-start">
+              <ShieldAlert className="inline-block h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-semibold">Security & Access Control Note:</strong>
+                <p className="mt-1">
+                  Access to this portal is intended for authorized personnel only. 
+                  Full role-based access control (RBAC), including distinct permissions for roles like Founder or Accounts Head (e.g., to verify, accept, rectify, reject, and update financial data), and secure login systems are pending implementation. 
+                  Access will be governed by an employee hierarchical structure.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

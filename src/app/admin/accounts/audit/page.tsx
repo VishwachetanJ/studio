@@ -12,9 +12,6 @@ export const metadata: Metadata = {
   description: 'Monitor and audit account-related operations for Jagruthi. Restricted access.',
 };
 
-// TODO: Implement role-based access control.
-// This page should ideally only be accessible to users with 'founder' or 'accounts_head' roles.
-
 export default function AuditPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
@@ -35,9 +32,17 @@ export default function AuditPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             This section will provide tools to monitor account activities, review logs, and ensure operational compliance.
           </p>
-           <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
-            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
-            <strong>Note:</strong> Access to this section is intended for authorized personnel (e.g., Founder, Accounts Head) only. Full role-based access control is pending implementation.
+           <div className="mt-4 p-4 bg-destructive/10 border border-destructive/30 rounded-md max-w-3xl mx-auto text-sm text-destructive">
+            <div className="flex items-start">
+                <ShieldAlert className="inline-block h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+                <div>
+                    <strong className="font-semibold">Security & Access Control Note:</strong>
+                    <p className="mt-1">
+                    Access to this section is intended for authorized personnel (e.g., Founder, Accounts Head) only. 
+                    Full role-based access control (RBAC) allowing actions such as verify, accept, and reject audit findings, and secure login systems are pending implementation.
+                    </p>
+                </div>
+            </div>
           </div>
         </div>
 

@@ -24,9 +24,19 @@ export default function AdminDashboardPage() {
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
             Manage internal operations for Jagruthi. Access to these sections is restricted.
           </p>
-          <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
-            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
-            <strong>Security Note:</strong> This dashboard and its modules are intended for authorized personnel only. Full role-based access control and login systems are pending implementation.
+          <div className="mt-4 p-4 bg-destructive/10 border border-destructive/30 rounded-md max-w-3xl mx-auto text-sm text-destructive">
+            <div className="flex items-start">
+              <ShieldAlert className="inline-block h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-semibold">Security & Access Control Note:</strong>
+                <p className="mt-1">
+                  This dashboard and its modules are intended for authorized personnel only. 
+                  Full role-based access control (RBAC) and secure login systems are pending implementation. 
+                  The vision includes distinct permissions for Admin, Founder, and Manager roles, enabling actions such as verify, accept, rectify, reject, and update across modules. 
+                  Access will also be governed by an employee hierarchical structure based on departments.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ShieldAlert, Database, UserCircle, Leaf, DollarSign } from 'lucide-react'; // Added more icons for potential use
+import { ArrowLeft, ShieldAlert, Database, UserCircle, Leaf, DollarSign } from 'lucide-react';
 import { FarmerDataManagementForm } from "@/components/forms/FarmerDataManagementForm";
 
 export const metadata: Metadata = {
@@ -52,7 +52,9 @@ export default function FarmersDataPage() {
                   <li>Market Price Logging & Analysis.</li>
                   <li>Secure forms for <strong>adding and modifying</strong> data by authorized employees.</li>
                   <li>Full audit trail for all data changes (tracking who created and who modified data, with timestamps and employee codes).</li>
-                  <li>Role-based access control to ensure data security and appropriate permissions.</li>
+                  <li>
+                    Comprehensive role-based access control (RBAC), including distinct permissions for Admin, Founder, and Manager roles (e.g., to verify, accept, rectify, reject, and update data). Access will be governed by an employee hierarchical structure based on departments to ensure data security and appropriate permissions. Secure login systems are also essential.
+                  </li>
                 </ul>
                 <p className="mt-2">
                   These comprehensive features are under development and will be implemented with robust backend support.
