@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction } from 'lucide-react';
+import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
@@ -67,6 +67,8 @@ export default function AttendancePage() {
       { date: new Date(displayYear, 6, 1), type: 'unplanned', description: 'Urgent Personal' }, // Jul 1
       { date: new Date(displayYear, 8, 15), type: 'planned', description: 'Vacation' }, // Sep 15
       { date: new Date(displayYear, 10, 10), type: 'planned', description: 'Vacation' }, // Nov 10
+      // Example: Add a planned leave on a Sunday
+      { date: new Date(displayYear, 0, 7), type: 'planned', description: 'Sunday Leave' }, // Assuming Jan 7 is a Sunday for testing
     ];
   }, [displayYear]);
 
@@ -76,6 +78,10 @@ export default function AttendancePage() {
       date.getMonth() === holidayDate.getMonth() &&
       date.getDate() === holidayDate.getDate()
     );
+  };
+
+  const sundayMatcher = (date: Date) => {
+    return date.getDay() === 0; // 0 is Sunday
   };
 
   const plannedLeaveMatcher = (date: Date) => {
@@ -124,11 +130,11 @@ export default function AttendancePage() {
 
   const calendarGridClassNames = {
     months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 justify-center",
-    month: "border rounded-lg p-3 sm:p-4 bg-background shadow-md flex flex-col min-h-0",
-    caption: "flex justify-center pt-1 relative items-center mb-2.5",
+    month: "border rounded-lg p-3 sm:p-4 bg-card shadow-md flex flex-col min-h-0",
+    caption: "flex justify-center pt-1 relative items-center mb-2.5 mt-1",
     caption_label: "text-sm sm:text-base font-semibold text-center block w-full",
     nav_button: "hidden",
-    table: "w-full border-collapse mt-2",
+    table: "w-full border-collapse mt-2.5 mb-1",
     head_row: "flex justify-around mb-1.5",
     head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center",
     row: "flex w-full mt-1 justify-around",
@@ -146,7 +152,7 @@ export default function AttendancePage() {
     month: "space-y-4",
     caption: "flex justify-center pt-1 relative items-center",
     caption_label: "text-sm font-medium",
-    nav_button: "hidden",
+    nav_button: "hidden", // Still hidden as we use custom nav
     day: cn(
       buttonVariants({ variant: "ghost" }),
       "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
@@ -224,7 +230,7 @@ export default function AttendancePage() {
           <CardHeader className="items-center text-center pb-4">
             <CardTitle className="text-xl font-semibold text-accent">Employee Attendance Management System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              Track and manage employee attendance and related activities. Holiday and sample leave markings are illustrative.
+              Track and manage employee attendance and related activities. Holiday, Sunday, and sample leave markings are illustrative.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8 px-2 sm:px-6">
@@ -281,7 +287,7 @@ export default function AttendancePage() {
                       }
                     </p>
                   <Calendar
-                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`}
+                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`} // Important for re-rendering with new styles
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
@@ -290,16 +296,18 @@ export default function AttendancePage() {
                     disableNavigation
                     className={cn(
                         "w-full border-0 shadow-none",
-                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2"
+                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2" // Outer padding for year view
                     )}
                     classNames={viewMode === 'year' ? calendarGridClassNames : calendarSingleMonthClassNames}
                     modifiers={{
                         holiday: holidayMatcher,
+                        sunday: sundayMatcher,
                         plannedLeave: plannedLeaveMatcher,
                         unplannedLeave: unplannedLeaveMatcher,
                     }}
                     modifiersStyles={{
                         holiday: holidayStyle,
+                        sunday: holidayStyle, // Sundays also use red text
                         plannedLeave: plannedLeaveStyle,
                         unplannedLeave: unplannedLeaveStyle,
                     }}
@@ -317,8 +325,8 @@ export default function AttendancePage() {
                       }
                     </p>
                   )}
-                   <div className="text-xs text-center text-muted-foreground pt-1 italic px-2 space-y-0.5">
-                      <p>Note: Holiday markings (in <span style={holidayStyle}>red</span>) are illustrative.</p>
+                   <div className="text-xs text-center text-muted-foreground pt-1 italic px-2 space-y-0.5 pb-2">
+                      <p>Note: Sundays and illustrative holidays are marked in <span style={holidayStyle}>red</span>.</p>
                       <p>Sample employee planned leaves (in <span style={plannedLeaveStyle}>green</span>) and unplanned leaves (in <span style={unplannedLeaveStyle}>purple</span>) are shown for demonstration.</p>
                    </div>
                 </div>
@@ -381,6 +389,20 @@ export default function AttendancePage() {
                 <Button variant="outline" size="sm" disabled className="mt-2">View Complaint Dashboard (Coming Soon)</Button>
               </CardContent>
             </Card>
+            
+            <div className="mt-10 p-4 bg-blue-50 border border-blue-300 rounded-md text-sm text-blue-700">
+                <div className="flex items-start">
+                    <AlertTriangle className="inline-block h-5 w-5 mr-3 text-blue-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                        <strong className="font-semibold">Developer Note:</strong>
+                        <p className="mt-1">
+                        The calendar above is a functional UI demonstration. 
+                        Integration with a live backend for storing/retrieving actual holidays, employee schedules, leave requests, biometric data, and GPS data is required for full functionality. 
+                        Performance metric calculations and complaint logging also depend on backend services.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             <p className="text-sm text-center text-muted-foreground mt-8">
               Full backend integration, API connections, and interactive features are planned.
@@ -392,3 +414,6 @@ export default function AttendancePage() {
     </div>
   );
 }
+
+
+    
