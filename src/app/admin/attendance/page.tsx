@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Construction, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning } from 'lucide-react';
+import { ArrowLeft, Construction, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, Calendar, TrendingUp, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata: Metadata = {
