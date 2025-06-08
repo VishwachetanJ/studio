@@ -3,7 +3,9 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import type { Metadata } from 'next';
+// Metadata is not directly used by client components in this way for dynamic titles.
+// For this page, we'll keep the existing metadata setup.
+// import type { Metadata } from 'next'; 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Construction, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks } from 'lucide-react';
@@ -12,15 +14,10 @@ import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import React, { useState, useEffect } from "react";
 
-// Metadata can still be exported from client components, Next.js handles it.
-// For this page, we'll keep the existing metadata setup.
 // export const metadata: Metadata = { ... }; // This would be defined by Next.js if needed for static generation
 
 export default function AttendancePage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  // The Calendar component itself handles internal month navigation.
-  // If we needed to control it externally, we'd use a state like:
-  // const [displayedMonth, setDisplayedMonth] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined); // Keep selectedDate optional
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -91,7 +88,7 @@ export default function AttendancePage() {
           </div>
         </div>
 
-        <Card className="max-w-4xl mx-auto shadow-md">
+        <Card className="max-w-full mx-auto shadow-md overflow-x-auto"> {/* Adjusted max-width and added overflow-x-auto */}
           <CardHeader className="items-center text-center">
             <CardTitle className="text-xl font-semibold text-accent">Employee Attendance Management System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
@@ -100,11 +97,10 @@ export default function AttendancePage() {
           </CardHeader>
           <CardContent className="space-y-8">
             
-            {/* Section 1: Attendance Tracking & Views */}
             <Card className="border-primary/30">
               <CardHeader>
-                <CardTitle className="text-lg text-primary flex items-center"><CalendarDays className="mr-2 h-5 w-5"/>Attendance Calendar & Data Integration</CardTitle>
-                <CardDescription className="text-xs">View and verify employee attendance. Data from various sources will be consolidated here.</CardDescription>
+                <CardTitle className="text-lg text-primary flex items-center"><CalendarDays className="mr-2 h-5 w-5"/>Yearly Attendance Calendar & Data Integration</CardTitle>
+                <CardDescription className="text-xs">View a full year of employee attendance. Data from various sources will be consolidated here.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="p-4 bg-muted/5 rounded-lg flex flex-col items-center justify-center">
@@ -113,12 +109,16 @@ export default function AttendancePage() {
                     selected={selectedDate}
                     onSelect={setSelectedDate}
                     className="rounded-md border shadow"
-                    // month={displayedMonth} // To control month externally
-                    // onMonthChange={setDisplayedMonth} // To control month externally
+                    numberOfMonths={12} // Show 12 months
                   />
                   {selectedDate && (
                     <p className="mt-4 text-sm text-center text-primary">
                       Selected Date: {selectedDate.toLocaleDateString()}
+                    </p>
+                  )}
+                  {!selectedDate && (
+                     <p className="mt-4 text-sm text-center text-muted-foreground">
+                      Full year view. Click a date to select.
                     </p>
                   )}
                 </div>
@@ -134,7 +134,6 @@ export default function AttendancePage() {
 
             <Separator />
 
-            {/* Section 2: Performance & Punctuality */}
             <Card className="border-primary/30">
               <CardHeader>
                 <CardTitle className="text-lg text-primary flex items-center"><TrendingUp className="mr-2 h-5 w-5"/>Performance & Punctuality Metrics</CardTitle>
@@ -163,7 +162,6 @@ export default function AttendancePage() {
 
             <Separator />
 
-            {/* Section 3: Complaint Management */}
             <Card className="border-primary/30">
               <CardHeader>
                 <CardTitle className="text-lg text-primary flex items-center"><MessageSquareWarning className="mr-2 h-5 w-5"/>Employee Complaint & Issue Logging</CardTitle>
@@ -194,4 +192,3 @@ export default function AttendancePage() {
     </div>
   );
 }
-
