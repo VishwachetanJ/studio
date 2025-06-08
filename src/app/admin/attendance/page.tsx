@@ -10,14 +10,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export default function AttendancePage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date()); 
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined); 
   const [displayYear, setDisplayYear] = useState<number>(new Date().getFullYear());
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth());
   const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +25,34 @@ export default function AttendancePage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const holidays = useMemo(() => {
+    // Sample fixed holidays (month is 0-indexed)
+    // In a real app, this would come from an API or a more sophisticated holiday calculation library
+    return [
+      new Date(displayYear, 0, 1),  // New Year's Day
+      new Date(displayYear, 0, 26), // Republic Day (India)
+      new Date(displayYear, 7, 15), // Independence Day (India)
+      new Date(displayYear, 9, 2),  // Gandhi Jayanti (India)
+      new Date(displayYear, 11, 25),// Christmas
+      // Add more sample holidays as needed
+    ];
+  }, [displayYear]);
+
+  const holidayMatcher = (date: Date) => {
+      return holidays.some(holidayDate => 
+          date.getFullYear() === holidayDate.getFullYear() &&
+          date.getMonth() === holidayDate.getMonth() &&
+          date.getDate() === holidayDate.getDate()
+      );
+  };
+
+  // Define HSL color for destructive (red) directly for modifiersStyles
+  // Note: CSS variables like hsl(var(--destructive)) won't work directly in JS for react-day-picker's style prop.
+  // We need to use a fixed HSL value or a hex/rgb value. Let's use a standard red.
+  // The theme's destructive color is 0 84.2% 60.2%
+  const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' };
+
 
   const handlePreviousYear = () => {
     setDisplayYear(prevYear => prevYear - 1);
@@ -40,9 +68,15 @@ export default function AttendancePage() {
 
   const startOfYearForCalendar = new Date(displayYear, 0, 1);
 
+  // This handler might not be strictly necessary if internal calendar navigation is fully disabled
+  // and year changes are only through our custom buttons.
   const handleCalendarMonthChangeForYearView = (month: Date) => {
+    // This callback receives the first displayed month when internal navigation changes it.
+    // Since we show 12 months and disable navigation, this might only be relevant
+    // if we re-enable some form of internal navigation or initial mount.
+    // For now, our primary year control is through the displayYear state.
     if (month.getFullYear() !== displayYear) {
-      setDisplayYear(month.getFullYear());
+      // setDisplayYear(month.getFullYear()); // This could cause a loop if not handled carefully with disabledNavigation
     }
   };
 
@@ -114,7 +148,7 @@ export default function AttendancePage() {
           <CardHeader className="items-center text-center pb-4">
             <CardTitle className="text-xl font-semibold text-accent">Employee Attendance Management System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              Track and manage employee attendance and related activities.
+              Track and manage employee attendance and related activities. Holiday markings are illustrative.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8 px-2 sm:px-6">
@@ -157,29 +191,32 @@ export default function AttendancePage() {
                     selected={selectedDate}
                     onSelect={setSelectedDate}
                     month={startOfYearForCalendar} 
-                    onMonthChange={handleCalendarMonthChangeForYearView}
+                    onMonthChange={handleCalendarMonthChangeForYearView} // Handles internal navigation if re-enabled
                     numberOfMonths={12}
-                    disableNavigation 
+                    disableNavigation // Disables built-in month/year navigation arrows
                     className="w-full border-0 shadow-none p-1 sm:p-2" 
                     classNames={{
                       months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-1 justify-center",
                       month: "border rounded-lg p-2 sm:p-3 bg-background shadow-sm flex flex-col", 
                       caption: "flex justify-center pt-1 relative items-center mb-2", 
-                      caption_label: "text-sm sm:text-base font-semibold text-center block w-full",
-                      nav_button: "hidden", 
+                      caption_label: "text-sm sm:text-base font-semibold text-center block w-full", // Month name style
+                      nav_button: "hidden", // Hide default nav buttons as we have custom year nav
                       table: "w-full border-collapse mt-1", 
                       head_row: "flex justify-around mb-1",
-                      head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center",
+                      head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center", // Day names (S, M, T..)
                       row: "flex w-full mt-0.5 justify-around",
-                      cell: "h-7 w-7 sm:h-8 sm:w-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center",
+                      cell: "h-7 w-7 sm:h-8 sm:w-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center", // Cell container for each day
                       day: cn(
                         buttonVariants({ variant: "ghost" }),
-                        "h-7 w-7 sm:h-8 sm:w-8 p-0 font-normal aria-selected:opacity-100 rounded-full" 
+                        "h-7 w-7 sm:h-8 sm:w-8 p-0 font-normal aria-selected:opacity-100 rounded-full" // Individual day button
                       ),
                       day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                       day_today: "bg-accent text-accent-foreground",
-                      day_outside: "day-outside text-muted-foreground opacity-30",
+                      day_outside: "day-outside text-muted-foreground opacity-30", // Days not in the current month (less relevant for 12 month view)
+                      // No specific class for holiday text color, will use modifiersStyles
                     }}
+                    modifiers={{ holiday: holidayMatcher }}
+                    modifiersStyles={{ holiday: holidayStyle }}
                   />
                   {selectedDate && (
                     <p className="mt-3 text-sm text-center text-primary p-2 border-t">
@@ -191,6 +228,9 @@ export default function AttendancePage() {
                       Full year view for {displayYear}. Click a date to select. Month focus: {MONTH_NAMES[selectedMonthIndex]}.
                     </p>
                   )}
+                   <p className="text-xs text-center text-muted-foreground pt-1 italic">
+                      Note: Holiday markings (in red) are illustrative and based on sample data.
+                    </p>
                 </div>
                 <p className="text-sm text-foreground/70 font-semibold pt-2">Planned Data Sources & Features:</p>
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-4">
@@ -262,5 +302,3 @@ export default function AttendancePage() {
     </div>
   );
 }
-
-    
