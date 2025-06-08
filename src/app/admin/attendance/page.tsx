@@ -29,8 +29,14 @@ const generateYearOptions = () => {
   return years;
 };
 
+interface SampleLeave {
+  date: Date;
+  type: 'planned' | 'unplanned';
+  description: string;
+}
+
 export default function AttendancePage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined); 
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [displayYear, setDisplayYear] = useState<number>(new Date().getFullYear());
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth());
   const [viewMode, setViewMode] = useState<'month' | 'year'>('year');
@@ -51,15 +57,49 @@ export default function AttendancePage() {
     ];
   }, [displayYear]);
 
+  const sampleLeaves = useMemo((): SampleLeave[] => {
+    // Generate some sample leaves for the displayed year
+    return [
+      { date: new Date(displayYear, 0, 10), type: 'planned', description: 'Annual Leave' }, // Jan 10
+      { date: new Date(displayYear, 1, 5), type: 'unplanned', description: 'Sick Leave' },  // Feb 5
+      { date: new Date(displayYear, 1, 6), type: 'unplanned', description: 'Sick Leave' },  // Feb 6
+      { date: new Date(displayYear, 4, 20), type: 'planned', description: 'Conference' }, // May 20
+      { date: new Date(displayYear, 6, 1), type: 'unplanned', description: 'Urgent Personal' }, // Jul 1
+      { date: new Date(displayYear, 8, 15), type: 'planned', description: 'Vacation' }, // Sep 15
+      { date: new Date(displayYear, 10, 10), type: 'planned', description: 'Vacation' }, // Nov 10
+    ];
+  }, [displayYear]);
+
   const holidayMatcher = (date: Date) => {
-      return holidays.some(holidayDate => 
-          date.getFullYear() === holidayDate.getFullYear() &&
-          date.getMonth() === holidayDate.getMonth() &&
-          date.getDate() === holidayDate.getDate()
-      );
+    return holidays.some(holidayDate =>
+      date.getFullYear() === holidayDate.getFullYear() &&
+      date.getMonth() === holidayDate.getMonth() &&
+      date.getDate() === holidayDate.getDate()
+    );
   };
 
-  const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' };
+  const plannedLeaveMatcher = (date: Date) => {
+    return sampleLeaves.some(leave =>
+      leave.type === 'planned' &&
+      date.getFullYear() === leave.date.getFullYear() &&
+      date.getMonth() === leave.date.getMonth() &&
+      date.getDate() === leave.date.getDate()
+    );
+  };
+
+  const unplannedLeaveMatcher = (date: Date) => {
+    return sampleLeaves.some(leave =>
+      leave.type === 'unplanned' &&
+      date.getFullYear() === leave.date.getFullYear() &&
+      date.getMonth() === leave.date.getMonth() &&
+      date.getDate() === leave.date.getDate()
+    );
+  };
+
+  const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' }; // Red
+  const plannedLeaveStyle = { color: 'hsl(120, 60%, 35%)', fontWeight: 'bold' }; // Green
+  const unplannedLeaveStyle = { color: 'hsl(270, 60%, 55%)', fontWeight: 'bold' }; // Purple
+
 
   const handleYearChange = (value: string) => {
     setDisplayYear(parseInt(value, 10));
@@ -75,53 +115,45 @@ export default function AttendancePage() {
 
   const initialCalendarMonth = useMemo(() => {
     if (viewMode === 'year') {
-      return new Date(displayYear, 0, 1); // January of the display year
+      return new Date(displayYear, 0, 1);
     }
-    return new Date(displayYear, selectedMonthIndex, 1); // Selected month of the display year
+    return new Date(displayYear, selectedMonthIndex, 1);
   }, [viewMode, displayYear, selectedMonthIndex]);
 
   const numberOfMonthsToDisplay = viewMode === 'year' ? 12 : 1;
 
   const calendarGridClassNames = {
-    // Container for all 12 month blocks
-    months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 justify-center", // Increased gap
-    // Individual month block
-    month: "border rounded-lg p-3 sm:p-4 bg-background shadow-md flex flex-col min-h-0", // Increased padding, added shadow-md for better separation
-    // Month name above days
-    caption: "flex justify-center pt-1 relative items-center mb-2.5", 
+    months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 justify-center",
+    month: "border rounded-lg p-3 sm:p-4 bg-background shadow-md flex flex-col min-h-0",
+    caption: "flex justify-center pt-1 relative items-center mb-2.5",
     caption_label: "text-sm sm:text-base font-semibold text-center block w-full",
-    nav_button: "hidden", // Custom navigation handles this
-    // Table containing days
-    table: "w-full border-collapse mt-2", 
-    // Row for day names (S M T W T F S)
-    head_row: "flex justify-around mb-1.5", 
-    head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center", // Day name cells
-    // Week row
-    row: "flex w-full mt-1 justify-around", 
-    // Day number cell container
-    cell: "h-7 w-7 sm:h-8 sm:h-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center", 
-    // Clickable day element
+    nav_button: "hidden",
+    table: "w-full border-collapse mt-2",
+    head_row: "flex justify-around mb-1.5",
+    head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center",
+    row: "flex w-full mt-1 justify-around",
+    cell: "h-7 w-7 sm:h-8 sm:h-8 text-center text-xs sm:text-sm p-0 relative flex items-center justify-center",
     day: cn(
       buttonVariants({ variant: "ghost" }),
       "h-7 w-7 sm:h-8 sm:h-8 p-0 font-normal aria-selected:opacity-100 rounded-full"
     ),
     day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
     day_today: "bg-accent text-accent-foreground",
-    day_outside: "day-outside text-muted-foreground opacity-20", // Made outside days much fainter
+    day_outside: "day-outside text-muted-foreground opacity-20",
   };
 
   const calendarSingleMonthClassNames = {
-    month: "space-y-4", 
+    month: "space-y-4",
     caption: "flex justify-center pt-1 relative items-center",
-    caption_label: "text-sm font-medium", 
-    nav_button: "hidden", 
+    caption_label: "text-sm font-medium",
+    nav_button: "hidden",
     day: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-9 w-9 p-0 font-normal aria-selected:opacity-100" 
+      "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
     ),
     day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
     day_today: "bg-accent text-accent-foreground",
-    day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:opacity-100", 
+    day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:opacity-100",
   };
 
 
@@ -188,15 +220,15 @@ export default function AttendancePage() {
           </div>
         </div>
 
-        <Card className="max-w-full mx-auto shadow-md"> 
+        <Card className="max-w-full mx-auto shadow-md">
           <CardHeader className="items-center text-center pb-4">
             <CardTitle className="text-xl font-semibold text-accent">Employee Attendance Management System</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              Track and manage employee attendance and related activities. Holiday markings are illustrative.
+              Track and manage employee attendance and related activities. Holiday and sample leave markings are illustrative.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8 px-2 sm:px-6">
-            
+
             <Card className="border-primary/30">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg text-primary flex items-center"><CalendarDays className="mr-2 h-5 w-5"/>Attendance Calendar & Data Integration</CardTitle>
@@ -243,7 +275,7 @@ export default function AttendancePage() {
                     </Select>
                   </div>
                    <p className="text-xs text-center text-muted-foreground pt-2">
-                      {viewMode === 'year' 
+                      {viewMode === 'year'
                         ? `Calendar displays Jan-Dec of ${displayYear}. Month focus: ${MONTH_NAMES[selectedMonthIndex]}.`
                         : `Displaying: ${MONTH_NAMES[selectedMonthIndex]} ${displayYear}.`
                       }
@@ -253,16 +285,24 @@ export default function AttendancePage() {
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    month={initialCalendarMonth} 
+                    month={initialCalendarMonth}
                     numberOfMonths={numberOfMonthsToDisplay}
-                    disableNavigation 
+                    disableNavigation
                     className={cn(
                         "w-full border-0 shadow-none",
-                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2" 
+                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2"
                     )}
                     classNames={viewMode === 'year' ? calendarGridClassNames : calendarSingleMonthClassNames}
-                    modifiers={{ holiday: holidayMatcher }}
-                    modifiersStyles={{ holiday: holidayStyle }}
+                    modifiers={{
+                        holiday: holidayMatcher,
+                        plannedLeave: plannedLeaveMatcher,
+                        unplannedLeave: unplannedLeaveMatcher,
+                    }}
+                    modifiersStyles={{
+                        holiday: holidayStyle,
+                        plannedLeave: plannedLeaveStyle,
+                        unplannedLeave: unplannedLeaveStyle,
+                    }}
                   />
                   {selectedDate && (
                     <p className="mt-3 text-sm text-center text-primary p-2 border-t">
@@ -271,15 +311,16 @@ export default function AttendancePage() {
                   )}
                   {!selectedDate && (
                      <p className="mt-3 text-sm text-center text-muted-foreground p-2 border-t">
-                      {viewMode === 'year' 
+                      {viewMode === 'year'
                         ? `Full year view for ${displayYear}. Click a date to select. Month focus: ${MONTH_NAMES[selectedMonthIndex]}.`
                         : `Month view for ${MONTH_NAMES[selectedMonthIndex]} ${displayYear}. Click a date to select.`
                       }
                     </p>
                   )}
-                   <p className="text-xs text-center text-muted-foreground pt-1 italic">
-                      Note: Holiday markings (in red) are illustrative and based on sample data.
-                    </p>
+                   <div className="text-xs text-center text-muted-foreground pt-1 italic px-2 space-y-0.5">
+                      <p>Note: Holiday markings (in <span style={holidayStyle}>red</span>) are illustrative.</p>
+                      <p>Sample employee planned leaves (in <span style={plannedLeaveStyle}>green</span>) and unplanned leaves (in <span style={unplannedLeaveStyle}>purple</span>) are shown for demonstration.</p>
+                   </div>
                 </div>
                 <p className="text-sm text-foreground/70 font-semibold pt-2">Planned Data Sources & Features:</p>
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-4">
@@ -340,7 +381,7 @@ export default function AttendancePage() {
                 <Button variant="outline" size="sm" disabled className="mt-2">View Complaint Dashboard (Coming Soon)</Button>
               </CardContent>
             </Card>
-            
+
             <p className="text-sm text-center text-muted-foreground mt-8">
               Full backend integration, API connections, and interactive features are planned.
             </p>
@@ -351,5 +392,3 @@ export default function AttendancePage() {
     </div>
   );
 }
-
-    

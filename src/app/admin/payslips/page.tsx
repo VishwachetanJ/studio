@@ -30,7 +30,7 @@ export default function PaySlipsPage() {
             Employee Pay Slips
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
-            This section will facilitate the generation and management of employee pay slips.
+            This section will facilitate the generation and management of employee pay slips, integrating attendance and leave data for accurate calculations, including loss of pay.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export default function PaySlipsPage() {
           <CardContent className="text-center">
             <p className="text-foreground/70">
               The payroll and pay slip generation system is currently under development.
-              Features will include salary calculations, deductions, and secure pay slip distribution.
+              Features will include salary calculations, deductions based on approved/unplanned leaves, and secure pay slip distribution.
             </p>
              <p className="text-sm text-muted-foreground mt-4">
               Please check back later for updates.
