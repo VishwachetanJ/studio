@@ -4,6 +4,9 @@ import { Footer } from "@/components/layout/Footer";
 import { EventForm } from "@/components/forms/EventForm";
 import type { Metadata } from 'next';
 import { Suspense } from 'react'; // Import Suspense
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 // Helper component to extract search params
 function EventFormWrapper({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
@@ -45,6 +48,14 @@ export default function RegisterEventPage({ searchParams }: { searchParams?: { [
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 sm:py-16">
+        <div className="mb-8">
+          <Link href="/events" legacyBehavior>
+            <Button variant="outline" className="text-sm">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Event Categories
+            </Button>
+          </Link>
+        </div>
         {/* Wrap EventFormWrapper with Suspense */}
         <Suspense fallback={<div>Loading event details...</div>}>
           <EventFormWrapper searchParams={searchParams} />
