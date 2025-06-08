@@ -5,11 +5,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, Construction, AlertTriangle, Edit } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -42,6 +45,7 @@ export default function AttendancePage() {
   const [viewMode, setViewMode] = useState<'month' | 'year'>('year');
   const [isMounted, setIsMounted] = useState(false);
   const yearOptions = useMemo(() => generateYearOptions(), []);
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsMounted(true);
@@ -58,17 +62,15 @@ export default function AttendancePage() {
   }, [displayYear]);
 
   const sampleLeaves = useMemo((): SampleLeave[] => {
-    // Generate some sample leaves for the displayed year
     return [
-      { date: new Date(displayYear, 0, 10), type: 'planned', description: 'Annual Leave' }, // Jan 10
-      { date: new Date(displayYear, 1, 5), type: 'unplanned', description: 'Sick Leave' },  // Feb 5
-      { date: new Date(displayYear, 1, 6), type: 'unplanned', description: 'Sick Leave' },  // Feb 6
-      { date: new Date(displayYear, 4, 20), type: 'planned', description: 'Conference' }, // May 20
-      { date: new Date(displayYear, 6, 1), type: 'unplanned', description: 'Urgent Personal' }, // Jul 1
-      { date: new Date(displayYear, 8, 15), type: 'planned', description: 'Vacation' }, // Sep 15
-      { date: new Date(displayYear, 10, 10), type: 'planned', description: 'Vacation' }, // Nov 10
-      // Example: Add a planned leave on a Sunday
-      { date: new Date(displayYear, 0, 7), type: 'planned', description: 'Sunday Leave' }, // Assuming Jan 7 is a Sunday for testing
+      { date: new Date(displayYear, 0, 10), type: 'planned', description: 'Annual Leave' }, 
+      { date: new Date(displayYear, 1, 5), type: 'unplanned', description: 'Sick Leave' },  
+      { date: new Date(displayYear, 1, 6), type: 'unplanned', description: 'Sick Leave' },  
+      { date: new Date(displayYear, 4, 20), type: 'planned', description: 'Conference' }, 
+      { date: new Date(displayYear, 6, 1), type: 'unplanned', description: 'Urgent Personal' }, 
+      { date: new Date(displayYear, 8, 15), type: 'planned', description: 'Vacation' }, 
+      { date: new Date(displayYear, 10, 10), type: 'planned', description: 'Vacation' }, 
+      { date: new Date(displayYear, 0, 7), type: 'planned', description: 'Sunday Leave' }, 
     ];
   }, [displayYear]);
 
@@ -102,9 +104,9 @@ export default function AttendancePage() {
     );
   };
 
-  const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' }; // Red
-  const plannedLeaveStyle = { color: 'hsl(120, 60%, 35%)', fontWeight: 'bold' }; // Green
-  const unplannedLeaveStyle = { color: 'hsl(270, 60%, 55%)', fontWeight: 'bold' }; // Purple
+  const holidayStyle = { color: 'hsl(0, 84.2%, 60.2%)', fontWeight: 'bold' }; 
+  const plannedLeaveStyle = { color: 'hsl(120, 60%, 35%)', fontWeight: 'bold' }; 
+  const unplannedLeaveStyle = { color: 'hsl(270, 60%, 55%)', fontWeight: 'bold' };
 
 
   const handleYearChange = (value: string) => {
@@ -117,6 +119,22 @@ export default function AttendancePage() {
 
   const handleViewModeChange = (value: 'month' | 'year') => {
     setViewMode(value);
+  };
+  
+  const handleManualUpdate = () => {
+    if (!selectedDate) {
+      toast({
+        title: "No Date Selected",
+        description: "Please select a date on the calendar to update attendance.",
+        variant: "destructive",
+      });
+      return;
+    }
+    // In a real app, you'd get employee ID and new status from inputs
+    toast({
+      title: "Manual Update (Demo)",
+      description: `Attendance for ${selectedDate.toLocaleDateString()} would be updated. Backend not connected.`,
+    });
   };
 
   const initialCalendarMonth = useMemo(() => {
@@ -152,7 +170,7 @@ export default function AttendancePage() {
     month: "space-y-4",
     caption: "flex justify-center pt-1 relative items-center",
     caption_label: "text-sm font-medium",
-    nav_button: "hidden", // Still hidden as we use custom nav
+    nav_button: "hidden", 
     day: cn(
       buttonVariants({ variant: "ghost" }),
       "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
@@ -287,7 +305,7 @@ export default function AttendancePage() {
                       }
                     </p>
                   <Calendar
-                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`} // Important for re-rendering with new styles
+                    key={`${viewMode}-${displayYear}-${selectedMonthIndex}`} 
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
@@ -296,7 +314,7 @@ export default function AttendancePage() {
                     disableNavigation
                     className={cn(
                         "w-full border-0 shadow-none",
-                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2" // Outer padding for year view
+                        viewMode === 'month' ? "max-w-md mx-auto p-1 sm:p-2" : "p-2" 
                     )}
                     classNames={viewMode === 'year' ? calendarGridClassNames : calendarSingleMonthClassNames}
                     modifiers={{
@@ -307,7 +325,7 @@ export default function AttendancePage() {
                     }}
                     modifiersStyles={{
                         holiday: holidayStyle,
-                        sunday: holidayStyle, // Sundays also use red text
+                        sunday: holidayStyle, 
                         plannedLeave: plannedLeaveStyle,
                         unplannedLeave: unplannedLeaveStyle,
                     }}
@@ -330,11 +348,43 @@ export default function AttendancePage() {
                       <p>Sample employee planned leaves (in <span style={plannedLeaveStyle}>green</span>) and unplanned leaves (in <span style={unplannedLeaveStyle}>purple</span>) are shown for demonstration.</p>
                    </div>
                 </div>
-                <p className="text-sm text-foreground/70 font-semibold pt-2">Planned Data Sources & Features:</p>
+
+                <Separator className="my-6" />
+
+                <div className="space-y-4 p-4 border rounded-md bg-muted/20">
+                  <h4 className="text-md font-semibold text-primary flex items-center"><Edit className="mr-2 h-5 w-5"/>Manual Attendance Management (HR)</h4>
+                  <p className="text-xs text-muted-foreground">Select a date on the calendar above, then use the options below to manually record or update attendance. (This is a UI demo).</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="hrEmployeeId" className="text-xs">Employee ID</Label>
+                      <Input id="hrEmployeeId" placeholder="Enter Employee ID" disabled className="mt-1"/>
+                    </div>
+                    <div>
+                      <Label htmlFor="hrAttendanceStatus" className="text-xs">New Attendance Status</Label>
+                      <Select disabled>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Present">Present</SelectItem>
+                          <SelectItem value="Absent">Absent</SelectItem>
+                          <SelectItem value="OnLeave_Planned">On Leave (Planned)</SelectItem>
+                          <SelectItem value="OnLeave_Unplanned">On Leave (Unplanned)</SelectItem>
+                          <SelectItem value="HalfDay">Half Day</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={handleManualUpdate} className="mt-3">
+                    Update Attendance Record
+                  </Button>
+                </div>
+
+                <p className="text-sm text-foreground/70 font-semibold pt-4">Planned Data Sources & Features:</p>
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-4">
                     <li className="flex items-center"><Fingerprint className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Biometric Systems Integration</li>
                     <li className="flex items-center"><MapPin className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> GPS-based Attendance (for field staff)</li>
-                    <li className="flex items-center"><Users className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Manual Entry/Correction (by HR)</li>
+                    <li className="flex items-center"><Users className="h-4 w-4 mr-2 text-primary/80 flex-shrink-0" /> Manual Entry/Correction (by HR via above controls)</li>
                 </ul>
                 <Button variant="outline" size="sm" disabled className="mt-2">View Full Attendance Logs (Coming Soon)</Button>
               </CardContent>
@@ -398,7 +448,7 @@ export default function AttendancePage() {
                         <p className="mt-1">
                         The calendar above is a functional UI demonstration. 
                         Integration with a live backend for storing/retrieving actual holidays, employee schedules, leave requests, biometric data, and GPS data is required for full functionality. 
-                        Performance metric calculations and complaint logging also depend on backend services.
+                        Performance metric calculations and complaint logging also depend on backend services. Manual updates shown are for UI demonstration only.
                         </p>
                     </div>
                 </div>
@@ -414,6 +464,5 @@ export default function AttendancePage() {
     </div>
   );
 }
-
 
     
