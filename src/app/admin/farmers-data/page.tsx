@@ -4,8 +4,8 @@ import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ShieldAlert } from 'lucide-react';
-import { FarmerDataManagementForm } from "@/components/forms/FarmerDataManagementForm"; // Import the new form
+import { ArrowLeft, ShieldAlert, Database, UserCircle, Leaf, DollarSign } from 'lucide-react'; // Added more icons for potential use
+import { FarmerDataManagementForm } from "@/components/forms/FarmerDataManagementForm";
 
 export const metadata: Metadata = {
   title: 'Farmers Data Management | Admin | Jagruthi',
@@ -30,12 +30,35 @@ export default function FarmersDataPage() {
             Farmers Data Management
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Use the form below to enter new farmer and crop data. This module will allow authorized employees to manage farmer profiles, crop information, harvest quantities, and market price details. 
-            All data entry and modifications will eventually be tracked with employee codes for audit purposes.
+            Use the form below to demonstrate the entry of new farmer profiles, crop cultivation details, harvest quantities, and market price information. 
+            This module is envisioned to be a comprehensive system for managing all farmer-related data.
           </p>
-           <div className="mt-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md max-w-2xl mx-auto text-sm text-destructive">
-            <ShieldAlert className="inline-block h-5 w-5 mr-2" />
-            <strong>Note:</strong> This is a UI demonstration for data entry. Backend integration for saving, modifying data, full audit trails, and role-based access control are pending implementation.
+           <div className="mt-6 p-4 bg-destructive/10 border border-destructive/30 rounded-md max-w-3xl mx-auto text-sm text-destructive text-left">
+            <div className="flex items-start">
+              <ShieldAlert className="inline-block h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-semibold">Important Note on Current Status & Future Features:</strong>
+                <p className="mt-1">
+                  The form below is a UI demonstration for <strong>new data entry</strong>. 
+                  Backend integration for saving, reading, and especially <strong>modifying</strong> data is pending.
+                </p>
+                <p className="mt-2">
+                  The full vision for this module includes:
+                </p>
+                <ul className="list-disc list-inside pl-4 mt-1 space-y-0.5">
+                  <li>Farmer Profiles & Contact Information Management.</li>
+                  <li>Crop Cultivation Details (Type, Area, Season).</li>
+                  <li>Harvest Quantities & Yield Tracking.</li>
+                  <li>Market Price Logging & Analysis.</li>
+                  <li>Secure forms for <strong>adding and modifying</strong> data by authorized employees.</li>
+                  <li>Full audit trail for all data changes (tracking who created and who modified data, with timestamps and employee codes).</li>
+                  <li>Role-based access control to ensure data security and appropriate permissions.</li>
+                </ul>
+                <p className="mt-2">
+                  These comprehensive features are under development and will be implemented with robust backend support.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
