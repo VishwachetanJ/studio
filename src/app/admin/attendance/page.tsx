@@ -8,15 +8,18 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Fingerprint, MapPin, UserCheck, ShieldAlert, MessageSquareWarning, CalendarDays, TrendingUp, FileText, Users, BarChart2, ListChecks, ChevronLeft, ChevronRight, Construction } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from "@/components/ui/separator";
-import { Calendar, type CalendarProps } from "@/components/ui/calendar"; // Ensure CalendarProps is imported if needed for type safety, though not directly used in this file's logic.
+import { Calendar } from "@/components/ui/calendar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date()); 
-  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  const [displayYear, setDisplayYear] = useState<number>(new Date().getFullYear());
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth());
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -24,23 +27,22 @@ export default function AttendancePage() {
   }, []);
 
   const handlePreviousYear = () => {
-    setCurrentYear(prevYear => prevYear - 1);
+    setDisplayYear(prevYear => prevYear - 1);
   };
 
   const handleNextYear = () => {
-    setCurrentYear(prevYear => prevYear + 1);
+    setDisplayYear(prevYear => prevYear + 1);
   };
 
-  // Create a date object for the first day of the currentYear for the calendar
-  const startOfYear = new Date(currentYear, 0, 1);
+  const handleMonthChange = (value: string) => {
+    setSelectedMonthIndex(parseInt(value, 10));
+  };
 
-  // This function is primarily to satisfy the onMonthChange prop if react-day-picker strictly requires it
-  // when month prop is controlled. However, with disableNavigation=true, it might not be actively called by user.
-  const handleMonthChangeForYearView = (month: Date) => {
-    // If the year of the changed month is different, update currentYear
-    // This ensures consistency if internal navigation was somehow triggered (though it's disabled)
-    if (month.getFullYear() !== currentYear) {
-      setCurrentYear(month.getFullYear());
+  const startOfYearForCalendar = new Date(displayYear, 0, 1);
+
+  const handleCalendarMonthChangeForYearView = (month: Date) => {
+    if (month.getFullYear() !== displayYear) {
+      setDisplayYear(month.getFullYear());
     }
   };
 
@@ -79,7 +81,7 @@ export default function AttendancePage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-6 sm:py-10"> {/* Reduced py for more space */}
+      <main className="flex-grow container mx-auto px-4 py-6 sm:py-10">
         <div className="mb-6">
           <Link href="/admin" legacyBehavior>
             <Button variant="outline" className="text-sm">
@@ -124,30 +126,47 @@ export default function AttendancePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-card border rounded-lg shadow-sm">
-                  <div className="flex justify-center items-center space-x-4 py-3 px-2 border-b">
-                    <Button variant="outline" size="icon" onClick={handlePreviousYear} aria-label="Previous Year">
-                      <ChevronLeft className="h-5 w-5" />
-                    </Button>
-                    <span className="text-lg font-semibold text-primary tabular-nums">{currentYear}</span>
-                    <Button variant="outline" size="icon" onClick={handleNextYear} aria-label="Next Year">
-                      <ChevronRight className="h-5 w-5" />
-                    </Button>
+                  <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4 py-3 px-2 border-b">
+                    <div className="flex items-center space-x-2">
+                      <Button variant="outline" size="icon" onClick={handlePreviousYear} aria-label="Previous Year">
+                        <ChevronLeft className="h-5 w-5" />
+                      </Button>
+                      <span className="text-lg font-semibold text-primary tabular-nums w-16 text-center">{displayYear}</span>
+                      <Button variant="outline" size="icon" onClick={handleNextYear} aria-label="Next Year">
+                        <ChevronRight className="h-5 w-5" />
+                      </Button>
+                    </div>
+                    <Select value={selectedMonthIndex.toString()} onValueChange={handleMonthChange}>
+                      <SelectTrigger className="w-full sm:w-[180px]">
+                        <SelectValue placeholder="Select month" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {MONTH_NAMES.map((month, index) => (
+                          <SelectItem key={index} value={index.toString()}>
+                            {month}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
+                   <p className="text-xs text-center text-muted-foreground pt-2">
+                      Calendar displays Jan-Dec of {displayYear}. Selected month focus: {MONTH_NAMES[selectedMonthIndex]}.
+                    </p>
                   <Calendar
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    month={startOfYear}
-                    onMonthChange={handleMonthChangeForYearView} // Handles potential internal changes
+                    month={startOfYearForCalendar} 
+                    onMonthChange={handleCalendarMonthChangeForYearView}
                     numberOfMonths={12}
-                    disableNavigation // Using custom year navigation
-                    className="w-full border-0 shadow-none p-1 sm:p-2" // Remove default border/shadow from Calendar itself, allow full width, small padding
+                    disableNavigation 
+                    className="w-full border-0 shadow-none p-1 sm:p-2" 
                     classNames={{
                       months: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-1 justify-center",
-                      month: "border rounded-lg p-2 sm:p-3 bg-background shadow-sm flex flex-col", // Each month is a card, flex col for better internal spacing
-                      caption: "flex justify-center pt-1 relative items-center mb-2", // Default caption styling is fine
+                      month: "border rounded-lg p-2 sm:p-3 bg-background shadow-sm flex flex-col", 
+                      caption: "flex justify-center pt-1 relative items-center mb-2", 
                       caption_label: "text-sm sm:text-base font-semibold text-center block w-full",
-                      nav_button: "hidden", // Hide default nav buttons as disableNavigation is true
+                      nav_button: "hidden", 
                       table: "w-full border-collapse mt-1", 
                       head_row: "flex justify-around mb-1",
                       head_cell: "text-muted-foreground rounded-md w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center font-normal text-[0.7rem] sm:text-xs text-center",
@@ -169,7 +188,7 @@ export default function AttendancePage() {
                   )}
                   {!selectedDate && (
                      <p className="mt-3 text-sm text-center text-muted-foreground p-2 border-t">
-                      Full year view for {currentYear}. Click a date to select.
+                      Full year view for {displayYear}. Click a date to select. Month focus: {MONTH_NAMES[selectedMonthIndex]}.
                     </p>
                   )}
                 </div>
@@ -243,3 +262,5 @@ export default function AttendancePage() {
     </div>
   );
 }
+
+    
