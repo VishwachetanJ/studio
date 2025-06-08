@@ -6,8 +6,10 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard, type Product } from "@/components/shop/ProductCard";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Phone, MessageSquare, Globe, Users, Repeat, Loader2 } from 'lucide-react';
+import { Phone, MessageSquare, Globe, Users, Repeat, Loader2, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link'; // Added Link
+import { Button } from '@/components/ui/button'; // Added Button
 
 // export const metadata: Metadata = { // Metadata is typically for server components
 //   title: 'Shop | Jagruthi Connect',
@@ -73,6 +75,15 @@ export default function ShopPage() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 sm:py-16">
+        <div className="mb-8">
+          <Link href="/" legacyBehavior>
+            <Button variant="outline" className="text-sm">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
+
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-headline text-primary mb-4">
             Shop Our Farmers' Products
